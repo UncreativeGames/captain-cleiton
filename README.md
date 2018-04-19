@@ -3,7 +3,7 @@
 A procedurally generated dungeon crawler game, a roguelike if you prefer.
 ## Authors
   - Gabriel Olivato — Main Developer (olivatooo@gmail.com / olivato@secompufscar.com.br)
-  - Igor Magollo — Main Developer (insert igor email here)
+  - Igor Magollo — Main Developer (igraphmagollo@gmail.com)
   - Vitor Sugaya - Designer (insert sugaya email here)
 
 ## Install
