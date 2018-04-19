@@ -46,7 +46,7 @@ public:
 
 	///////////////////////////////////////////////////
 	// Retorna a textura sendo utilizada no objeto 
-	const sf::Texture* getTexture();
+	sf::Texture* getTexture();
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// Retorna um ponteiro para o corpo do objeto (Débito técnico para poder renderiza-lo)
