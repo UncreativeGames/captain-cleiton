@@ -110,7 +110,6 @@ void TileMap::generateRadialHunter(void) {
             }
         }
     }
-
 }
 //Funções que serão usadas futuramente
 //no objeto 'mapa' na construção do andar
