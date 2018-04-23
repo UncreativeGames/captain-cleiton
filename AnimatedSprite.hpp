@@ -4,12 +4,12 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Transformable.hpp>
+#include "Rigidbody.hpp"
 #include <SFML/System/Vector2.hpp>
 
 #include "Animation.hpp"
 
-class AnimatedSprite : public sf::Drawable, public sf::Transformable
+class AnimatedSprite : public sf::Drawable, public Rigidbody
 {
 public:
     explicit AnimatedSprite(sf::Time frameTime = sf::seconds(0.2f), bool paused = false, bool looped = true);
@@ -30,9 +30,6 @@ public:
     bool isPlaying() const;
     sf::Time getFrameTime() const;
     void setFrame(std::size_t newFrame, bool resetTime = true);
-    
-    ///////////////////////////////////////
-    // Função não nativa da classe
     std::size_t getCurrentFrame();
 
 private:
