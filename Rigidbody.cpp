@@ -4,6 +4,7 @@
 #include <cmath>
 
 Rigidbody::Rigidbody(){
+	this->raio = 0;
 }
 
 Rigidbody::Rigidbody(int raio){
