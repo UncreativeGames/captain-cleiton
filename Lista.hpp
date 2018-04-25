@@ -18,17 +18,17 @@ template <class T>
 class Lista {
 public:
 	Lista();
+	~Lista();
 
 	// Adiciona no começo da lista
 	void add(T* element);
 
-
 	int remover(int index);
 
+	int removerAll(void);
 
 	// Retorna comprimento da lista
-	int length();
-
+	int length(void);
 
 	// Retorna o elemento no indice pesquisado
 	T* atIndex(int index);
@@ -39,19 +39,22 @@ private:
 };
 
 
-
-
 template<class T>
 Lista<T>::Lista(){
 	first = NULL;
 	quantidade_elementos = 0;
 }
 
+template<class T>
+Lista<T>::~Lista(){
+	removerAll();
+}
+
 // Adiciona no começo da lista
 template<class T>
 void Lista<T>::add(T* element){
 	// Aloca um nó
-	struct node<T>* aux = (node<T>*)malloc(sizeof(node<T>));
+	struct node<T>* aux = new struct node<T>();
 		
 	// Aponta o item para o elemento adicionado 
 	aux->item = element;
@@ -76,7 +79,7 @@ int Lista<T>::remover(int index){
 		// Caso especial de remoção do primeiro elemento
 		if(index == 0){
 			first = first->prox;
-			free(aux);
+			delete(aux);
 			
 			// Atualiza quantidade de elementos
 			quantidade_elementos--;
@@ -90,7 +93,7 @@ int Lista<T>::remover(int index){
 			aux = aux->prox;	// aux aponta para o elemento na posição index
 		}
 		aux2->prox = aux->prox;	// index-1 aponta para index+1 (não tem problema caso index+1 seja nulo)
-		free(aux);	// Remove index
+		delete(aux);	// Remove index
 
 		// Atualiza quantidade de elementos
 		quantidade_elementos--;
@@ -100,9 +103,21 @@ int Lista<T>::remover(int index){
 	return ERROR;
 }
 
+template<class T>
+int Lista<T>::removerAll(void){
+	// Enquanto tem elementos na lista
+	while (this->length()) {
+
+		// Se houver erro na remoção, sendo que tem elementos, ocorreu algum erro
+		if(remover(0) == ERROR)
+			return ERROR;
+	}
+	return SUCCESS;
+}
+
 // Retorna comprimento da lista
 template<class T>
-int Lista<T>::length(){
+int Lista<T>::length(void){
 	return quantidade_elementos;
 }
 
