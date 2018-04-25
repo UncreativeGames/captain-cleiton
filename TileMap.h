@@ -68,6 +68,14 @@ public:
     void printMap(void);
 
     void generateAlgorithmDrunkardWalk(void);
+
+    void setLeftDoor(void);
+
+    void setRightDoor(void);
+
+    void setUpperDoor(void);
+
+    void setDownDoor(void);
 private:
     tile ** map;
     int size_x;
@@ -79,14 +87,6 @@ private:
     bool cleared;
     bool store;
     bool boss;
-
-    void setLeftDoor(void);
-
-    void setRightDoor(void);
-
-    void setUpperDoor(void);
-
-    void setDownDoor(void);
 
     tile **getGeneratedMap();
 
