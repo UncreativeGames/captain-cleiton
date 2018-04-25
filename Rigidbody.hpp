@@ -14,7 +14,7 @@ public:
 	sf::Vector2f colision(Rigidbody* another);
 
 private:
-	int raio;
+	int raio_colisao;
 };
 
 #endif
