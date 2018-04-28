@@ -1,22 +1,46 @@
 //
 // Created by olivato on 19/04/18.
 //
-#include "TileMap.h"
+#include "TileMap.hpp"
 #include <iostream>
-#include <zconf.h>
 #include <random>
 
 using namespace std;
 
-void TileMap::generateAlgorithmDrunkardWalk(void) {
+TileMap::TileMap(int x,int y,Point index) {
+    this->up = nullptr;
+    this->down = nullptr;
+    this->right = nullptr;
+    this->left = nullptr;
+    this->size_x = x;
+    this->size_y = y;
+    this->index = index;
+    auto **tab = new tile*[x];
+    for (int i=0; i< x; ++i){
+        tab[i] = new tile[y];
+    };
+    this->map = tab;
+    for(int i = 0;i<this->size_x;i++) {
+        for (int j = 0; j < this->size_y; j++) {
+            if (i == 0 || j == 0 || j == this->size_y-1 || i == this->size_x-1) {
+                this->map[i][j] = static_cast<tile>(PAREDE);
+            } else {
+                this->map[i][j] = PEDRA;
+            }
+        }
+    }
+
+}
+
+void TileMap::generateAlgorithmDrunkardWalk() {
     random_device rd;
     mt19937 eng(rd());
     uniform_int_distribution<>distr(0,4);
     int walk_y = 1;
-    int walk_x = int(this->size_x/2);
+    auto walk_x = this->size_x/2;
     this->map[walk_x][walk_y] = CHAO;
     //From left to Right
-    while(walk_x != int(this->size_x/2) || walk_y!=int(this->size_y-2))
+    while(walk_x != (this->size_x / 2) || (walk_y != this->size_y - 2))
     {
         switch (distr(eng))
         {
@@ -52,20 +76,12 @@ void TileMap::generateAlgorithmDrunkardWalk(void) {
                 else
                     this->map[walk_x][walk_y] = CHAO;
                 break;
-        }
-        if(DEBUG)
-        {
-            printMap();
-            cout << endl << "size_y:" << size_y << endl;
-            cout << endl << "size_x:" << size_x << endl;
-            cout << endl << "[" << walk_x << "][" << walk_y << "]" << endl;
-            usleep(DEBUG_SPEED);
-            system("clear");
-        }
 
+            default:break;
+        }
     }
 }
-void TileMap::printMap(void){
+void TileMap::printMap(){
     for(int i = 0;i<this->size_x;i++)
     {
         for(int j = 0;j<this->size_y;j++)
@@ -76,23 +92,20 @@ void TileMap::printMap(void){
     }
 }
 
-void TileMap::generateRadialHunter(void) {
+void TileMap::generateRadialHunter() {
     //Define the inner matrix
     //Generate random objects
     random_device rd;
     mt19937 eng(rd());
     int quandrant_size = this->size_y/2 * this->size_x/2;
-    if(DEBUG)
-        cout << endl << "Quadrant Size:" << quandrant_size << endl;
     uniform_int_distribution<>distr(0,quandrant_size);
     uniform_int_distribution<>distr_percentage(0,100);
-    quandrant_size = distr(eng);
     for(int i = 0;i<this->size_x;i++) {
         for (int j = 0; j < this->size_y; j++) {
             if (i == 0 || j == 0 || j == this->size_y-1 || i == this->size_x-1) {
-                this->map[i][j] = PAREDE;
+                this->map[i][j] = static_cast<tile>(PAREDE);
             } else {
-                this->map[i][j] = CHAO;
+                this->map[i][j] = static_cast<tile>(CHAO);
             }
         }
     }
@@ -113,41 +126,22 @@ void TileMap::generateRadialHunter(void) {
 }
 //Funções que serão usadas futuramente
 //no objeto 'mapa' na construção do andar
-void TileMap::setLeftDoor(void) {
-    this->map[int(this->size_x/2)][0] = PORTA_L;
+void TileMap::setLeftDoor() {
+    this->map[this->size_x/2][0] = PORTA_L;
 }
 
-void TileMap::setRightDoor(void) {
-    this->map[int(this->size_x/2)][int(this->size_y-1)] = PORTA_R;
+void TileMap::setRightDoor() {
+    this->map[this->size_x/2][this->size_y-1] = PORTA_R;
 }
 
-void TileMap::setUpperDoor(void) {
-    this->map[0][int(this->size_y/2)] = PORTA_U;
+void TileMap::setUpperDoor() {
+    this->map[0][this->size_y/2] = PORTA_U;
 }
 
-void TileMap::setDownDoor(void) {
-    this->map[int(this->size_x-1)][int(this->size_y/2)] = PORTA_D;
+void TileMap::setDownDoor() {
+    this->map[this->size_x-1][this->size_y/2] = PORTA_D;
 }
 
-tile ** TileMap::getGeneratedMap() {
-    return this->map;
-}
-
-int TileMap::getSize_x() const {
-    return size_x;
-}
-
-void TileMap::setSize_x(int size_x) {
-    TileMap::size_x = size_x;
-}
-
-int TileMap::getSize_y() const {
-    return size_y;
-}
-
-void TileMap::setSize_y(int size_y) {
-    TileMap::size_y = size_y;
-}
 TileMap *TileMap::getUp() const {
     return up;
 }
@@ -188,12 +182,12 @@ void TileMap::setCleared(bool cleared) {
     TileMap::cleared = cleared;
 }
 
-bool TileMap::isStore() const {
-    return store;
+bool TileMap::isTreasureRoom() const {
+    return this->treasure;
 }
 
-void TileMap::setStore(bool store) {
-    TileMap::store = store;
+void TileMap::setTreasureRoom(bool treasure) {
+    TileMap::treasure = treasure;
 }
 
 bool TileMap::isBoss() const {
@@ -204,28 +198,15 @@ void TileMap::setBoss(bool boss) {
     TileMap::boss = boss;
 }
 
-TileMap::TileMap(int x,int y) {
-    this->up = NULL;
-    this->down = NULL;
-    this->right = NULL;
-    this->left = NULL;
-    this->size_x = x;
-    this->size_y = y;
-    tile **tab = new tile*[x];
-    for (int i=0; i< x; ++i){
-        tab[i] = new tile[y];
-    };
-    this->map = tab;
-    for(int i = 0;i<this->size_x;i++) {
-        for (int j = 0; j < this->size_y; j++) {
-            if (i == 0 || j == 0 || j == this->size_y-1 || i == this->size_x-1) {
-                this->map[i][j] = PAREDE;
-            } else {
-                this->map[i][j] = PEDRA;
-            }
-        }
-    }
-
+const Point &TileMap::getIndex() const {
+    return index;
 }
 
+void TileMap::setIndex(const Point &index) {
+    TileMap::index = index;
+}
+
+tile **TileMap::getMapMatrix() const {
+    return this->map;
+}
 
