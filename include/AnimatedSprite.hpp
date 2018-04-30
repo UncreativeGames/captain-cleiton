@@ -3,13 +3,12 @@
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System/Time.hpp>
-#include <SFML/Graphics/Drawable.hpp>
 #include "Rigidbody.hpp"
 #include <SFML/System/Vector2.hpp>
 
 #include "Animation.hpp"
 
-class AnimatedSprite : public sf::Drawable, public Rigidbody
+class AnimatedSprite : public Rigidbody
 {
 public:
     explicit AnimatedSprite(sf::Time frameTime = sf::seconds(0.2f), bool paused = false, bool looped = true);
