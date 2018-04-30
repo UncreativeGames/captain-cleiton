@@ -80,14 +80,12 @@ int main()
     rock2->setOrigin(16,24);
 
     rock->setPosition(432,300);
-    rock2->setPosition(464,332);
+    rock2->setPosition(452,320);
 
     the_rest.add(rock);
     the_rest.add(rock2);
 
     sf::Clock frameClock;
-
-    bool noKeyWasPressed = true;
 
     while (window.isOpen())
     {
@@ -109,25 +107,21 @@ int main()
         {
             currentAnimation = &walkingAnimationUp;
             movement.y -= speed;
-            noKeyWasPressed = false;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         {
             currentAnimation = &walkingAnimationDown;
             movement.y += speed;
-            noKeyWasPressed = false;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         {
             currentAnimation = &walkingAnimationLeft;
             movement.x -= speed;
-            noKeyWasPressed = false;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
             currentAnimation = &walkingAnimationRight;
             movement.x += speed;
-            noKeyWasPressed = false;
         }
 
         float norma = sqrt(movement.x*movement.x + movement.y*movement.y);
@@ -141,7 +135,6 @@ int main()
         {
             dut->stop();
         }
-        noKeyWasPressed = true;
 
         // update AnimatedSprite
         dut->update(frameTime);
