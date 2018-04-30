@@ -1,8 +1,8 @@
 #include "../include/DrawingModule.hpp"
 
-DrawingModule::DrawingModule(Listaestatica<Rigidbody>* wall_and_floor, Listaestatica<Rigidbody>* the_rest, Lista<Rigidbody>* projeteis, sf::RenderWindow* window){
+DrawingModule::DrawingModule(Listaestatica<Rigidbody>* wall_and_floor, Listaestatica<Rigidbody>* objects_on_floor, Lista<Rigidbody>* projeteis, sf::RenderWindow* window){
 	this->wall_and_floor = wall_and_floor;
-	this->the_rest = the_rest;
+	this->objects_on_floor = objects_on_floor;
 	this->projeteis = projeteis;
 	this->window = window;
 }
@@ -15,9 +15,9 @@ void DrawingModule::update() {
 	// wall_and_floor não precisa ser ordenado, uma vez que ele aparece 
 	// abaixo de tudo e nao tem sobreposição
 	
-	// Ordena os elementos de the_rest
+	// Ordena os elementos de objects_on_floor
 	// O(log n)
-	the_rest->ordena();
+	objects_on_floor->ordena();
 	
 	// Limpa a tela
 	window->clear();
@@ -29,11 +29,11 @@ void DrawingModule::update() {
 		window->draw(*wall_and_floor->atIndex(i) /*complexidade atIndex O(1)*/);
 	}
 	
-	// Printa os elementos de the_rest
+	// Printa os elementos de objects_on_floor
 	// O(n), pois O(n) * O(1)
-	for (i = 0; i < the_rest->length(); i++)
+	for (i = 0; i < objects_on_floor->length(); i++)
 	{
-		window->draw(*the_rest->atIndex(i) /*complexidade atIndex O(1)*/);
+		window->draw(*objects_on_floor->atIndex(i) /*complexidade atIndex O(1)*/);
 	}
 	
 	// Printa os possiveis projeteis que estejam no jogo

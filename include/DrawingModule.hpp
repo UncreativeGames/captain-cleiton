@@ -13,7 +13,7 @@ class DrawingModule
 {
 public:
 	// Construtor que seta os ponteiros desta classe
-	DrawingModule(Listaestatica<Rigidbody>* wall_and_floor, Listaestatica<Rigidbody>* the_rest, Lista<Rigidbody>* projeteis, sf::RenderWindow* window);
+	DrawingModule(Listaestatica<Rigidbody>* wall_and_floor, Listaestatica<Rigidbody>* objects_on_floor, Lista<Rigidbody>* projeteis, sf::RenderWindow* window);
 	// Destrutor padrão
 	virtual ~DrawingModule() = default;
 
@@ -21,7 +21,7 @@ public:
 
 private:
 	Listaestatica<Rigidbody>* wall_and_floor;
-	Listaestatica<Rigidbody>* the_rest;
+	Listaestatica<Rigidbody>* objects_on_floor;
 	Lista<Rigidbody>* projeteis;
 	sf::RenderWindow* window;
 };
