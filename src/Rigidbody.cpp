@@ -1,6 +1,8 @@
-#include "Rigidbody.hpp"
+#include "../include/Rigidbody.hpp"
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Transformable.hpp>
+#include <SFML/Graphics/Vertex.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <cmath>
 
 Rigidbody::Rigidbody(){
