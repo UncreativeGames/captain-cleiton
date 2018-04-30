@@ -27,3 +27,4 @@ DrawingModule.o: Rigidbody.o
 remove:
 	rm *.o
 	rm exemplo
+	
