@@ -2,9 +2,9 @@
 #define RIGIDBODY_INCLUDE
 
 #include <SFML/System/Vector2.hpp>
-#include <SFML/Graphics/Transformable.hpp>
+#include "DrawTransform.hpp"
 
-class Rigidbody : public sf::Transformable
+class Rigidbody : public DrawTransform
 {
 public:
 	Rigidbody();

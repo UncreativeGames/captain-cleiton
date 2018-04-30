@@ -1,4 +1,4 @@
-#include "Obstacle.hpp"
+#include "../include/Obstacle.hpp"
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -99,6 +99,6 @@ void Obstacle::draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
         states.transform *= getTransform();
         states.texture = m_texture;
-        target.draw(m_vertices, 4, sf::TriangleStrip, states);
+        target.draw(m_vertices, 4, sf::Quads, states);
     }
 }

@@ -2,14 +2,13 @@
 #define OBSTACLE_INCLUDE
 
 #include "Rigidbody.hpp"
-#include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Vertex.hpp>
 #include <SFML/Graphics/Rect.hpp>
 
-class Obstacle : public sf::Drawable, public Rigidbody
+class Obstacle : public Rigidbody
 {
 public: 
 	Obstacle();
