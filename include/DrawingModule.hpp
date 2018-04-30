@@ -15,7 +15,7 @@ public:
 	// Construtor que seta os ponteiros desta classe
 	DrawingModule(Listaestatica<Rigidbody>* wall_and_floor, Listaestatica<Rigidbody>* the_rest, Lista<Rigidbody>* projeteis, sf::RenderWindow* window);
 	// Destrutor padrão
-	~DrawingModule();
+	virtual ~DrawingModule() = default;
 
 	void update();
 

@@ -7,10 +7,6 @@ DrawingModule::DrawingModule(Listaestatica<Rigidbody>* wall_and_floor, Listaesta
 	this->window = window;
 }
 
-DrawingModule::~DrawingModule() {
-
-}
-
 // Complexidade total O(log n + n + n + n²) = O(log n + 2n + n²)  = O(n²)
 // Sem considerar as funções de window pois a complexidade é desconhecida
 void DrawingModule::update() {
