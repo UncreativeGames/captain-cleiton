@@ -8,6 +8,7 @@
 using namespace std;
 
 TileMap::TileMap(int x,int y,Point index) {
+    // Inicia uma sala vazia sem salas vizinhas
     this->up = nullptr;
     this->down = nullptr;
     this->right = nullptr;
@@ -15,11 +16,13 @@ TileMap::TileMap(int x,int y,Point index) {
     this->size_x = x;
     this->size_y = y;
     this->index = index;
+    // Cria um vetor de vetores (Matrix)
     auto **tab = new tile*[x];
     for (int i=0; i< x; ++i){
         tab[i] = new tile[y];
     };
     this->map = tab;
+    //Cria uma sala vazia sem portas
     for(int i = 0;i<this->size_x;i++) {
         for (int j = 0; j < this->size_y; j++) {
             if (i == 0 || j == 0 || j == this->size_y-1 || i == this->size_x-1) {
@@ -34,17 +37,20 @@ TileMap::TileMap(int x,int y,Point index) {
 
 void TileMap::generateAlgorithmDrunkardWalk() {
     random_device rd;
+    // Instanciação de um mersenne twister engine
     mt19937 eng(rd());
+    // Distribuição entre 0 e 4
     uniform_int_distribution<>distr(0,4);
     int walk_y = 1;
     auto walk_x = this->size_x/2;
     this->map[walk_x][walk_y] = CHAO;
-    //From left to Right
+    // O "bêbado" do algorítmo anda da esquerda para a direita
     while(walk_x != (this->size_x / 2) || (walk_y != this->size_y - 2))
     {
+        // Cria um PRNG baseado no range da distribuição
         switch (distr(eng))
         {
-            //Norte
+            // Norte
             case 0:
                 walk_x--;
                 if(walk_x-1<0)
@@ -52,7 +58,7 @@ void TileMap::generateAlgorithmDrunkardWalk() {
                 else
                     this->map[walk_x][walk_y] = CHAO;
                 break;
-                //Sul
+            // Sul
             case 1:
                 walk_x++;
                 if(walk_x==this->size_x-1)
@@ -60,7 +66,7 @@ void TileMap::generateAlgorithmDrunkardWalk() {
                 else
                     this->map[walk_x][walk_y] = CHAO;
                 break;
-                //Leste
+            // Leste
             case 2:
                 walk_y++;
                 if(walk_y>=this->size_y-1)
@@ -68,7 +74,7 @@ void TileMap::generateAlgorithmDrunkardWalk() {
                 else
                     this->map[walk_x][walk_y] = CHAO;
                 break;
-                //Oeste
+            // Oeste
             case 3:
                 walk_y--;
                 if(walk_y-1<0)
@@ -82,6 +88,7 @@ void TileMap::generateAlgorithmDrunkardWalk() {
     }
 }
 void TileMap::printMap(){
+    // Printa o mapa, geralmente usado apenas para DEBUG
     for(int i = 0;i<this->size_x;i++)
     {
         for(int j = 0;j<this->size_y;j++)
@@ -93,8 +100,7 @@ void TileMap::printMap(){
 }
 
 void TileMap::generateRadialHunter() {
-    //Define the inner matrix
-    //Generate random objects
+    // Gera números aleatórios
     random_device rd;
     mt19937 eng(rd());
     int quandrant_size = this->size_y/2 * this->size_x/2;
@@ -109,7 +115,7 @@ void TileMap::generateRadialHunter() {
             }
         }
     }
-    //Put objects in the first quadrant
+    // Coloca objetos de um quadrante, espelhados em todos os outros
     for(int i = 1;i<this->size_x/2-1;i++)
     {
         for(int j = 2;j<this->size_y/2-1;j++)
@@ -209,4 +215,3 @@ void TileMap::setIndex(const Point &index) {
 tile **TileMap::getMapMatrix() const {
     return this->map;
 }
-
