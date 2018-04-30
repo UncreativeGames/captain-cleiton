@@ -13,7 +13,7 @@ class DrawTransform : public sf::Drawable, public sf::Transformable
 {
 public:
 	DrawTransform();
-	~DrawTransform();
+	virtual ~DrawTransform();
 };
 
 #endif
