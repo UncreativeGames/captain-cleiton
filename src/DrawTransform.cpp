@@ -1,8 +1,5 @@
 #include "../include/DrawTransform.hpp"
 
-DrawTransform::DrawTransform(){
-}
+DrawTransform::DrawTransform() = default;
 
-DrawTransform::~DrawTransform(){
-
-}
+DrawTransform::~DrawTransform() = default;
