@@ -68,16 +68,16 @@ int main()
     AnimatedSprite* dut = new AnimatedSprite(sf::seconds(0.2), true, false);
     dut->setOrigin(16,24);
     dut->setPosition(sf::Vector2f(400,300));
-    dut->setRaio(14);
+    dut->setRaio(10);
 
     the_rest.add(dut);
 
     Obstacle* rock = new Obstacle(personagem,sf::IntRect(32, 0, 32, 32));
-    rock->setRaio(16);
-    rock->setOrigin(16,16);
+    rock->setRaio(10);
+    rock->setOrigin(16,24);
     Obstacle* rock2 = new Obstacle(personagem,sf::IntRect(32, 0, 32, 32));
-    rock2->setRaio(16);
-    rock2->setOrigin(16,16);
+    rock2->setRaio(10);
+    rock2->setOrigin(16,24);
 
     rock->setPosition(432,300);
     rock2->setPosition(464,332);
