@@ -2,9 +2,9 @@
 # Captain Cleiton
 A procedurally generated dungeon crawler game, a roguelike if you prefer.
 ## Authors
-  - Gabriel Olivato — Main Developer (olivatooo@gmail.com / olivato@secompufscar.com.br)
+  - Gabriel Olivato — Alternative Tecnician of Advanced Programming. (olivatooo@gmail.com / olivato@secompufscar.com.br)
   - Igor Magollo — Main Developer (igraphmagollo@gmail.com)
-  - Vitor Sugaya - Designer (insert sugaya email here)
+  - Vitor Sugaya - Designer (vitorsugaya5@gmail.com)
 
 ## Install
 #### Linux
