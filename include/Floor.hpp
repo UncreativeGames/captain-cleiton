@@ -8,14 +8,18 @@
 #define DEFAULT_SIZE_X 13
 #define DEFAULT_SIZE_Y 33
 
-#include "TileMap.h"
+#include "TileMap.hpp"
 
 class Floor {
 public:
-    Floor(TileMap *inicio, Floor *prox);
+    Floor(TileMap *init, Floor *next);
+    // void generateFloor(int tam);
+    void generateSimpleFloor();
+    void printSimpleFloor();
+private:
     TileMap * map_atual;
     Floor * proximo_floor;
-    void generateFloor(int tam);
+    void generateFloor();
 };
 
 

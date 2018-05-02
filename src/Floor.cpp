@@ -2,79 +2,115 @@
 // Created by olivato on 19/04/18.
 //
 
-#include "Floor.h"
-#include <cstdio>
+#include "../include/Floor.hpp"
 #include <iostream>
-#include <random>
 
 using namespace std;
-Floor::Floor(TileMap *inicio) {
-    this->inicio = inicio;
-    this->prox = NULL;
+Floor::Floor(TileMap *inicio, Floor *prox){
+    this->map_atual = inicio;
+    this->proximo_floor = prox;
 
 }
 static bool checkUpNeighbor(TileMap * map)
 {
-    return map->getUp() != NULL;
+    return map->getUp() != nullptr;
 }
 static bool checkDownNeighbor(TileMap * map)
 {
-    return map->getDown() != NULL;
+    return map->getDown() != nullptr;
 }
 static bool checkRightNeighbor(TileMap * map)
 {
-    return map->getRight() != NULL;
+    return map->getRight() != nullptr;
 }
 static bool checkLeftNeighbor(TileMap * map)
 {
-    return map->getLeft() != NULL;
+    return map->getLeft() != nullptr;
 }
 
-void Floor::generateFloor(int tam) {
-    random_device rd;
-    mt19937 eng(rd());
-    uniform_int_distribution<>distr(0,100);
-    bool isBossGenerated = false;
-    bool isStoreGenerated = false;
-    TileMap * atual = this->inicio;
-    int chance = 50;
-    while(tam<=0)
+void Floor::generateFloor(){
+}
+
+// Generate fixed floor, for testing purposes only
+void Floor::generateSimpleFloor()
+{
+    // Dynamic map generation
+    TileMap * new_map;
+    TileMap * constructor = this->map_atual;
+    // Instruction path
+    // 0 = Right,
+    // 1 = Down,
+    // 2=Left,
+    // 3=Up
+    // Hardcoded path
+    char path[8]  = {0,0,1,1,2,2,3,0};
+    char path_actual_position = 0;
+    for(int i =0;i<3;i++)
     {
-        if(!checkDownNeighbor(atual->getDown()))
+        for(int j=0;j<3;j++)
         {
-            if(distr(eng) <= chance )
+            Point p{i,j};
+            new_map = new TileMap(DEFAULT_SIZE_X,DEFAULT_SIZE_Y,p);
+            new_map->generateRadialHunter();
+            switch(path[path_actual_position])
             {
-                atual->setDown(new TileMap(DEFAULT_SIZE_X,DEFAULT_SIZE_Y));
-                tam--;
-                atual->setDownDoor();
+                case 0:
+                    constructor->setRight(new_map);
+                    constructor->setRightDoor();
+                    constructor = constructor->getRight();
+                    constructor->setLeftDoor();
+                    break;
+                case 1:
+                    constructor->setDown(new_map);
+                    constructor->setDownDoor();
+                    constructor = constructor->getDown();
+                    constructor->setUpperDoor();
+                    break;
+                case 2:
+                    constructor->setLeft(new_map);
+                    constructor->setLeftDoor();
+                    constructor = constructor->getLeft();
+                    constructor->setRightDoor();
+                    break;
+                case 3:
+                    constructor->setUp(new_map);
+                    constructor->setUpperDoor();
+                    constructor = constructor->getUp();
+                    constructor->setDownDoor();
+                    break;
+                default:break;
             }
+            path_actual_position++;
         }
-        if(!checkUpNeighbor(atual->getUp()))
-        {
-            if(distr(eng) <= chance )
+    }
+}
+
+void Floor::printSimpleFloor(){
+    char path_size = 8;
+    char path[8]  = {0,0,1,1,2,2,3,0};
+    char path_actual_position = 0;
+    TileMap * watcher = map_atual;
+    watcher->printMap();
+    while(path_actual_position!=path_size)
+    {
+            switch(path[path_actual_position])
             {
-                atual->setUp(new TileMap(DEFAULT_SIZE_X,DEFAULT_SIZE_Y));
-                tam--;
-                atual->setUpperDoor();
+                case 0:
+                    watcher = watcher->getRight();
+                    break;
+                case 1:
+                    watcher = watcher->getDown();
+                    break;
+                case 2:
+                    watcher = watcher->getLeft();
+                    break;
+                case 3:
+                    watcher = watcher->getUp();
+                    break;
+                default:break;
             }
-        }
-        if(!checkRightNeighbor(atual->getRight()))
-        {
-            if(distr(eng) <= chance )
-            {
-                atual->setRight(new TileMap(DEFAULT_SIZE_X,DEFAULT_SIZE_Y));
-                tam--;
-                atual->setRightDoor();
-            }
-        }
-        if(!checkLeftNeighbor(atual->getLeft())) {
-            if (distr(eng) <= chance) {
-                atual->setLeft(new TileMap(DEFAULT_SIZE_X, DEFAULT_SIZE_Y));
-                atual->setLeftDoor();
-                tam--;
-            }
-        }
-        chance-=5;
+            watcher->printMap();
+            path_actual_position++;
     }
 
 }
