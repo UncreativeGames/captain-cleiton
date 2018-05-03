@@ -1,7 +1,7 @@
 //
 // Created by olivato on 19/04/18.
 //
-#include "TileMap.hpp"
+#include "../include/TileMap.hpp"
 #include <iostream>
 #include <random>
 
@@ -58,7 +58,7 @@ void TileMap::generateAlgorithmDrunkardWalk() {
                 else
                     this->map[walk_x][walk_y] = CHAO;
                 break;
-            // Sul
+                // Sul
             case 1:
                 walk_x++;
                 if(walk_x==this->size_x-1)
@@ -66,7 +66,7 @@ void TileMap::generateAlgorithmDrunkardWalk() {
                 else
                     this->map[walk_x][walk_y] = CHAO;
                 break;
-            // Leste
+                // Leste
             case 2:
                 walk_y++;
                 if(walk_y>=this->size_y-1)
@@ -74,7 +74,7 @@ void TileMap::generateAlgorithmDrunkardWalk() {
                 else
                     this->map[walk_x][walk_y] = CHAO;
                 break;
-            // Oeste
+                // Oeste
             case 3:
                 walk_y--;
                 if(walk_y-1<0)
@@ -116,16 +116,13 @@ void TileMap::generateRadialHunter() {
         }
     }
     // Coloca objetos de um quadrante, espelhados em todos os outros
-    for(int i = 1;i<this->size_x/2-1;i++)
-    {
-        for(int j = 2;j<this->size_y/2-1;j++)
-        {
-            if(distr(eng) >= 50)
-            {
+    for (int i = 1; i < this->size_x / 2; i++) {
+        for (int j = 2; j < this->size_y / 2; j++) {
+            if (distr(eng) >= 50) {
                 this->map[i][j] = PEDRA;
-                this->map[i][this->size_y-j] = PEDRA;
-                this->map[this->size_x-i-1][j] = PEDRA;
-                this->map[this->size_x-i-1][this->size_y-j] = PEDRA;
+                this->map[i][this->size_y - j] = PEDRA;
+                this->map[this->size_x - i - 1][j] = PEDRA;
+                this->map[this->size_x - i - 1][this->size_y - j] = PEDRA;
             }
         }
     }
