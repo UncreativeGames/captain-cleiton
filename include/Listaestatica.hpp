@@ -63,15 +63,15 @@ public:
 
 		return SUCCESS;
 	}
-	// Limpar
-	int limpar() {
-		while(remover(0)!=ERROR)
-		{
+    // Limpar
+    int limpar() {
+        while(quantidade_elementos_atual!=0)
+        {
+            remover(0);
+        }
 
-		}
-
-		return SUCCESS;
-	}
+        return SUCCESS;
+    }
 	// Retorna elemento na posição index
 	T* atIndex(int index) {
 		// Indice inválido
