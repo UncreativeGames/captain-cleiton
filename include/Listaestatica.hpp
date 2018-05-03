@@ -3,8 +3,8 @@
 
 #include "Rigidbody.hpp"
 
-#define TAM_MAP_X 10
-#define TAM_MAP_Y 20
+#define TAM_MAP_X 25
+#define TAM_MAP_Y 18
 #define TAM_LISTA (TAM_MAP_X * TAM_MAP_Y) 
 #define SUCCESS 1
 #define ERROR -1
@@ -63,7 +63,15 @@ public:
 
 		return SUCCESS;
 	}
+	// Limpar
+	int limpar() {
+		while(remover(0)!=ERROR)
+		{
 
+		}
+
+		return SUCCESS;
+	}
 	// Retorna elemento na posição index
 	T* atIndex(int index) {
 		// Indice inválido
@@ -139,7 +147,15 @@ public:
 
 		return SUCCESS;
 	}
+	// Limpar
+	int limpar() {
+		while(quantidade_elementos_atual!=0)
+		{
+			remover(0);
+		}
 
+		return SUCCESS;
+	}
 	// Retorna elemento na posição index
 	Rigidbody* atIndex(int index) {
 		// Indice inválido

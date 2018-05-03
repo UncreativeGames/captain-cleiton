@@ -5,8 +5,8 @@
 #ifndef FLOOR_H
 #define FLOOR_H
 
-#define DEFAULT_SIZE_X 13
-#define DEFAULT_SIZE_Y 33
+#define DEFAULT_SIZE_X 25
+#define DEFAULT_SIZE_Y 18
 
 #include "TileMap.hpp"
 
