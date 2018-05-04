@@ -1,6 +1,6 @@
 cc = g++
 cflags = -Wall -lsfml-graphics -lsfml-window -lsfml-system
-objects = Rigidbody.o Obstacle.o Animation.o AnimatedSprite.o DrawingModule.o TileMap.o main.o
+objects = Rigidbody.o Obstacle.o Animation.o AnimatedSprite.o DrawingModule.o TileMap.o Chao.o ColisionModule.o main.o
 
 install: $(objects)
 	$(cc) -o exemplo $(objects) ../../include/Lista.hpp ../../include/Listaestatica.hpp ../../src/DrawTransform.cpp ../../include/TileMap.hpp $(cflags)
@@ -26,6 +26,14 @@ DrawingModule.o:
 
 TileMap.o:
 	$(cc) -c ../../src/TileMap.cpp $(cflags)
+
+Chao.o:
+	$(cc) -c ../../src/Chao.cpp $(cflags)
+
+ColisionModule.o:
+	$(cc) -c ../../src/ColisionModule.cpp $(cflags)
+
+
 remove:
 	rm *.o
 	rm exemplo

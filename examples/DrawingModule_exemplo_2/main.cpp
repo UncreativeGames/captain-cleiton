@@ -11,6 +11,8 @@
 #include "../../include/Lista.hpp"
 #include "../../include/DrawingModule.hpp"
 #include "../../include/TileMap.hpp"
+#include "../../include/Chao.hpp"
+#include "../../include/ColisionModule.hpp"
 #include <iostream>
 #include <cmath>
 
@@ -28,12 +30,15 @@ int main()
     Listaestatica<Rigidbody> player_and_monsters;
     Lista<Rigidbody> projeteis;
 
+    Lista<Lista<Rigidbody> >* Lista_para_deletar_retorno_modulo_colisao;
+
     // setup window
     sf::Vector2i screenDimensions(DEFAULT_SIZE_X*32,DEFAULT_SIZE_Y*32);
     sf::RenderWindow window(sf::VideoMode(screenDimensions.x, screenDimensions.y), "Captain Cleiton.");
     window.setFramerateLimit(60);
 
     DrawingModule designer(&walls_and_floor,&obstacles,&player_and_monsters,&projeteis,&window);
+    ColisionModule colisor(&walls_and_floor,&obstacles,&player_and_monsters,&projeteis);
 
     sf::Texture personagem;
     if(!personagem.loadFromFile("player.png")){
@@ -94,6 +99,7 @@ int main()
     m->generateRadialHunter();
     m->printMap();
     Obstacle* rock;
+    Chao* chao;
     char offset = 16;
     for(int i = 0;i<DEFAULT_SIZE_X;i++)
     {
@@ -101,7 +107,7 @@ int main()
             if(m->getTile(i,j)==PEDRA)
             {
                 rock = new Obstacle(pedra,sf::IntRect(0, 0, 32, 32));
-                rock->setRaio(10);
+                rock->setRaio(16);
                 rock->setOrigin(16,16);
                 rock->setPosition(i*32+offset,j*32+offset);
                 obstacles.add(rock);
@@ -109,7 +115,7 @@ int main()
             if(m->getTile(i,j)==PAREDE)
             {
                 rock = new Obstacle(wall,sf::IntRect(32, 32, 32, 32));
-                rock->setRaio(10);
+                rock->setRaio(16);
                 rock->setOrigin(16,16);
                 rock->setPosition(i*32+offset,j*32+offset);
                 walls_and_floor.add(rock);
@@ -117,11 +123,10 @@ int main()
             else
             {
                 randomIndex = rand() % 4;
-                rock = new Obstacle(floor,sf::IntRect(0,(32*floor_choice[randomIndex]), 32, 32));
-                rock->setRaio(10);
-                rock->setOrigin(16,16);
-                rock->setPosition(i*32+offset,j*32+offset);
-                walls_and_floor.add(rock);
+                chao = new Chao(floor,sf::IntRect(0,(32*floor_choice[randomIndex]), 32, 32));
+                chao->setOrigin(16,16);
+                chao->setPosition(i*32+offset,j*32+offset);
+                walls_and_floor.add(chao);
             }
         }
     }
@@ -173,7 +178,13 @@ int main()
         movement = (movement/(norma ? norma : 1)) * speed;
 
         dut->play(*currentAnimation);
-        dut->move(movement * frameTime.asSeconds());
+        movement = movement * frameTime.asSeconds();
+
+        Lista_para_deletar_retorno_modulo_colisao = colisor.moveRequest(dut,movement.x,movement.y);
+        
+        // deleta todas as listas dentro desta lista sem deletar os itens delas
+        Lista_para_deletar_retorno_modulo_colisao->removerAll();
+        delete(Lista_para_deletar_retorno_modulo_colisao);
 
         // if no key was pressed stop the animation
         if (movement.x == 0 && movement.y == 0)
@@ -188,7 +199,7 @@ int main()
         //x += dut->colision(rock).x;
         //y += dut->colision(rock).y;
 
-        dut->move(x,y);
+        //dut->move(x,y);
 
         designer.update();
     }
