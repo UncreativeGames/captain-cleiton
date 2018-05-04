@@ -7,7 +7,7 @@
 #define TAM_MAP_Y 18
 #define TAM_LISTA (TAM_MAP_X * TAM_MAP_Y) 
 #define SUCCESS 1
-#define ERROR -1
+#define ERROR (-1)
 
 template<class T>
 class Listaestatica
@@ -15,12 +15,12 @@ class Listaestatica
 public:
 
 	// Cria a lista com 0 elementos;
-	Listaestatica(void) {
+	Listaestatica() {
 		quantidade_elementos_atual = 0;
 	}
 
 	// Destrutor da Classe destroi todos os elementos dentro desta lista
-	~Listaestatica(void) {
+	~Listaestatica() {
 		for (int i = 0; i < quantidade_elementos_atual; i++) 
 		{
 			delete(elementos[i]);
@@ -64,13 +64,8 @@ public:
 		return SUCCESS;
 	}
     // Limpar
-    int limpar() {
-        while(quantidade_elementos_atual!=0)
-        {
-            remover(0);
-        }
-
-        return SUCCESS;
+    void limpar() {
+        while(remover(0)!=0);
     }
 	// Retorna elemento na posição index
 	T* atIndex(int index) {
@@ -82,7 +77,7 @@ public:
 	}
 
 	// Retorna quantidade de elementos atual da lista
-	int length(void) {
+	int length() {
 		return quantidade_elementos_atual;
 	}
 
@@ -99,12 +94,12 @@ class Listaestatica<Rigidbody>
 public:
 
 	// Cria a lista com 0 elementos;
-	Listaestatica(void) {
+	Listaestatica() {
 		quantidade_elementos_atual = 0;
 	}
 
 	// Destrutor da Classe destroi todos os elementos dentro desta lista
-	~Listaestatica(void) {
+	~Listaestatica() {
 		for (int i = 0; i < quantidade_elementos_atual; i++) 
 		{
 			delete(elementos[i]);
@@ -143,35 +138,30 @@ public:
 		}
 
 		// Aponta elemento duplicado que foi puxado para trás para NULL
-		elementos[quantidade_elementos_atual+1] = NULL;
+		elementos[quantidade_elementos_atual+1] = nullptr;
 
 		return SUCCESS;
 	}
-	// Limpar
-	int limpar() {
-		while(quantidade_elementos_atual!=0)
-		{
-			remover(0);
-		}
-
-		return SUCCESS;
-	}
+    // Limpar
+    void limpar() {
+        while(remover(0)!=0);
+    }
 	// Retorna elemento na posição index
 	Rigidbody* atIndex(int index) {
 		// Indice inválido
 		if(index >= quantidade_elementos_atual || index < 0)
-			return NULL;
+			return nullptr;
 
 		return elementos[index];
 	}
 
 	// Retorna quantidade de elementos atual da lista
-	int length(void) {
+	int length() {
 		return quantidade_elementos_atual;
 	}
 
 	// Função que ordena pela posição do transform
-	void ordena(void) {
+	void ordena() {
 		quickSort(0, length()-1);
 	}
 
