@@ -1,12 +1,16 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
 
 #include "../../include/Animation.hpp"
 #include "../../include/AnimatedSprite.hpp"
 #include "../../include/Obstacle.hpp"
+#include "../../include/Rigidbody.hpp"
 #include "../../include/Floor.hpp"
 #include "../../include/Listaestatica.hpp"
 #include "../../include/Lista.hpp"
 #include "../../include/DrawingModule.hpp"
+#include "../../include/TileMap.hpp"
 #include <iostream>
 #include <cmath>
 
