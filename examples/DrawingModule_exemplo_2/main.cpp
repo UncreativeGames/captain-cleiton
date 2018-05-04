@@ -116,7 +116,7 @@ int main()
             else
             {
                 randomIndex = rand() % 4;
-                rock = new Obstacle(floor,sf::IntRect(0, 0, 32, 32));
+                rock = new Obstacle(floor,sf::IntRect(0,(32*floor_choice[randomIndex]), 32, 32));
                 rock->setRaio(10);
                 rock->setOrigin(16,16);
                 rock->setPosition(i*32+offset,j*32+offset);
