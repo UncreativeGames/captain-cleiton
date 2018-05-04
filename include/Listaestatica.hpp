@@ -63,10 +63,10 @@ public:
 
 		return SUCCESS;
 	}
-    // Limpar
-    void limpar() {
-        while(remover(0)!=0);
-    }
+        // Limpar
+        void limpar() {
+            while(remover(0));
+        }
 	// Retorna elemento na posição index
 	T* atIndex(int index) {
 		// Indice inválido
@@ -142,10 +142,10 @@ public:
 
 		return SUCCESS;
 	}
-    // Limpar
-    void limpar() {
-        while(remover(0)!=0);
-    }
+        // Limpar
+        void limpar() {
+            while(remover(0));
+        }
 	// Retorna elemento na posição index
 	Rigidbody* atIndex(int index) {
 		// Indice inválido
