@@ -24,7 +24,8 @@ int main()
     int floor_choice[6] = {0,1,2,3};
     int randomIndex = rand() % 6;
     Listaestatica<Rigidbody> walls_and_floor;
-    Listaestatica<Rigidbody> the_rest;
+    Listaestatica<Rigidbody> obstacles;
+    Listaestatica<Rigidbody> player_and_monsters;
     Lista<Rigidbody> projeteis;
 
     // setup window
@@ -32,7 +33,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(screenDimensions.x, screenDimensions.y), "Captain Cleiton.");
     window.setFramerateLimit(60);
 
-    DrawingModule designer(&walls_and_floor,&the_rest,&projeteis,&window);
+    DrawingModule designer(&walls_and_floor,&obstacles,&player_and_monsters,&projeteis,&window);
 
     sf::Texture personagem;
     if(!personagem.loadFromFile("player.png")){
@@ -87,7 +88,7 @@ int main()
     dut->setPosition(sf::Vector2f(400,300));
     dut->setRaio(10);
 
-    the_rest.add(dut);
+    player_and_monsters.add(dut);
     Point p {0,0};
     TileMap * m = new TileMap(DEFAULT_SIZE_X,DEFAULT_SIZE_Y,p);
     m->generateRadialHunter();
@@ -103,7 +104,7 @@ int main()
                 rock->setRaio(10);
                 rock->setOrigin(16,16);
                 rock->setPosition(i*32+offset,j*32+offset);
-                the_rest.add(rock);
+                obstacles.add(rock);
             }
             if(m->getTile(i,j)==PAREDE)
             {
@@ -166,7 +167,7 @@ int main()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
         {
             m->generateRadialHunter();
-            the_rest.limpar();
+            obstacles.limpar();
         }
         float norma = sqrt(movement.x*movement.x + movement.y*movement.y);
         movement = (movement/(norma ? norma : 1)) * speed;
