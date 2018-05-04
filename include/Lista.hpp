@@ -4,7 +4,7 @@
 #include <cstdlib>
 
 #define SUCCESS 1
-#define ERROR -1
+#define ERROR (-1)
 
 template <class T>
 struct node
