@@ -22,7 +22,7 @@ AnimatedSprite.o:
 	$(cc) -c ../../src/AnimatedSprite.cpp $(cflags)
 
 DrawingModule.o:
-	$(cc) -c ../../src/DrawingModule.cpp ../../include/Listaestatica.hpp ../../include/Lista.hpp $(cflags)
+	$(cc) -c ../../src/DrawingModule.cpp $(cflags)
 
 TileMap.o:
 	$(cc) -c ../../src/TileMap.cpp $(cflags)

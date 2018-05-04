@@ -22,10 +22,10 @@ AnimatedSprite.o:
 	$(cc) -c ../../src/AnimatedSprite.cpp $(cflags)
 
 DrawingModule.o:
-	$(cc) -c ../../src/DrawingModule.cpp ../../include/Listaestatica.hpp ../../include/Lista.hpp $(cflags)
+	$(cc) -c ../../src/DrawingModule.cpp $(cflags)
 
 ColisionModule.o:
-	$(cc) -c ../../src/ColisionModule.cpp ../../include/Listaestatica.hpp ../../include/Lista.hpp $(cflags)
+	$(cc) -c ../../src/ColisionModule.cpp $(cflags)
 
 remove:
 	rm *.o
