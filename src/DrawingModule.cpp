@@ -22,6 +22,7 @@ void DrawingModule::update() {
 	// Ordena os elementos de obstacles
 	// O(log n)
 	player_and_monsters->ordena();	
+	obstacles->ordena();
 
 	// Limpa a tela
 	window->clear();
