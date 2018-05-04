@@ -6,8 +6,8 @@
 #define TILEMAP_H
 
 // Remover isto futuramente e adicionar em config.hpp
-#define PAREDE 219
-#define PEDRA 1
+#define PAREDE 'P'
+#define PEDRA 'F'
 #define CHAO 'O'
 #define DEBUG 0
 #define DEBUG_SPEED (100*1000)
@@ -57,6 +57,9 @@ public:
 
     // Retorna a matrix que compõe o mapa
     tile **getMapMatrix() const;
+
+    // Retorn um tile específico
+    tile getTile(int x,int y);
 
     // Printa a matriz do mapa
     void printMap();

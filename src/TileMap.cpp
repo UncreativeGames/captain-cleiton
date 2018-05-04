@@ -25,11 +25,7 @@ TileMap::TileMap(int x,int y,Point index) {
     //Cria uma sala vazia sem portas
     for(int i = 0;i<this->size_x;i++) {
         for (int j = 0; j < this->size_y; j++) {
-            if (i == 0 || j == 0 || j == this->size_y-1 || i == this->size_x-1) {
-                this->map[i][j] = static_cast<tile>(PAREDE);
-            } else {
-                this->map[i][j] = PEDRA;
-            }
+            this->map[i][j] = i == 0 || j == 0 || j == this->size_y - 1 || i == this->size_x - 1 ? PAREDE : PEDRA;
         }
     }
 
@@ -211,4 +207,8 @@ void TileMap::setIndex(const Point &index) {
 
 tile **TileMap::getMapMatrix() const {
     return this->map;
+}
+
+tile TileMap::getTile(int x, int y) {
+    return this->map[x][y];
 }
