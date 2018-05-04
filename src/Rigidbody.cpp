@@ -26,10 +26,10 @@ sf::Vector2f Rigidbody::colision(Rigidbody* another){
 	float dist = sqrt(B.x*B.x + B.y*B.y);
 	int radius_this = this->raio_colisao;
 	int radius_A = another->getRaio();
-	if(dist >= radius_A + radius_this){
+	if(dist >= radius_A + radius_this || another->getRaio() == 0){
 		return sf::Vector2f(0,0);
 	}
 	else{
-		return (B/dist)*(radius_this - dist + radius_A );
+		return (B/dist)*(radius_this - dist + radius_A);
 	}
 }
