@@ -65,7 +65,7 @@ public:
 	}
         // Limpar
         void limpar() {
-            while(remover(0));
+            while(remover(0) != ERROR);
         }
 	// Retorna elemento na posição index
 	T* atIndex(int index) {
@@ -144,7 +144,7 @@ public:
 	}
         // Limpar
         void limpar() {
-            while(remover(0));
+            while(remover(0) != ERROR);
         }
 	// Retorna elemento na posição index
 	Rigidbody* atIndex(int index) {

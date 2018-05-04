@@ -4,7 +4,7 @@
 #include <cstdlib>
 
 #define SUCCESS 1
-#define ERROR -1
+#define ERROR (-1)
 
 template <class T>
 struct node
@@ -18,7 +18,7 @@ template <class T>
 class Lista {
 public:
 	Lista();
-	~Lista();
+	~Lista() = default;
 
 	// Adiciona no começo da lista
 	void add(T* element);
@@ -45,10 +45,12 @@ Lista<T>::Lista(){
 	quantidade_elementos = 0;
 }
 
-template<class T>
+// Não sera mais utilizado
+// Caso deseja deletar os elementos, use removerAll antes de deletar a lista
+/*template<class T>
 Lista<T>::~Lista(){
 	removerAll();
-}
+}*/
 
 // Adiciona no começo da lista
 template<class T>

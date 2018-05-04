@@ -8,6 +8,7 @@
 #include "../../include/Listaestatica.hpp"
 #include "../../include/Lista.hpp"
 #include "../../include/DrawingModule.hpp"
+#include "../../include/ColisionModule.hpp"
 #include <iostream>
 #include <cmath>
 
@@ -19,15 +20,19 @@ int main()
     int y = 100;
 
     Listaestatica<Rigidbody> walls;
-    Listaestatica<Rigidbody> the_rest;
+    Listaestatica<Rigidbody> obstacles;
+    Listaestatica<Rigidbody> player_and_monsters;
     Lista<Rigidbody> projeteis;
+
+    Lista<Lista<Rigidbody> >* Lista_para_deletar_retorno_modulo_colisao;
 
     // setup window
     sf::Vector2i screenDimensions(800,600);
     sf::RenderWindow window(sf::VideoMode(screenDimensions.x, screenDimensions.y), "Animations!");
-    window.setFramerateLimit(6000);
+    window.setFramerateLimit(60);
 
-    DrawingModule designer(&walls,&the_rest,&projeteis,&window);
+    DrawingModule designer(&walls,&obstacles,&player_and_monsters,&projeteis,&window);
+    ColisionModule colisor(&walls,&obstacles,&player_and_monsters,&projeteis);
 
     sf::Texture personagem;
     if(!personagem.loadFromFile("player.png")){
@@ -70,7 +75,7 @@ int main()
     dut->setPosition(sf::Vector2f(400,300));
     dut->setRaio(10);
 
-    the_rest.add(dut);
+    player_and_monsters.add(dut);
 
     Obstacle* rock = new Obstacle(personagem,sf::IntRect(32, 0, 32, 32));
     rock->setRaio(10);
@@ -82,8 +87,8 @@ int main()
     rock->setPosition(432,300);
     rock2->setPosition(452,320);
 
-    the_rest.add(rock);
-    the_rest.add(rock2);
+    obstacles.add(rock);
+    obstacles.add(rock2);
 
     sf::Clock frameClock;
 
@@ -128,7 +133,10 @@ int main()
         movement = (movement/(norma ? norma : 1)) * speed;
 
         dut->play(*currentAnimation);
-        dut->move(movement * frameTime.asSeconds());
+        
+        //modo antigo de mover
+        //dut->move(movement * frameTime.asSeconds());
+        movement = movement * frameTime.asSeconds();
 
         // if no key was pressed stop the animation
         if (movement.x == 0 && movement.y == 0)
@@ -139,12 +147,17 @@ int main()
         // update AnimatedSprite
         dut->update(frameTime);
 
-
-        x += dut->colision(rock).x; 
+        // Forma antiga de colisão
+        /*x += dut->colision(rock).x; 
         y += dut->colision(rock).y;
         x += dut->colision(rock2).x; 
         y += dut->colision(rock2).y;
-        dut->move(x,y);
+        dut->move(x,y);*/
+        Lista_para_deletar_retorno_modulo_colisao = colisor.moveRequest(dut,movement.x,movement.y);
+        
+        // deleta todas as listas dentro desta lista sem deletar os itens delas
+        Lista_para_deletar_retorno_modulo_colisao->removerAll();
+        delete(Lista_para_deletar_retorno_modulo_colisao);
         
         designer.update();
     }

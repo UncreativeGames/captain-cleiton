@@ -1,24 +1,29 @@
 #include "../include/DrawingModule.hpp"
 
-DrawingModule::DrawingModule(Listaestatica<Rigidbody>* wall_and_floor, Listaestatica<Rigidbody>* objects_on_floor, Lista<Rigidbody>* projeteis, sf::RenderWindow* window){
+DrawingModule::DrawingModule(Listaestatica<Rigidbody>* wall_and_floor, Listaestatica<Rigidbody>* obstacles, Listaestatica<Rigidbody>* player_and_monsters, Lista<Rigidbody>* projeteis, sf::RenderWindow* window){
 	this->wall_and_floor = wall_and_floor;
-	this->objects_on_floor = objects_on_floor;
+	this->obstacles = obstacles;
+	this->player_and_monsters = player_and_monsters;
 	this->projeteis = projeteis;
 	this->window = window;
+	
+	// só precisa ordenar uma vez, pois obstaculos não se movem a priori
+	obstacles->ordena();
 }
 
 // Complexidade total O(log n + n + n + n²) = O(log n + 2n + n²)  = O(n²)
 // Sem considerar as funções de window pois a complexidade é desconhecida
 void DrawingModule::update() {
-	int i;
+	int i, j;
 	
 	// wall_and_floor não precisa ser ordenado, uma vez que ele aparece 
 	// abaixo de tudo e nao tem sobreposição
 	
-	// Ordena os elementos de objects_on_floor
+	// Ordena os elementos de obstacles
 	// O(log n)
-	objects_on_floor->ordena();
-	
+	player_and_monsters->ordena();	
+	obstacles->ordena();
+
 	// Limpa a tela
 	window->clear();
 	
@@ -29,11 +34,39 @@ void DrawingModule::update() {
 		window->draw(*wall_and_floor->atIndex(i) /*complexidade atIndex O(1)*/);
 	}
 	
-	// Printa os elementos de objects_on_floor
-	// O(n), pois O(n) * O(1)
-	for (i = 0; i < objects_on_floor->length(); i++)
+	i = 0;
+	j = 0;
+
+	// Printa os elementos de obstacles
+	// O(2n) = O(n)
+	while (j < obstacles->length() || i < player_and_monsters->length())
 	{
-		window->draw(*objects_on_floor->atIndex(i) /*complexidade atIndex O(1)*/);
+		if (j < obstacles->length() && i < player_and_monsters->length())
+		{
+			if (obstacles->atIndex(j)->getPosition().y < player_and_monsters->atIndex(i)->getPosition().y || (obstacles->atIndex(j)->getPosition().y == player_and_monsters->atIndex(i)->getPosition().y && obstacles->atIndex(j)->getPosition().x <= player_and_monsters->atIndex(i)->getPosition().x))
+			{
+				window->draw(*obstacles->atIndex(j) /*complexidade atIndex O(1)*/);
+				j++;	
+			}
+			else
+			{
+				window->draw(*player_and_monsters->atIndex(i) /*complexidade atIndex O(1)*/);
+				i++;	
+			}
+		}
+		else //Se j >= obstacles->length ou i >= player_and_monsters->length()
+		{
+			if (j < obstacles->length())
+			{
+				window->draw(*obstacles->atIndex(j) /*complexidade atIndex O(1)*/);
+				j++;
+			}
+			else
+			{
+				window->draw(*player_and_monsters->atIndex(i) /*complexidade atIndex O(1)*/);
+				i++;
+			}
+		}
 	}
 	
 	// Printa os possiveis projeteis que estejam no jogo
