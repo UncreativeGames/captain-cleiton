@@ -1,12 +1,16 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
 
 #include "../../include/Animation.hpp"
 #include "../../include/AnimatedSprite.hpp"
 #include "../../include/Obstacle.hpp"
+#include "../../include/Rigidbody.hpp"
 #include "../../include/Floor.hpp"
 #include "../../include/Listaestatica.hpp"
 #include "../../include/Lista.hpp"
 #include "../../include/DrawingModule.hpp"
+#include "../../include/TileMap.hpp"
 #include <iostream>
 #include <cmath>
 
@@ -112,7 +116,7 @@ int main()
             else
             {
                 randomIndex = rand() % 4;
-                rock = new Obstacle(floor,sf::IntRect(0,(32*floor_choice[randomIndex]), 32, 32));
+                rock = new Obstacle(floor,sf::IntRect(0, 0, 32, 32));
                 rock->setRaio(10);
                 rock->setOrigin(16,16);
                 rock->setPosition(i*32+offset,j*32+offset);
