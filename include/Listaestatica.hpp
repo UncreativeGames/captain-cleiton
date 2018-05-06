@@ -2,12 +2,7 @@
 #define LISTAESTATICA_INCLUDE
 
 #include "Rigidbody.hpp"
-
-#define TAM_MAP_X 25
-#define TAM_MAP_Y 18
-#define TAM_LISTA (TAM_MAP_X * TAM_MAP_Y) 
-#define SUCCESS 1
-#define ERROR (-1)
+#include "Config.hpp"
 
 template<class T>
 class Listaestatica

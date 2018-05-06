@@ -2,10 +2,7 @@
 #define LISTA_INCLUDE
 
 #include <cstdlib>
-
-#define SUCCESS 1
-#define ERROR (-1)
-
+#include "Config.hpp"
 template <class T>
 struct node
 {
