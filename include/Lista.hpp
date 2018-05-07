@@ -8,6 +8,10 @@ struct node
 {
 	T* item;
 	struct node<T>* prox;
+	~node()
+	{
+		delete(item);
+	}
 };
 
 
