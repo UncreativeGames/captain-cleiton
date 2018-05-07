@@ -105,6 +105,10 @@ void DrawingModule::update() {
 			}
 		}
 	}
+
+	if (!player_is_printed)
+		window->draw(*player);
+
 	
 	// Printa os possiveis projeteis que estejam no jogo
 	// Esta é uma lista encadeada pois não temos um numero máximo de projeteis no mapa
