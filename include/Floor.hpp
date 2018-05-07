@@ -5,9 +5,8 @@
 #ifndef FLOOR_H
 #define FLOOR_H
 
-#define DEFAULT_SIZE_X 25
-#define DEFAULT_SIZE_Y 18
 
+#include "Config.hpp"
 #include "TileMap.hpp"
 
 class Floor {

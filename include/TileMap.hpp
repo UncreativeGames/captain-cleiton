@@ -5,17 +5,7 @@
 #ifndef TILEMAP_H
 #define TILEMAP_H
 
-// Remover isto futuramente e adicionar em config.hpp
-#define PAREDE 'P'
-#define PEDRA 'F'
-#define CHAO 'O'
-#define DEBUG 0
-#define DEBUG_SPEED (100*1000)
-#define PORTA_L 'L'
-#define PORTA_R 'R'
-#define PORTA_U 'U'
-#define PORTA_D 'D'
-#define MAP_CENTER 'C'
+#include "Config.hpp"
 
 typedef char tile;
 
