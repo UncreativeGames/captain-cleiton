@@ -27,7 +27,7 @@ int main()
     int randomIndex = rand() % 6;
     Listaestatica<Rigidbody> walls_and_floor;
     Listaestatica<Rigidbody> obstacles;
-    Listaestatica<Rigidbody> player_and_monsters;
+    Listaestatica<Rigidbody> monsters;
     Lista<Rigidbody> projeteis;
 
     Lista<Lista<Rigidbody> >* Lista_para_deletar_retorno_modulo_colisao;
@@ -36,9 +36,6 @@ int main()
     sf::Vector2i screenDimensions(DEFAULT_SIZE_X*32,DEFAULT_SIZE_Y*32);
     sf::RenderWindow window(sf::VideoMode(screenDimensions.x, screenDimensions.y), "Captain Cleiton.");
     window.setFramerateLimit(60);
-
-    DrawingModule designer(&walls_and_floor,&obstacles,&player_and_monsters,&projeteis,&window);
-    ColisionModule colisor(&walls_and_floor,&obstacles,&player_and_monsters,&projeteis);
 
     sf::Texture personagem;
     if(!personagem.loadFromFile("player.png")){
@@ -93,7 +90,9 @@ int main()
     dut->setPosition(sf::Vector2f(400,300));
     dut->setRaio(10);
 
-    player_and_monsters.add(dut);
+    DrawingModule designer(&walls_and_floor,&obstacles,&monsters,dut,&projeteis,&window);
+    ColisionModule colisor(&walls_and_floor,&obstacles,&monsters,dut,&projeteis);
+
     Point p {0,0};
     TileMap * m = new TileMap(DEFAULT_SIZE_X,DEFAULT_SIZE_Y,p);
     m->generateRadialHunter();
