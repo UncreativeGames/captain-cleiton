@@ -1,9 +1,13 @@
 #include "../include/DrawingModule.hpp"
 
-DrawingModule::DrawingModule(Listaestatica<Rigidbody>* wall_and_floor, Listaestatica<Rigidbody>* obstacles, Listaestatica<Rigidbody>* player_and_monsters, Lista<Rigidbody>* projeteis, sf::RenderWindow* window){
+DrawingModule::DrawingModule(Listaestatica<Rigidbody>* wall_and_floor, Listaestatica<Rigidbody>* obstacles, 
+							Listaestatica<Rigidbody>* monsters, Rigidbody* player, Lista<Rigidbody>* projeteis, 
+							sf::RenderWindow* window)
+{
 	this->wall_and_floor = wall_and_floor;
 	this->obstacles = obstacles;
-	this->player_and_monsters = player_and_monsters;
+	this->monsters = monsters;
+	this->player = player;
 	this->projeteis = projeteis;
 	this->window = window;
 	
@@ -15,13 +19,14 @@ DrawingModule::DrawingModule(Listaestatica<Rigidbody>* wall_and_floor, Listaesta
 // Sem considerar as funções de window pois a complexidade é desconhecida
 void DrawingModule::update() {
 	int i, j;
-	
+	bool player_is_printed = false;
+
 	// wall_and_floor não precisa ser ordenado, uma vez que ele aparece 
 	// abaixo de tudo e nao tem sobreposição
 	
 	// Ordena os elementos de obstacles
 	// O(log n)
-	player_and_monsters->ordena();	
+	monsters->ordena();	
 	obstacles->ordena();
 
 	// Limpa a tela
@@ -39,32 +44,64 @@ void DrawingModule::update() {
 
 	// Printa os elementos de obstacles
 	// O(2n) = O(n)
-	while (j < obstacles->length() || i < player_and_monsters->length())
+	while (j < obstacles->length() || i < monsters->length())
 	{
-		if (j < obstacles->length() && i < player_and_monsters->length())
+		if (j < obstacles->length() && i < monsters->length())
 		{
-			if (obstacles->atIndex(j)->getPosition().y < player_and_monsters->atIndex(i)->getPosition().y || (obstacles->atIndex(j)->getPosition().y == player_and_monsters->atIndex(i)->getPosition().y && obstacles->atIndex(j)->getPosition().x <= player_and_monsters->atIndex(i)->getPosition().x))
+			if (obstacles->atIndex(j)->getPosition().y < monsters->atIndex(i)->getPosition().y || (obstacles->atIndex(j)->getPosition().y == monsters->atIndex(i)->getPosition().y && obstacles->atIndex(j)->getPosition().x <= monsters->atIndex(i)->getPosition().x))
 			{
-				window->draw(*obstacles->atIndex(j) /*complexidade atIndex O(1)*/);
-				j++;	
+				if(obstacles->atIndex(j)->getPosition().y < player->getPosition().y || (obstacles->atIndex(j)->getPosition().y == player->getPosition().y && obstacles->atIndex(j)->getPosition().x <= player->getPosition().x) || player_is_printed)
+				{	
+					window->draw(*obstacles->atIndex(j) /*complexidade atIndex O(1)*/);
+					j++;
+				}
+				else
+				{
+					window->draw(*player);
+					player_is_printed = true;	
+				}
 			}
 			else
 			{
-				window->draw(*player_and_monsters->atIndex(i) /*complexidade atIndex O(1)*/);
-				i++;	
+				if(monsters->atIndex(j)->getPosition().y < player->getPosition().y || (monsters->atIndex(j)->getPosition().y == player->getPosition().y && monsters->atIndex(j)->getPosition().x <= player->getPosition().x) || player_is_printed)	
+				{
+					window->draw(*monsters->atIndex(i) /*complexidade atIndex O(1)*/);
+					i++;
+				}
+				else
+				{
+					window->draw(*player);
+					player_is_printed = true;
+				}
 			}
 		}
-		else //Se j >= obstacles->length ou i >= player_and_monsters->length()
+		else //Se j >= obstacles->length ou i >= monsters->length()
 		{
 			if (j < obstacles->length())
 			{
-				window->draw(*obstacles->atIndex(j) /*complexidade atIndex O(1)*/);
-				j++;
+				if(obstacles->atIndex(j)->getPosition().y < player->getPosition().y || (obstacles->atIndex(j)->getPosition().y == player->getPosition().y && obstacles->atIndex(j)->getPosition().x <= player->getPosition().x) || player_is_printed)
+				{	
+					window->draw(*obstacles->atIndex(j) /*complexidade atIndex O(1)*/);
+					j++;
+				}
+				else
+				{
+					window->draw(*player);
+					player_is_printed = true;
+				}
 			}
 			else
 			{
-				window->draw(*player_and_monsters->atIndex(i) /*complexidade atIndex O(1)*/);
-				i++;
+				if(monsters->atIndex(j)->getPosition().y < player->getPosition().y || (monsters->atIndex(j)->getPosition().y == player->getPosition().y && monsters->atIndex(j)->getPosition().x <= player->getPosition().x) || player_is_printed)	
+				{
+					window->draw(*monsters->atIndex(i) /*complexidade atIndex O(1)*/);
+					i++;
+				}
+				else
+				{
+					window->draw(*player);
+					player_is_printed = true;
+				}
 			}
 		}
 	}
