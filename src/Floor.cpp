@@ -9,7 +9,7 @@ using namespace std;
 Floor::Floor(TileMap *inicio, Floor *prox){
     this->map_atual = inicio;
     this->proximo_floor = prox;
-
+    this->floor_index = 0;
 }
 static bool checkUpNeighbor(TileMap * map)
 {
@@ -113,4 +113,8 @@ void Floor::printSimpleFloor(){
             path_actual_position++;
     }
 
+}
+
+char Floor::getFloor_index() const {
+    return floor_index;
 }

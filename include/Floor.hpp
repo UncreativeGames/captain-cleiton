@@ -15,9 +15,13 @@ public:
     // void generateFloor(int tam);
     void generateSimpleFloor();
     void printSimpleFloor();
+
+    char getFloor_index() const;
+
 private:
     TileMap * map_atual;
     Floor * proximo_floor;
+    char floor_index;
     void generateFloor();
 };
 

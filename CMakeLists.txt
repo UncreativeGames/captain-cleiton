@@ -16,7 +16,7 @@ set(SOURCE_FILES
         include/Listaestatica.hpp
         include/Obstacle.hpp src/Obstacle.cpp
         include/Rigidbody.hpp src/Rigidbody.cpp
-        include/TileMap.hpp src/TileMap.cpp)
+        include/TileMap.hpp src/TileMap.cpp src/MapModule.cpp include/MapModule.h)
 add_executable(captain-cleiton ${SOURCE_FILES})
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 

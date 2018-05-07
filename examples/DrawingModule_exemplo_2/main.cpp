@@ -23,8 +23,8 @@ int main()
     int x;
     int y;
     srand(time(NULL));
-    int floor_choice[6] = {0,1,2,3};
-    int randomIndex = rand() % 6;
+    int floor_choice[4] = {0,1,2,3};
+    int randomIndex = rand() % 4;
     Listaestatica<Rigidbody> walls_and_floor;
     Listaestatica<Rigidbody> obstacles;
     Listaestatica<Rigidbody> player_and_monsters;
@@ -97,7 +97,6 @@ int main()
     Point p {0,0};
     TileMap * m = new TileMap(DEFAULT_SIZE_X,DEFAULT_SIZE_Y,p);
     m->generateRadialHunter();
-    m->printMap();
     Obstacle* rock;
     Chao* chao;
     char offset = 16;
@@ -135,6 +134,7 @@ int main()
 
     while (window.isOpen())
     {
+
         sf::Event event;
         while (window.pollEvent(event))
         {
