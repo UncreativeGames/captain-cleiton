@@ -22,5 +22,4 @@
 #define PORTA_D 'D'
 #define MAP_CENTER 'C'
 #define DEBUG_SPEED (100*1000)
-
 #endif //CAPTAIN_CLEITON_CONFIG_H

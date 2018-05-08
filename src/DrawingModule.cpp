@@ -105,14 +105,13 @@ void DrawingModule::update() {
 			}
 		}
 	}
-
 	if (!player_is_printed)
 		window->draw(*player);
-
-	
 	// Printa os possiveis projeteis que estejam no jogo
 	// Esta é uma lista encadeada pois não temos um numero máximo de projeteis no mapa
 	// O(n²), pois O(n) * O(n)
+	if (!player_is_printed)
+			window->draw(*player);
 	for (i = 0; i < projeteis->length(); i++)
 	{
 		window->draw(*projeteis->atIndex(i) /*complexidade atIndex O(n) pois esta lista é encadeada*/);

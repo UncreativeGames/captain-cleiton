@@ -25,7 +25,7 @@ TileMap::TileMap(int x,int y,Point index) {
     //Cria uma sala vazia sem portas
     for(int i = 0;i<this->size_x;i++) {
         for (int j = 0; j < this->size_y; j++) {
-            this->map[i][j] = i == 0 || j == 0 || j == this->size_y - 1 || i == this->size_x - 1 ? PAREDE : PEDRA;
+            this->map[i][j] = i == 0 || j == 0 || j == this->size_y - 1 || i == this->size_x - 1 ? PAREDE : CHAO;
         }
     }
 
@@ -114,7 +114,7 @@ void TileMap::generateRadialHunter() {
     // Coloca objetos de um quadrante, espelhados em todos os outros
     for (int i = 1; i < this->size_x / 2; i++) {
         for (int j = 2; j < this->size_y / 2; j++) {
-            if (distr(eng) >= 50) {
+            if (distr_percentage(eng) >= 90 ) {
                 this->map[i][j] = PEDRA;
                 this->map[i][this->size_y - j] = PEDRA;
                 this->map[this->size_x - i - 1][j] = PEDRA;
