@@ -2,8 +2,8 @@
  * Created by olivato on 19/04/18.
  * Read The Docs!
  */
-#ifndef FLOOR_H
-#define FLOOR_H
+#ifndef FLOOR_HPP
+#define FLOOR_HPP
 
 
 #include "Config.hpp"
@@ -29,4 +29,4 @@ private:
 };
 
 
-#endif //FLOOR_H
+#endif //FLOOR_HPP
