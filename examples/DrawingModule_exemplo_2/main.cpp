@@ -33,7 +33,7 @@ int main()
     window.setFramerateLimit(60);
 
     sf::Texture personagem;
-    if(!personagem.loadFromFile("/home/olivato/Clones/captain-cleiton/media/player.png")){
+    if(!personagem.loadFromFile("../../media/player.png")){
         std::cout << "Deu Ruim" << std::endl;
     }
 
