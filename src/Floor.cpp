@@ -6,10 +6,12 @@
 #include <iostream>
 
 using namespace std;
-Floor::Floor(TileMap *inicio, Floor *prox){
-    this->map_atual = inicio;
-    this->proximo_floor = prox;
-    this->floor_index = 0;
+
+Floor::Floor(){
+    Point p {0,0};
+    TileMap * m = new TileMap(DEFAULT_SIZE_X,DEFAULT_SIZE_Y,p);
+    this->map_atual = m;
+    this->floor_index = 1;
 }
 static bool checkUpNeighbor(TileMap * map)
 {
@@ -117,4 +119,12 @@ void Floor::printSimpleFloor(){
 
 char Floor::getFloor_index() const {
     return floor_index;
+}
+
+TileMap *Floor::getMap_atual() const {
+    return map_atual;
+}
+
+Floor::~Floor() {
+
 }

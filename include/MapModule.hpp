@@ -15,15 +15,18 @@
 using namespace sf;
 class MapModule {
 public:
-    MapModule(Floor *floor, Listaestatica<Rigidbody> *wall_and_floor, Listaestatica<Rigidbody> *obstacles,
-              Listaestatica<Rigidbody> *player_and_monsters);
-    void onChangeRoom(TileMap * m);
+    MapModule(Listaestatica<Rigidbody> *wall_and_floor,
+              Listaestatica<Rigidbody> *obstacles,
+              Rigidbody* player,
+              Listaestatica<Rigidbody> *monsters);
+    void changeRoom(TileMap *m);
     void loadFiles();
 private:
     Floor * floor;
     Listaestatica<Rigidbody>* wall_and_floor;
     Listaestatica<Rigidbody>* obstacles;
-    Listaestatica<Rigidbody>* player_and_monsters;
+    Listaestatica<Rigidbody>* monsters;
+    Rigidbody* player;
     Texture tx_rock;
     Texture tx_floor;
     Texture tx_wall;

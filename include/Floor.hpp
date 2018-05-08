@@ -11,16 +11,19 @@
 
 class Floor {
 public:
-    Floor(TileMap *init, Floor *next);
+    Floor();
+    ~Floor();
     // void generateFloor(int tam);
     void generateSimpleFloor();
     void printSimpleFloor();
-
     char getFloor_index() const;
 
 private:
     TileMap * map_atual;
-    Floor * proximo_floor;
+public:
+    TileMap *getMap_atual() const;
+
+private:
     char floor_index;
     void generateFloor();
 };

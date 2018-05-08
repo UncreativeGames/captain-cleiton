@@ -13,45 +13,28 @@
 #include "../../include/TileMap.hpp"
 #include "../../include/Chao.hpp"
 #include "../../include/ColisionModule.hpp"
+#include "../../include/MapModule.hpp"
 #include <iostream>
 #include <cmath>
 
-#define speed 100.f
+#define speed 150.f
 
 int main()
 {
-    int x;
-    int y;
     srand(time(NULL));
-    int floor_choice[4] = {0,1,2,3};
-    int randomIndex = rand() % 4;
+    Lista<Rigidbody> projeteis;
+    Lista<Lista<Rigidbody> >* Lista_para_deletar_retorno_modulo_colisao;
     Listaestatica<Rigidbody> walls_and_floor;
     Listaestatica<Rigidbody> obstacles;
     Listaestatica<Rigidbody> monsters;
-    Lista<Rigidbody> projeteis;
-
-    Lista<Lista<Rigidbody> >* Lista_para_deletar_retorno_modulo_colisao;
-
     // setup window
     sf::Vector2i screenDimensions(DEFAULT_SIZE_X*32,DEFAULT_SIZE_Y*32);
     sf::RenderWindow window(sf::VideoMode(screenDimensions.x, screenDimensions.y), "Captain Cleiton.");
     window.setFramerateLimit(60);
 
     sf::Texture personagem;
-    if(!personagem.loadFromFile("player.png")){
+    if(!personagem.loadFromFile("/home/olivato/Clones/captain-cleiton/media/player.png")){
         std::cout << "Deu Ruim" << std::endl;
-    }
-    sf::Texture pedra;
-    if(!pedra.loadFromFile("cave.png")){
-        std::cout << "Deu Ruim" << std::endl;
-    }
-    sf::Texture wall;
-    if(!wall.loadFromFile("Tile.png")){
-        std::cout << "Deu Ruim Na Wall" << std::endl;
-    }
-    sf::Texture floor;
-    if(!floor.loadFromFile("a1floor.png")){
-        std::cout << "Deu Ruim Na Wall" << std::endl;
     }
 
     Animation walkingAnimationDown;
@@ -88,46 +71,12 @@ int main()
     AnimatedSprite* dut = new AnimatedSprite(sf::seconds(0.2), true, false);
     dut->setOrigin(16,24);
     dut->setPosition(sf::Vector2f(400,300));
-    dut->setRaio(10);
+    dut->setRaio(16);
+    dut->scale(1.5f,1.5f);
 
+    MapModule mapModule(&walls_and_floor,&obstacles,dut,&monsters);
     DrawingModule designer(&walls_and_floor,&obstacles,&monsters,dut,&projeteis,&window);
     ColisionModule colisor(&walls_and_floor,&obstacles,&monsters,dut,&projeteis);
-
-    Point p {0,0};
-    TileMap * m = new TileMap(DEFAULT_SIZE_X,DEFAULT_SIZE_Y,p);
-    m->generateRadialHunter();
-    Obstacle* rock;
-    Chao* chao;
-    char offset = 16;
-    for(int i = 0;i<DEFAULT_SIZE_X;i++)
-    {
-        for(int j = 0;j<DEFAULT_SIZE_Y;j++) {
-            if(m->getTile(i,j)==PEDRA)
-            {
-                rock = new Obstacle(pedra,sf::IntRect(0, 0, 32, 32));
-                rock->setRaio(16);
-                rock->setOrigin(16,16);
-                rock->setPosition(i*32+offset,j*32+offset);
-                obstacles.add(rock);
-            }
-            if(m->getTile(i,j)==PAREDE)
-            {
-                rock = new Obstacle(wall,sf::IntRect(32, 32, 32, 32));
-                rock->setRaio(16);
-                rock->setOrigin(16,16);
-                rock->setPosition(i*32+offset,j*32+offset);
-                walls_and_floor.add(rock);
-            }
-            else
-            {
-                randomIndex = rand() % 4;
-                chao = new Chao(floor,sf::IntRect(0,(32*floor_choice[randomIndex]), 32, 32));
-                chao->setOrigin(16,16);
-                chao->setPosition(i*32+offset,j*32+offset);
-                walls_and_floor.add(chao);
-            }
-        }
-    }
 
     sf::Clock frameClock;
 
@@ -142,8 +91,6 @@ int main()
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
                 window.close();
         }
-        x = 0;
-        y = 0;
 
         sf::Time frameTime = frameClock.restart();
 
@@ -170,8 +117,7 @@ int main()
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
         {
-            m->generateRadialHunter();
-            obstacles.limpar();
+
         }
         float norma = sqrt(movement.x*movement.x + movement.y*movement.y);
         movement = (movement/(norma ? norma : 1)) * speed;
@@ -193,13 +139,6 @@ int main()
 
         // update AnimatedSprite
         dut->update(frameTime);
-
-
-        //x += dut->colision(rock).x;
-        //y += dut->colision(rock).y;
-
-        //dut->move(x,y);
-
         designer.update();
     }
 

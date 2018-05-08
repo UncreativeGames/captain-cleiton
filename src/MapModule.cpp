@@ -2,7 +2,7 @@
 // Created by olivato on 07/05/18.
 //
 
-#include "../include/MapModule.h"
+#include "../include/MapModule.hpp"
 #include "../include/Obstacle.hpp"
 #include "../include/Config.hpp"
 #include "../include/Chao.hpp"
@@ -12,31 +12,22 @@
 using namespace std;
 using namespace sf;
 
-MapModule::MapModule(Floor *floor,
-                     Listaestatica<Rigidbody> *wall_and_floor,
-                     Listaestatica<Rigidbody> *obstacles,
-                     Listaestatica<Rigidbody> *player_and_monsters)
-        : floor(floor), wall_and_floor(wall_and_floor),
-          obstacles(obstacles),
-          player_and_monsters(player_and_monsters) {}
 
-void MapModule::onChangeRoom(TileMap * m) {
+void MapModule::changeRoom(TileMap *m) {
     srand(time(NULL));
     // Variacoes de chão
     int tx_floor_choice[4] = {0,1,2,3};
     int randomIndex = rand() % 4;
     // Limpa tudo
-    wall_and_floor->limpar();
-    obstacles->limpar();
-    player_and_monsters->limpar();
+    //wall_and_floor->limpar();
+    //player_and_monsters->limpar();
     /* ---- Fim do carregamento dos arquivos ---- */
     // Obstáculo dinâmico
     Obstacle * obstacle;
     // Chão dinâmico
     Chao * chao;
     // Offset do mapa
-    const char offset = 16;
-
+    const char offset = 16;;
     for(int i = 0;i<DEFAULT_SIZE_X;i++)
     {
         for(int j = 0;j<DEFAULT_SIZE_Y;j++) {
@@ -74,7 +65,7 @@ void MapModule::loadFiles() {
     /* ---- Início do carregamento dos arquivos ---- */
     // Pega o nome do arquivo a ser usado
     // 'a' ambiente
-    string base_path_name = "../media/a";
+    string base_path_name = "/home/olivato/Clones/captain-cleiton/media/a";
     // floor index = numero do ambient
     // Exemplo: 'a1'
     base_path_name+=to_string(this->floor->getFloor_index());
@@ -92,3 +83,19 @@ void MapModule::loadFiles() {
         cout << "File:" << file << " Not loaded" << endl;
     }
 }
+
+MapModule::MapModule(Listaestatica<Rigidbody> *wall_and_floor, Listaestatica<Rigidbody> *obstacles,
+                     Rigidbody *player, Listaestatica<Rigidbody> *monsters) {
+    auto * f = new Floor();
+    f->generateSimpleFloor();
+    this->floor = f;
+    this->wall_and_floor = wall_and_floor;
+    this->obstacles = obstacles;
+    this->player = player;
+    this->monsters = monsters;
+    loadFiles();
+    changeRoom(f->getMap_atual());
+}
+
+
+
