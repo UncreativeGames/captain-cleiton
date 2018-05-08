@@ -174,3 +174,4 @@ GitHub.sublime-settings
 
 # End of https://www.gitignore.io/api/c,c++,clion,sublimetext
 *.cmake
+*.txt
