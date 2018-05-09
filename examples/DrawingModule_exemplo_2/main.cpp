@@ -17,7 +17,7 @@
 #include <iostream>
 #include <cmath>
 
-#define speed 150.f
+#define speed 200.f
 
 int main()
 {
@@ -71,7 +71,7 @@ int main()
     AnimatedSprite* dut = new AnimatedSprite(sf::seconds(0.2), true, false);
     dut->setOrigin(16,24);
     dut->setPosition(sf::Vector2f(400,300));
-    dut->setRaio(16);
+    dut->setRaio(15);
     dut->scale(1.5f,1.5f);
 
     MapModule mapModule(&walls_and_floor,&obstacles,dut,&monsters);
