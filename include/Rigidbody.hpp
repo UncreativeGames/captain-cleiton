@@ -11,10 +11,13 @@ public:
 	Rigidbody(int raio);
 	void setRaio(int raio);
 	int getRaio();
-	sf::Vector2f colision(Rigidbody* another);
+	virtual sf::Vector2f colision(Rigidbody* another);
+	void setNLados(int numero);
+	int getNLados();
 
 private:
 	int raio_colisao;
+	int n_lados;
 };
 
 #endif
