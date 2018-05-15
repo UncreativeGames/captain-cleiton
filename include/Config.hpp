@@ -7,7 +7,7 @@
 
 #define DEBUG 0
 #define DEFAULT_SIZE_X 25
-#define DEFAULT_SIZE_Y 18
+#define DEFAULT_SIZE_Y 19
 #define TAM_MAP_X DEFAULT_SIZE_X
 #define TAM_MAP_Y DEFAULT_SIZE_X
 #define SUCCESS 1

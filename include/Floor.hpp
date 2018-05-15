@@ -17,13 +17,10 @@ public:
     void generateSimpleFloor();
     void printSimpleFloor();
     char getFloor_index() const;
-
-private:
-    TileMap * map_atual;
-public:
     TileMap *getMap_atual() const;
 
 private:
+    TileMap * map_atual;
     char floor_index;
     void generateFloor();
 };

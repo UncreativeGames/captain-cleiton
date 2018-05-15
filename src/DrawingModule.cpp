@@ -29,9 +29,6 @@ void DrawingModule::update() {
 	monsters->ordena();	
 	obstacles->ordena();
 
-	// Limpa a tela
-	window->clear();
-	
 	// Printa os elementos de wall_and_floor
 	// O(n), pois O(n) * O(1)
 	for (i = 0; i < wall_and_floor->length(); i++) 
@@ -116,7 +113,5 @@ void DrawingModule::update() {
 	{
 		window->draw(*projeteis->atIndex(i) /*complexidade atIndex O(n) pois esta lista é encadeada*/);
 	}
-	
-	window->display();
 
 }

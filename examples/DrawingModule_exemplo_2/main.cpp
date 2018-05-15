@@ -18,7 +18,7 @@
 #include <cmath>
 
 #define speed 150.f
-
+using namespace std;
 int main()
 {
     srand(time(NULL));
@@ -36,7 +36,7 @@ int main()
     if(!personagem.loadFromFile("../../media/player.png")){
         std::cout << "Deu Ruim" << std::endl;
     }
-
+    /* ----------- Player INICIO ------------*/
     Animation walkingAnimationDown;
     walkingAnimationDown.setSpriteSheet(personagem);
     walkingAnimationDown.addFrame(sf::IntRect(32, 0, 32, 32));
@@ -70,9 +70,28 @@ int main()
     // set up AnimatedSprite
     AnimatedSprite* dut = new AnimatedSprite(sf::seconds(0.2), true, false);
     dut->setOrigin(16,24);
-    dut->setPosition(sf::Vector2f(400,300));
+    dut->setPosition(Vector2f(DEFAULT_SIZE_X,DEFAULT_SIZE_Y));
     dut->setRaio(16);
-    dut->scale(1.5f,1.5f);
+    /* ----------- Player FIM ------------*/
+    /* ----------- SHADER INICIO ----------*/
+    if (!sf::Shader::isAvailable())
+    {
+        cout << "Shader indisponível";
+    }
+    /* ----------- SHADER FIM ----------*/
+    /* ----------- FONTS/TEXTO INICIO---------*/
+    Font font;
+    if (!font.loadFromFile("../../resources/fipps.otf"))
+    {
+
+        cout << "Font indisponível";
+    }
+    Text text;
+    text.setFont(font);
+    text.setOutlineColor(Color::Black);
+    text.setOutlineThickness(2.0f);
+    text.setCharacterSize(24);
+    /* ----------- FONTS/TEXTO FIM---------*/
 
     MapModule mapModule(&walls_and_floor,&obstacles,dut,&monsters);
     DrawingModule designer(&walls_and_floor,&obstacles,&monsters,dut,&projeteis,&window);
@@ -115,10 +134,6 @@ int main()
             currentAnimation = &walkingAnimationRight;
             movement.x += speed;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
-        {
-
-        }
         float norma = sqrt(movement.x*movement.x + movement.y*movement.y);
         movement = (movement/(norma ? norma : 1)) * speed;
 
@@ -140,6 +155,35 @@ int main()
         // update AnimatedSprite
         dut->update(frameTime);
         designer.update();
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        {
+            text.setPosition(dut->getPosition().x-64,dut->getPosition().y-64);
+            text.setString("MAP CHANGED UP!!!");
+            window.draw(text);
+            mapModule.changeUp();
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        {
+            text.setPosition(dut->getPosition().x-64,dut->getPosition().y-64);
+            text.setString("MAP CHANGED DOWN!!!");
+            window.draw(text);
+            mapModule.changeDown();
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        {
+            text.setPosition(dut->getPosition().x-64,dut->getPosition().y-64);
+            text.setString("MAP CHANGED LEFT!!!");
+            window.draw(text);
+            mapModule.changeLeft();
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        {
+            text.setPosition(dut->getPosition().x-64,dut->getPosition().y-64);
+            text.setString("MAP CHANGED RIGHT!!!");
+            window.draw(text);
+            mapModule.changeRight();
+        }
+        window.display();
     }
 
     return 0;

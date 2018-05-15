@@ -2,8 +2,8 @@
 // Created by olivato on 07/05/18.
 //
 
-#ifndef CAPTAIN_CLEITON_MAPMODULE_H
-#define CAPTAIN_CLEITON_MAPMODULE_H
+#ifndef MAPMODULE_HPP
+#define MAPMODULE_HPP
 
 
 #include <SFML/Graphics/Texture.hpp>
@@ -13,6 +13,7 @@
 #include "Config.hpp"
 
 using namespace sf;
+
 class MapModule {
 public:
     MapModule(Listaestatica<Rigidbody> *wall_and_floor,
@@ -20,6 +21,11 @@ public:
               Rigidbody* player,
               Listaestatica<Rigidbody> *monsters);
     void changeRoom(TileMap *m);
+    void changeRight();
+    void changeLeft();
+    void changeUp();
+    void changeDown();
+
     void loadFiles();
 private:
     Floor * floor;
@@ -33,4 +39,4 @@ private:
 };
 
 
-#endif //CAPTAIN_CLEITON_MAPMODULE_H
+#endif // MAPMODULE_HPP
