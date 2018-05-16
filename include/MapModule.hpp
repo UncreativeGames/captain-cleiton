@@ -21,12 +21,9 @@ public:
               Rigidbody* player,
               Listaestatica<Rigidbody> *monsters);
     void changeRoom(TileMap *m);
-    void changeRight();
-    void changeLeft();
-    void changeUp();
-    void changeDown();
-
     void loadFiles();
+    void changeDirection(char dir);
+
 private:
     Floor * floor;
     Listaestatica<Rigidbody>* wall_and_floor;
@@ -36,6 +33,8 @@ private:
     Texture tx_rock;
     Texture tx_floor;
     Texture tx_wall;
+
+
 };
 
 

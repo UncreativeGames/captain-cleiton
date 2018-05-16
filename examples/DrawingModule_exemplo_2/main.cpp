@@ -66,12 +66,11 @@ int main()
     walkingAnimationUp.addFrame(sf::IntRect( 0, 96, 32, 32));
 
     Animation* currentAnimation = &walkingAnimationDown;
-
     // set up AnimatedSprite
     AnimatedSprite* dut = new AnimatedSprite(sf::seconds(0.2), true, false);
     dut->setOrigin(16,24);
     dut->setPosition(Vector2f(DEFAULT_SIZE_X,DEFAULT_SIZE_Y));
-    dut->setRaio(16);
+    dut->setRaio(10);
     /* ----------- Player FIM ------------*/
     /* ----------- SHADER INICIO ----------*/
     if (!sf::Shader::isAvailable())
@@ -88,20 +87,41 @@ int main()
     }
     Text text;
     text.setFont(font);
-    text.setOutlineColor(Color::Black);
-    text.setOutlineThickness(2.0f);
-    text.setCharacterSize(24);
-    /* ----------- FONTS/TEXTO FIM---------*/
+    Color color(255, 0, 0);
 
+    text.setOutlineThickness(2.0f);
+    text.setCharacterSize(12);
+    text.setString("Press E");
+    /* ----------- FONTS/TEXTO FIM---------*/
+    /* ----------- Inicio declaração de Módulos ------------*/
     MapModule mapModule(&walls_and_floor,&obstacles,dut,&monsters);
     DrawingModule designer(&walls_and_floor,&obstacles,&monsters,dut,&projeteis,&window);
     ColisionModule colisor(&walls_and_floor,&obstacles,&monsters,dut,&projeteis);
+    /* ----------- Fim declaração de Módulos ------------*/
 
     sf::Clock frameClock;
+    /* ----------- Inicio declaração de Cursor ------------*/
+    sf::Texture cursor_tex;
+    if(!cursor_tex.loadFromFile("../../resources/cursor.png")){
+        std::cout << "Deu Ruim" << std::endl;
+    }
+    sf::Sprite cursor;
+    cursor.setTexture(cursor_tex);
+    cursor.setScale(0.5f,0.5f);
+    window.setMouseCursorVisible(false);
+    /* ----------- Fim declaração de Cursor ------------*/
+    /* ----------- Checagem de portas inicio -----------*/
 
+    IntRect upper_door_trigger ((DEFAULT_SIZE_X*32/2),32,32,32);
+    IntRect down_door_trigger ((DEFAULT_SIZE_X*32/2),(DEFAULT_SIZE_Y*32)-64,32,32);
+    IntRect left_door_trigger (64,(DEFAULT_SIZE_Y*32)/2,32,32);
+    IntRect right_door_trigger ((DEFAULT_SIZE_X*32)-64,(DEFAULT_SIZE_Y*32)/2,32,32);
+    IntRect Player (0, 0, 32, 32);
+
+    /* ----------- Checagem de portas fim -----------*/
     while (window.isOpen())
     {
-
+        Player = IntRect(dut->getPosition().x,dut->getPosition().y,32,32);
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -110,9 +130,7 @@ int main()
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
                 window.close();
         }
-
         sf::Time frameTime = frameClock.restart();
-
         sf::Vector2f movement(0.f, 0.f);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
         {
@@ -141,7 +159,7 @@ int main()
         movement = movement * frameTime.asSeconds();
 
         Lista_para_deletar_retorno_modulo_colisao = colisor.moveRequest(dut,movement.x,movement.y);
-        
+
         // deleta todas as listas dentro desta lista sem deletar os itens delas
         Lista_para_deletar_retorno_modulo_colisao->removerAll();
         delete(Lista_para_deletar_retorno_modulo_colisao);
@@ -151,38 +169,20 @@ int main()
         {
             dut->stop();
         }
-
+        cursor.setPosition(Mouse::getPosition(window).x,Mouse::getPosition(window).y);
         // update AnimatedSprite
         dut->update(frameTime);
         designer.update();
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        window.draw(cursor);
+        /* ----------- Checagem de portas inicio -----------*/
+        if(Player.intersects(upper_door_trigger) || Player.intersects(down_door_trigger) || Player.intersects(right_door_trigger) || Player.intersects(left_door_trigger) )
         {
-            text.setPosition(dut->getPosition().x-64,dut->getPosition().y-64);
-            text.setString("MAP CHANGED UP!!!");
+            text.setPosition(dut->getPosition().x-32,dut->getPosition().y-48);
+            color = Color(dut->getPosition().x,dut->getPosition().y,dut->getPosition().x+dut->getPosition().y);
+            text.setOutlineColor(color);
             window.draw(text);
-            mapModule.changeUp();
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        {
-            text.setPosition(dut->getPosition().x-64,dut->getPosition().y-64);
-            text.setString("MAP CHANGED DOWN!!!");
-            window.draw(text);
-            mapModule.changeDown();
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        {
-            text.setPosition(dut->getPosition().x-64,dut->getPosition().y-64);
-            text.setString("MAP CHANGED LEFT!!!");
-            window.draw(text);
-            mapModule.changeLeft();
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        {
-            text.setPosition(dut->getPosition().x-64,dut->getPosition().y-64);
-            text.setString("MAP CHANGED RIGHT!!!");
-            window.draw(text);
-            mapModule.changeRight();
-        }
+        /* ----------- Checagem de portas FIM -----------*/
         window.display();
     }
 

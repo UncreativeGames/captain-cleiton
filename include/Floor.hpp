@@ -13,16 +13,19 @@ class Floor {
 public:
     Floor();
     ~Floor();
-    // void generateFloor(int tam);
     void generateSimpleFloor();
     void printSimpleFloor();
     char getFloor_index() const;
     TileMap *getMap_atual() const;
+    void getMap_Left();
+    void getMap_Right();
+    void getMap_Up();
+    void getMap_Down();
+
 
 private:
     TileMap * map_atual;
     char floor_index;
-    void generateFloor();
 };
 
 

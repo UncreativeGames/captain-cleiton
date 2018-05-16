@@ -7,30 +7,11 @@
 
 using namespace std;
 
-Floor::Floor(){
-    Point p {0,0};
-    TileMap * m = new TileMap(DEFAULT_SIZE_X,DEFAULT_SIZE_Y,p);
+Floor::Floor() {
+    Point p{0, 0};
+    TileMap *m = new TileMap(DEFAULT_SIZE_X, DEFAULT_SIZE_Y, p);
     this->map_atual = m;
     this->floor_index = 1;
-}
-static bool checkUpNeighbor(TileMap * map)
-{
-    return map->getUp() != nullptr;
-}
-static bool checkDownNeighbor(TileMap * map)
-{
-    return map->getDown() != nullptr;
-}
-static bool checkRightNeighbor(TileMap * map)
-{
-    return map->getRight() != nullptr;
-}
-static bool checkLeftNeighbor(TileMap * map)
-{
-    return map->getLeft() != nullptr;
-}
-
-void Floor::generateFloor(){
 }
 
 // Generate fixed floor, for testing purposes only
@@ -59,24 +40,28 @@ void Floor::generateSimpleFloor()
                 case 0:
                     constructor->setRight(new_map);
                     constructor->setRightDoor();
+                    new_map->setLeft(constructor);
                     constructor = constructor->getRight();
                     constructor->setLeftDoor();
                     break;
                 case 1:
                     constructor->setDown(new_map);
                     constructor->setDownDoor();
+                    new_map->setUp(constructor);
                     constructor = constructor->getDown();
                     constructor->setUpperDoor();
                     break;
                 case 2:
                     constructor->setLeft(new_map);
                     constructor->setLeftDoor();
+                    new_map->setLeft(constructor);
                     constructor = constructor->getLeft();
                     constructor->setRightDoor();
                     break;
                 case 3:
                     constructor->setUp(new_map);
                     constructor->setUpperDoor();
+                    new_map->setDown(constructor);
                     constructor = constructor->getUp();
                     constructor->setDownDoor();
                     break;
@@ -95,24 +80,25 @@ void Floor::printSimpleFloor(){
     watcher->printMap();
     while(path_actual_position!=path_size)
     {
-            switch(path[path_actual_position])
-            {
-                case 0:
-                    watcher = watcher->getRight();
-                    break;
-                case 1:
-                    watcher = watcher->getDown();
-                    break;
-                case 2:
-                    watcher = watcher->getLeft();
-                    break;
-                case 3:
-                    watcher = watcher->getUp();
-                    break;
-                default:break;
-            }
-            watcher->printMap();
-            path_actual_position++;
+        switch(path[path_actual_position])
+        {
+            case 0:
+                watcher = watcher->getRight();
+                break;
+            case 1:
+                watcher = watcher->getDown();
+                break;
+            case 2:
+                watcher = watcher->getLeft();
+                break;
+            case 3:
+                watcher = watcher->getUp();
+                break;
+            default:break;
+        }
+        watcher->printMap();
+        cout << endl;
+        path_actual_position++;
     }
 
 }
@@ -127,4 +113,24 @@ TileMap *Floor::getMap_atual() const {
 
 Floor::~Floor() {
 
+}
+
+void Floor::getMap_Left() {
+    if(map_atual->getLeft()!= nullptr)
+        map_atual = map_atual->getLeft();
+}
+
+void Floor::getMap_Right() {
+    if(map_atual->getRight()!= nullptr)
+        map_atual =  map_atual->getRight();
+}
+
+void Floor::getMap_Up() {
+    if(map_atual->getUp()!=nullptr)
+        map_atual = map_atual->getUp();
+}
+
+void Floor::getMap_Down() {
+    if(map_atual->getDown()!= nullptr)
+        map_atual = map_atual->getDown();
 }

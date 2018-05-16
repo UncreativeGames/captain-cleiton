@@ -14,6 +14,8 @@ using namespace sf;
 
 
 void MapModule::changeRoom(TileMap *m) {
+    if(m== nullptr)
+        return;
     srand(time(NULL));
     // Variacoes de chão
     int tx_floor_choice[12] = {0,1,2,3,4,5,6,7,8,9,10,11};
@@ -23,13 +25,14 @@ void MapModule::changeRoom(TileMap *m) {
     //player_and_monsters->limpar();
     this->obstacles->limpar();
     this->wall_and_floor->limpar();
+    this->monsters->limpar();
     /* ---- Fim do carregamento dos arquivos ---- */
     // Obstáculo dinâmico
     Obstacle * obstacle;
     // Chão dinâmico
     Chao * chao;
     // Offset do mapa
-    const char offset = 16;;
+    const char offset = 16;
     char sprite_cut_x = 0;
     char sprite_cut_y = 0;
     for(int i = 0;i<DEFAULT_SIZE_X;i++)
@@ -42,7 +45,8 @@ void MapModule::changeRoom(TileMap *m) {
             wall_and_floor->add(chao);
             if(m->getTile(i,j)==PEDRA)
             {
-                obstacle = new Obstacle(tx_rock,sf::IntRect(0, 0, 32, 32));
+                randomIndex = rand() % 2;
+                obstacle = new Obstacle(tx_rock,sf::IntRect(0, 32*randomIndex, 32, 32));
                 obstacle->setRaio(16);
                 obstacle->setOrigin(16,16);
                 obstacle->setPosition(i*32+offset,j*32+offset);
@@ -125,7 +129,7 @@ void MapModule::changeRoom(TileMap *m) {
 
 void MapModule::loadFiles() {
     // Palavras usadas nos arquivos
-    string ambient[4] = {"floor","wall","rocks",".png"};
+    string ambient[4] = {"floor","wall","rock",".png"};
     /* ---- Início do carregamento dos arquivos ---- */
     // Pega o nome do arquivo a ser usado
     // 'a' ambiente
@@ -158,43 +162,28 @@ MapModule::MapModule(Listaestatica<Rigidbody> *wall_and_floor, Listaestatica<Rig
     this->player = player;
     this->monsters = monsters;
     loadFiles();
-    f->printSimpleFloor();
-    changeRoom(f->getMap_atual());
+    changeRoom(floor->getMap_atual()->getRight());
 }
 
-void MapModule::changeRight() {
-    if(this->floor->getMap_atual()->getRight()!= nullptr) {
-        changeRoom(this->floor->getMap_atual()->getRight());
-    }
-    else
+void MapModule::changeDirection(char dir) {
+    switch (dir)
     {
-        cout << "ZIKA";
+        case PORTA_U:
+            this->floor->getMap_Up();
+            break;
+        case PORTA_D:
+            this->floor->getMap_Down();
+            break;
+        case PORTA_R:
+            this->floor->getMap_Right();
+            break;
+        case PORTA_L:
+            this->floor->getMap_Left();
+            break;
+        default:
+            this->floor->getMap_atual();
     }
-}
-void MapModule::changeLeft() {
-    if(this->floor->getMap_atual()->getLeft()!= nullptr) {
-        changeRoom(this->floor->getMap_atual()->getLeft());
-    } else{
-        cout << "ZIKA";
-    }
-}
-void MapModule::changeUp() {
-    if(this->floor->getMap_atual()->getUp()!= nullptr) {
-        changeRoom(this->floor->getMap_atual()->getUp());
-    }else
-    {
-        cout << "ZIKA";
-    }
-
-}
-void MapModule::changeDown() {
-    if(this->floor->getMap_atual()->getDown()!= nullptr) {
-        changeRoom(this->floor->getMap_atual()->getDown());
-    }else
-    {
-        cout << "ZIKA";
-    }
-
+    changeRoom(this->floor->getMap_atual());
 }
 
 
