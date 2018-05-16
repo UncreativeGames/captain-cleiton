@@ -15,6 +15,9 @@ public:
 	void setNLados(int numero);
 	int getNLados();
 
+	// Função deve ser chamada por quem colidiu com este corpo passando a si mesmo como parametro
+	virtual void onColision(Rigidbody* objeto_que_sofrera_esta_colisao); 
+
 private:
 	int raio_colisao;
 	int n_lados;
