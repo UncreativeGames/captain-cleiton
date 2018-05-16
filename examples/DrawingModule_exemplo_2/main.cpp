@@ -107,7 +107,7 @@ int main()
     }
     sf::Sprite cursor;
     cursor.setTexture(cursor_tex);
-    cursor.setScale(0.5f,0.5f);
+    cursor.setColor(Color::Red);
     window.setMouseCursorVisible(false);
     /* ----------- Fim declaração de Cursor ------------*/
     /* ----------- Checagem de portas inicio -----------*/
@@ -121,8 +121,8 @@ int main()
     /* ----------- Checagem de portas fim -----------*/
     while (window.isOpen())
     {
-        Player = IntRect(dut->getPosition().x,dut->getPosition().y,32,32);
-        sf::Event event;
+        Player = IntRect(static_cast<int>(dut->getPosition().x), static_cast<int>(dut->getPosition().y), 32, 32);
+        Event event{};
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
@@ -178,9 +178,23 @@ int main()
         if(Player.intersects(upper_door_trigger) || Player.intersects(down_door_trigger) || Player.intersects(right_door_trigger) || Player.intersects(left_door_trigger) )
         {
             text.setPosition(dut->getPosition().x-32,dut->getPosition().y-48);
-            color = Color(dut->getPosition().x,dut->getPosition().y,dut->getPosition().x+dut->getPosition().y);
+            color = Color(static_cast<Uint8>(dut->getPosition().x), static_cast<Uint8>(dut->getPosition().y),
+                          static_cast<Uint8>(dut->getPosition().x * dut->getPosition().y));
             text.setOutlineColor(color);
             window.draw(text);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+            {
+                currentAnimation = &walkingAnimationRight;
+                movement.x += speed;
+            }
+        }
+        if(Mouse::isButtonPressed(Mouse::Left))
+        {
+            cursor.setColor(Color::Blue);
+        }
+        if(Mouse::isButtonPressed(Mouse::Right))
+        {
+            cursor.setColor(Color::Red);
         }
         /* ----------- Checagem de portas FIM -----------*/
         window.display();

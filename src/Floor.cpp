@@ -9,7 +9,7 @@ using namespace std;
 
 Floor::Floor() {
     Point p{0, 0};
-    TileMap *m = new TileMap(DEFAULT_SIZE_X, DEFAULT_SIZE_Y, p);
+    auto *m = new TileMap(DEFAULT_SIZE_X, DEFAULT_SIZE_Y, p);
     this->map_atual = m;
     this->floor_index = 1;
 }
@@ -26,8 +26,8 @@ void Floor::generateSimpleFloor()
     // 2=Left,
     // 3=Up
     // Hardcoded path
-    char path[8]  = {0,0,1,1,2,2,3,0};
-    char path_actual_position = 0;
+    unsigned char path[8]  = {0,0,1,1,2,2,3,0};
+    unsigned char path_actual_position = 0;
     for(int i =0;i<3;i++)
     {
         for(int j=0;j<3;j++)
@@ -39,31 +39,23 @@ void Floor::generateSimpleFloor()
             {
                 case 0:
                     constructor->setRight(new_map);
-                    constructor->setRightDoor();
                     new_map->setLeft(constructor);
                     constructor = constructor->getRight();
-                    constructor->setLeftDoor();
                     break;
                 case 1:
                     constructor->setDown(new_map);
-                    constructor->setDownDoor();
                     new_map->setUp(constructor);
                     constructor = constructor->getDown();
-                    constructor->setUpperDoor();
                     break;
                 case 2:
                     constructor->setLeft(new_map);
-                    constructor->setLeftDoor();
                     new_map->setLeft(constructor);
                     constructor = constructor->getLeft();
-                    constructor->setRightDoor();
                     break;
                 case 3:
                     constructor->setUp(new_map);
-                    constructor->setUpperDoor();
                     new_map->setDown(constructor);
                     constructor = constructor->getUp();
-                    constructor->setDownDoor();
                     break;
                 default:break;
             }
@@ -74,8 +66,8 @@ void Floor::generateSimpleFloor()
 
 void Floor::printSimpleFloor(){
     char path_size = 8;
-    char path[8]  = {0,0,1,1,2,2,3,0};
-    char path_actual_position = 0;
+    char unsigned path[8]  = {0,0,1,1,2,2,3,0};
+    char unsigned path_actual_position = 0;
     TileMap * watcher = map_atual;
     watcher->printMap();
     while(path_actual_position!=path_size)
@@ -111,9 +103,7 @@ TileMap *Floor::getMap_atual() const {
     return map_atual;
 }
 
-Floor::~Floor() {
-
-}
+Floor::~Floor() = default;
 
 void Floor::getMap_Left() {
     if(map_atual->getLeft()!= nullptr)

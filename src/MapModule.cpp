@@ -14,7 +14,7 @@ using namespace sf;
 
 
 void MapModule::changeRoom(TileMap *m) {
-    if(m== nullptr)
+    if(m==nullptr)
         return;
     srand(time(NULL));
     // Variacoes de chão
@@ -162,7 +162,7 @@ MapModule::MapModule(Listaestatica<Rigidbody> *wall_and_floor, Listaestatica<Rig
     this->player = player;
     this->monsters = monsters;
     loadFiles();
-    changeRoom(floor->getMap_atual()->getRight());
+    changeRoom(floor->getMap_atual());
 }
 
 void MapModule::changeDirection(char dir) {
