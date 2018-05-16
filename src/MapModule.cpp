@@ -6,6 +6,7 @@
 #include "../include/Obstacle.hpp"
 #include "../include/Config.hpp"
 #include "../include/Chao.hpp"
+#include "../include/Wall.hpp"
 #include <string>
 #include <iostream>
 
@@ -31,6 +32,8 @@ void MapModule::changeRoom(TileMap *m) {
     Obstacle * obstacle;
     // Chão dinâmico
     Chao * chao;
+    // Parede dinâmica
+    Wall * parede;
     // Offset do mapa
     const char offset = 16;
     char sprite_cut_x = 0;
