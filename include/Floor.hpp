@@ -17,10 +17,10 @@ public:
     void printSimpleFloor();
     char getFloor_index() const;
     TileMap *getMap_atual() const;
-    void getMap_Left();
-    void getMap_Right();
-    void getMap_Up();
-    void getMap_Down();
+    bool getMap_Left();
+    bool getMap_Right();
+    bool getMap_Up();
+    bool getMap_Down();
 
 
 private:

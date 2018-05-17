@@ -95,26 +95,23 @@ void MapModule::changeRoom(TileMap *m) {
                 }
                 if(m->getTile(i,j)==PORTA_R)
                 {
-                    cout << "R X:" << i*32+offset << "Y:" << j*32+offset << endl;
                     sprite_cut_x = 0;
                     sprite_cut_y = 64;
                 }
                 if(m->getTile(i,j)==PORTA_D)
                 {
-                    cout << "D X:" << i*32+offset << "Y:" << j*32+offset << endl;
-                    sprite_cut_x = 32;
+                    sprite_cut_x = 64;
                     sprite_cut_y = 64;
+
                 }
                 if(m->getTile(i,j)==PORTA_L)
                 {
-                    cout << "L X:" << i*32+offset << "Y:" << j*32+offset << endl;
                     sprite_cut_x = 96;
                     sprite_cut_y = 64;
                 }
                 if(m->getTile(i,j)==PORTA_U)
                 {
-                    cout << "U X:" << i*32+offset << "Y:" << j*32+offset << endl;
-                    sprite_cut_x = 64;
+                    sprite_cut_x = 32;
                     sprite_cut_y = 64;
                 }
                 obstacle = new Obstacle(tx_wall, sf::IntRect(sprite_cut_x,sprite_cut_y, 32, 32));
@@ -153,7 +150,7 @@ void MapModule::loadFiles() {
 }
 
 MapModule::MapModule(Listaestatica<Rigidbody> *wall_and_floor, Listaestatica<Rigidbody> *obstacles,
-                     Rigidbody *player, Listaestatica<Rigidbody> *monsters) {
+                     AnimatedSprite *player, Listaestatica<Rigidbody> *monsters) {
     auto * f = new Floor();
     f->generateSimpleFloor();
     this->floor = f;
@@ -169,19 +166,32 @@ void MapModule::changeDirection(char dir) {
     switch (dir)
     {
         case PORTA_U:
-            this->floor->getMap_Up();
+            if(this->floor->getMap_Up())
+            {
+                player->setPosition((DEFAULT_SIZE_X*32)-64,(DEFAULT_SIZE_Y*32)/2);
+            }
             break;
         case PORTA_D:
-            this->floor->getMap_Down();
+            if(this->floor->getMap_Down())
+            {
+                player->setPosition(64,(DEFAULT_SIZE_Y*32)/2);
+            }
             break;
         case PORTA_R:
-            this->floor->getMap_Right();
+            if(this->floor->getMap_Right())
+            {
+                player->setPosition((DEFAULT_SIZE_X*32/2),32);
+            }
             break;
         case PORTA_L:
-            this->floor->getMap_Left();
+            if(this->floor->getMap_Left())
+            {
+                player->setPosition((DEFAULT_SIZE_X*32/2),(DEFAULT_SIZE_Y*32)-64);
+            }
             break;
         default:
             this->floor->getMap_atual();
+
     }
     changeRoom(this->floor->getMap_atual());
 }

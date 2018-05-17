@@ -105,22 +105,37 @@ TileMap *Floor::getMap_atual() const {
 
 Floor::~Floor() = default;
 
-void Floor::getMap_Left() {
-    if(map_atual->getLeft()!= nullptr)
+bool Floor::getMap_Left() {
+    if(map_atual->getLeft()!= nullptr) {
         map_atual = map_atual->getLeft();
+        return true;
+    }
+    return false;
 }
 
-void Floor::getMap_Right() {
+bool Floor::getMap_Right() {
     if(map_atual->getRight()!= nullptr)
+    {
         map_atual =  map_atual->getRight();
+        return true;
+    }
+    return false;
 }
 
-void Floor::getMap_Up() {
-    if(map_atual->getUp()!=nullptr)
+bool Floor::getMap_Up() {
+    if(map_atual->getUp()!=nullptr) {
         map_atual = map_atual->getUp();
+        return true;
+    }
+    return false;
 }
 
-void Floor::getMap_Down() {
+bool Floor::getMap_Down() {
     if(map_atual->getDown()!= nullptr)
+    {
         map_atual = map_atual->getDown();
+        return true;
+    }
+    return false;
+
 }

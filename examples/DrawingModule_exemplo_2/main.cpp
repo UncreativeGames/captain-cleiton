@@ -70,7 +70,7 @@ int main()
     AnimatedSprite* dut = new AnimatedSprite(sf::seconds(0.2), true, false);
     dut->setOrigin(16,24);
     dut->setPosition(Vector2f(DEFAULT_SIZE_X,DEFAULT_SIZE_Y));
-    dut->setRaio(10);
+    dut->setRaio(15);
     /* ----------- Player FIM ------------*/
     /* ----------- SHADER INICIO ----------*/
     if (!sf::Shader::isAvailable())
@@ -116,6 +116,7 @@ int main()
     IntRect down_door_trigger ((DEFAULT_SIZE_X*32/2),(DEFAULT_SIZE_Y*32)-64,32,32);
     IntRect left_door_trigger (64,(DEFAULT_SIZE_Y*32)/2,32,32);
     IntRect right_door_trigger ((DEFAULT_SIZE_X*32)-64,(DEFAULT_SIZE_Y*32)/2,32,32);
+
     IntRect Player (0, 0, 32, 32);
 
     /* ----------- Checagem de portas fim -----------*/
@@ -177,22 +178,38 @@ int main()
         /* ----------- Checagem de portas inicio -----------*/
         if(Player.intersects(upper_door_trigger) || Player.intersects(down_door_trigger) || Player.intersects(right_door_trigger) || Player.intersects(left_door_trigger) )
         {
+
             text.setPosition(dut->getPosition().x-32,dut->getPosition().y-48);
             color = Color(static_cast<Uint8>(dut->getPosition().x), static_cast<Uint8>(dut->getPosition().y),
                           static_cast<Uint8>(dut->getPosition().x * dut->getPosition().y));
             text.setOutlineColor(color);
             window.draw(text);
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+            if (event.type == sf::Event::KeyReleased)
             {
-                currentAnimation = &walkingAnimationRight;
-                movement.x += speed;
+                if (event.key.code == sf::Keyboard::E)
+                {
+
+                    if(Player.intersects(down_door_trigger))
+                        mapModule.changeDirection(PORTA_R);
+
+                    if(Player.intersects(upper_door_trigger))
+                        mapModule.changeDirection(PORTA_L);
+
+                    if(Player.intersects(right_door_trigger))
+                        mapModule.changeDirection(PORTA_D);
+
+                    if(Player.intersects(left_door_trigger))
+                        mapModule.changeDirection(PORTA_U);
+
+                }
             }
+
         }
         if(Mouse::isButtonPressed(Mouse::Left))
         {
             cursor.setColor(Color::Blue);
         }
-        if(Mouse::isButtonPressed(Mouse::Right))
+        else
         {
             cursor.setColor(Color::Red);
         }

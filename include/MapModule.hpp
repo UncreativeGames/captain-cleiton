@@ -11,6 +11,7 @@
 #include "Rigidbody.hpp"
 #include "Listaestatica.hpp"
 #include "Config.hpp"
+#include "AnimatedSprite.hpp"
 
 using namespace sf;
 
@@ -18,7 +19,7 @@ class MapModule {
 public:
     MapModule(Listaestatica<Rigidbody> *wall_and_floor,
               Listaestatica<Rigidbody> *obstacles,
-              Rigidbody* player,
+              AnimatedSprite* player,
               Listaestatica<Rigidbody> *monsters);
     void changeRoom(TileMap *m);
     void loadFiles();
@@ -29,7 +30,7 @@ private:
     Listaestatica<Rigidbody>* wall_and_floor;
     Listaestatica<Rigidbody>* obstacles;
     Listaestatica<Rigidbody>* monsters;
-    Rigidbody* player;
+    AnimatedSprite* player;
     Texture tx_rock;
     Texture tx_floor;
     Texture tx_wall;
