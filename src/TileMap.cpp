@@ -146,6 +146,8 @@ TileMap *TileMap::getUp() const {
 }
 
 void TileMap::setUp(TileMap *up) {
+    if(up!=nullptr)
+        setUpperDoor();
     TileMap::up = up;
 }
 
@@ -154,6 +156,8 @@ TileMap *TileMap::getDown() const {
 }
 
 void TileMap::setDown(TileMap *down) {
+    if(down!=nullptr)
+        setDownDoor();
     TileMap::down = down;
 }
 
@@ -162,6 +166,8 @@ TileMap *TileMap::getLeft() const {
 }
 
 void TileMap::setLeft(TileMap *left) {
+    if(left!= nullptr)
+        setLeftDoor();
     TileMap::left = left;
 }
 
@@ -170,6 +176,8 @@ TileMap *TileMap::getRight() const {
 }
 
 void TileMap::setRight(TileMap *right) {
+    if(right!= nullptr)
+        setRightDoor();
     TileMap::right = right;
 }
 
@@ -203,10 +211,6 @@ const Point &TileMap::getIndex() const {
 
 void TileMap::setIndex(const Point &index) {
     TileMap::index = index;
-}
-
-tile **TileMap::getMapMatrix() const {
-    return this->map;
 }
 
 tile TileMap::getTile(int x, int y) {

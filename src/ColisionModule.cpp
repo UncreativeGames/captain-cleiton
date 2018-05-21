@@ -23,8 +23,7 @@ Lista<Lista<Rigidbody> >* ColisionModule::moveRequest(Rigidbody* object_that_req
 	Lista<Lista<Rigidbody> >* Lista_com_as_colisoes;
 	int i = 0;
 	bool isPlayer = object_that_requests->getPosition() == player->getPosition();
-	sf::Vector2f sentinela_de_retorno;
-	sf::Vector2f recuo_pos_colision = sf::Vector2f(x/5,y/5);
+
 	object_that_requests->move(x,y);
 
 	Lista_com_as_colisoes = new Lista<Lista<Rigidbody> >();
@@ -35,22 +34,8 @@ Lista<Lista<Rigidbody> >* ColisionModule::moveRequest(Rigidbody* object_that_req
 	while(i < wall_and_floor->length() || i < monsters->length() || i < obstacles->length() || i < projeteis->length())
 	{
 		if (i < wall_and_floor->length())
-		{	
-			if(wall_and_floor->atIndex(i)->getRaio() != 0)
-			{
-				while(wall_and_floor->atIndex(i)->colision(object_that_requests) != sf::Vector2f(0,0))
-				{
-					sentinela_de_retorno = wall_and_floor->atIndex(i)->colision(object_that_requests);
-					if(sentinela_de_retorno.y == 1)
-						{
-							object_that_requests->move(0,-recuo_pos_colision.y == 0 ? 0.2f : -recuo_pos_colision.y);
-						}
-					if(sentinela_de_retorno.x == 1)
-						{
-							object_that_requests->move(-recuo_pos_colision.x == 0 ? 0.2f : -recuo_pos_colision.x,0);
-						}
-				}
-			}
+		{
+			object_that_requests->move(object_that_requests->colision(wall_and_floor->atIndex(i)));
 		}
 		
 		if (i < obstacles->length())

@@ -6,7 +6,6 @@
 #include "../include/Obstacle.hpp"
 #include "../include/Config.hpp"
 #include "../include/Chao.hpp"
-#include "../include/Wall.hpp"
 #include <string>
 #include <iostream>
 
@@ -15,45 +14,111 @@ using namespace sf;
 
 
 void MapModule::changeRoom(TileMap *m) {
+    if(m==nullptr)
+        return;
     srand(time(NULL));
     // Variacoes de chão
-    int tx_floor_choice[4] = {0,1,2,3};
-    int randomIndex = rand() % 4;
+    int tx_floor_choice[12] = {0,1,2,3,4,5,6,7,8,9,10,11};
+    int randomIndex = rand() % 12;
     // Limpa tudo
     //wall_and_floor->limpar();
     //player_and_monsters->limpar();
+    this->obstacles->limpar();
+    this->wall_and_floor->limpar();
+    this->monsters->limpar();
     /* ---- Fim do carregamento dos arquivos ---- */
     // Obstáculo dinâmico
     Obstacle * obstacle;
     // Chão dinâmico
     Chao * chao;
-    // Parede dinâmica
-    Wall * parede;
     // Offset do mapa
-    const char offset = 16;;
+    const char offset = 16;
+    char sprite_cut_x = 0;
+    char sprite_cut_y = 0;
     for(int i = 0;i<DEFAULT_SIZE_X;i++)
     {
         for(int j = 0;j<DEFAULT_SIZE_Y;j++) {
+            randomIndex = rand() % 12;
+            chao = new Chao(tx_floor,sf::IntRect(0,(32*tx_floor_choice[randomIndex]), 32, 32));
+            chao->setOrigin(16,16);
+            chao->setPosition(i*32+offset,j*32+offset);
+            wall_and_floor->add(chao);
             if(m->getTile(i,j)==PEDRA)
             {
-                obstacle = new Obstacle(tx_rock,sf::IntRect(0, 0, 32, 32));
+                randomIndex = rand() % 2;
+                obstacle = new Obstacle(tx_rock,sf::IntRect(0, 32*randomIndex, 32, 32));
                 obstacle->setRaio(16);
                 obstacle->setOrigin(16,16);
                 obstacle->setPosition(i*32+offset,j*32+offset);
                 obstacles->add(obstacle);
             }
-            if(m->getTile(i,j)==PAREDE)
+            if(m->getTile(i,j)==PAREDE || m->getTile(i,j) == PORTA_D || m->getTile(i,j) == PORTA_L || m->getTile(i,j) == PORTA_U || m->getTile(i,j) == PORTA_R )
             {
-                parede = new Wall(tx_wall,sf::IntRect(32, 32, 32, 32),32,i*32+offset,j*32+offset);
-                wall_and_floor->add(parede);
-            }
-            else
-            {
-                randomIndex = rand() % 4;
-                chao = new Chao(tx_floor,sf::IntRect(0,(32*tx_floor_choice[randomIndex]), 32, 32));
-                chao->setOrigin(16,16);
-                chao->setPosition(i*32+offset,j*32+offset);
-                wall_and_floor->add(chao);
+                if(i!=0 && j!=0)
+                {
+                    sprite_cut_x = 0;
+                    sprite_cut_y = 0;
+                }
+                if(i==0 && j!=0)
+                {
+                    sprite_cut_x = 32;
+                    sprite_cut_y = 0;
+                }
+                if(i==DEFAULT_SIZE_X-1 && j!=0)
+                {
+                    sprite_cut_x = 64;
+                    sprite_cut_y = 0;
+                }
+                if(j==0 && i!=0)
+                {
+                    sprite_cut_x = 96;
+                    sprite_cut_y = 0;
+                }
+                if(i==DEFAULT_SIZE_X-1 && j==0)
+                {
+                    sprite_cut_x = 96;
+                    sprite_cut_y = 32;
+                }
+                if(i==0 && j == 0) {
+                    sprite_cut_x = 64;
+                    sprite_cut_y = 32;
+                }
+                if(i==0 && j == DEFAULT_SIZE_Y-1)
+                {
+                    sprite_cut_x = 0;
+                    sprite_cut_y = 32;
+                }
+                if(i==DEFAULT_SIZE_X-1 && j == DEFAULT_SIZE_Y-1)
+                {
+                    sprite_cut_x = 32;
+                    sprite_cut_y = 32;
+                }
+                if(m->getTile(i,j)==PORTA_R)
+                {
+                    sprite_cut_x = 0;
+                    sprite_cut_y = 64;
+                }
+                if(m->getTile(i,j)==PORTA_D)
+                {
+                    sprite_cut_x = 64;
+                    sprite_cut_y = 64;
+
+                }
+                if(m->getTile(i,j)==PORTA_L)
+                {
+                    sprite_cut_x = 96;
+                    sprite_cut_y = 64;
+                }
+                if(m->getTile(i,j)==PORTA_U)
+                {
+                    sprite_cut_x = 32;
+                    sprite_cut_y = 64;
+                }
+                obstacle = new Obstacle(tx_wall, sf::IntRect(sprite_cut_x,sprite_cut_y, 32, 32));
+                obstacle->setRaio(16);
+                obstacle->setOrigin(16,16);
+                obstacle->setPosition(i*32+offset,j*32+offset);
+                wall_and_floor->add(obstacle);
             }
         }
     }
@@ -61,7 +126,7 @@ void MapModule::changeRoom(TileMap *m) {
 
 void MapModule::loadFiles() {
     // Palavras usadas nos arquivos
-    string ambient[4] = {"floor","wall","rocks",".png"};
+    string ambient[4] = {"floor","wall","rock",".png"};
     /* ---- Início do carregamento dos arquivos ---- */
     // Pega o nome do arquivo a ser usado
     // 'a' ambiente
@@ -85,7 +150,7 @@ void MapModule::loadFiles() {
 }
 
 MapModule::MapModule(Listaestatica<Rigidbody> *wall_and_floor, Listaestatica<Rigidbody> *obstacles,
-                     Rigidbody *player, Listaestatica<Rigidbody> *monsters) {
+                     AnimatedSprite *player, Listaestatica<Rigidbody> *monsters) {
     auto * f = new Floor();
     f->generateSimpleFloor();
     this->floor = f;
@@ -94,7 +159,41 @@ MapModule::MapModule(Listaestatica<Rigidbody> *wall_and_floor, Listaestatica<Rig
     this->player = player;
     this->monsters = monsters;
     loadFiles();
-    changeRoom(f->getMap_atual());
+    changeRoom(floor->getMap_atual());
+}
+
+void MapModule::changeDirection(char dir) {
+    switch (dir)
+    {
+        case PORTA_U:
+            if(this->floor->getMap_Up())
+            {
+                player->setPosition((DEFAULT_SIZE_X*32)-64,(DEFAULT_SIZE_Y*32)/2);
+            }
+            break;
+        case PORTA_D:
+            if(this->floor->getMap_Down())
+            {
+                player->setPosition(64,(DEFAULT_SIZE_Y*32)/2);
+            }
+            break;
+        case PORTA_R:
+            if(this->floor->getMap_Right())
+            {
+                player->setPosition((DEFAULT_SIZE_X*32/2),32);
+            }
+            break;
+        case PORTA_L:
+            if(this->floor->getMap_Left())
+            {
+                player->setPosition((DEFAULT_SIZE_X*32/2),(DEFAULT_SIZE_Y*32)-64);
+            }
+            break;
+        default:
+            this->floor->getMap_atual();
+
+    }
+    changeRoom(this->floor->getMap_atual());
 }
 
 

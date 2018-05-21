@@ -45,9 +45,6 @@ public:
 
     void setBoss(bool boss);
 
-    // Retorna a matrix que compõe o mapa
-    tile **getMapMatrix() const;
-
     // Retorn um tile específico
     tile getTile(int x,int y);
 
@@ -59,14 +56,6 @@ public:
 
     // Algoritmo gerador de mapa
     void generateAlgorithmDrunkardWalk();
-
-    void setLeftDoor();
-
-    void setRightDoor();
-
-    void setUpperDoor();
-
-    void setDownDoor();
 
     // Retorna o index do mapa
     const Point &getIndex() const;
@@ -92,6 +81,11 @@ private:
     bool boss;
     Point index;
 
+
+    void setLeftDoor();
+    void setRightDoor();
+    void setUpperDoor();
+    void setDownDoor();
 };
 
 #endif //TILEMAP_H
