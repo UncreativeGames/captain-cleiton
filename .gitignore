@@ -1,6 +1,7 @@
 
 # Created by https://www.gitignore.io/api/c,c++,clion,sublimetext
 media/
+resources/
 .idea/
 ### C ###
 # Prerequisites
