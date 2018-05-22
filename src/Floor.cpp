@@ -15,6 +15,7 @@ Floor::Floor() {
 }
 
 // Generate fixed floor, for testing purposes only
+// And for gambiarra to first entrega
 void Floor::generateSimpleFloor()
 {
     // Dynamic map generation
@@ -64,37 +65,6 @@ void Floor::generateSimpleFloor()
     }
 }
 
-void Floor::printSimpleFloor(){
-    char path_size = 8;
-    char unsigned path[8]  = {0,0,1,1,2,2,3,0};
-    char unsigned path_actual_position = 0;
-    TileMap * watcher = map_atual;
-    watcher->printMap();
-    while(path_actual_position!=path_size)
-    {
-        switch(path[path_actual_position])
-        {
-            case 0:
-                watcher = watcher->getRight();
-                break;
-            case 1:
-                watcher = watcher->getDown();
-                break;
-            case 2:
-                watcher = watcher->getLeft();
-                break;
-            case 3:
-                watcher = watcher->getUp();
-                break;
-            default:break;
-        }
-        watcher->printMap();
-        cout << endl;
-        path_actual_position++;
-    }
-
-}
-
 char Floor::getFloor_index() const {
     return floor_index;
 }
@@ -138,4 +108,29 @@ bool Floor::getMap_Down() {
     }
     return false;
 
+}
+
+bool Floor::hasMap(char dir) {
+    switch (dir)
+    {
+        case PORTA_U:
+            if(map_atual->getUp()!=nullptr)
+                return true;
+            break;
+        case PORTA_D:
+            if(map_atual->getDown()!=nullptr)
+                return true;
+            break;
+        case PORTA_R:
+            if(map_atual->getRight()!=nullptr)
+                return true;
+            break;
+        case PORTA_L:
+            if(map_atual->getLeft()!=nullptr)
+                return true;
+            break;
+        default:
+            return false;
+    }
+    return false;
 }
