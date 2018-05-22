@@ -7,10 +7,12 @@
 
 Rigidbody::Rigidbody(){
 	this->raio_colisao = 0;
+	this->n_lados = 1;
 }
 
 Rigidbody::Rigidbody(int raio){
 	this->raio_colisao = raio;
+	this->n_lados = 1;
 }
 
 void Rigidbody::setRaio(int raio){
@@ -21,11 +23,20 @@ int Rigidbody::getRaio(){
 	return this->raio_colisao;
 }
 
+void Rigidbody::setNLados(int numero){
+	this->n_lados = numero;
+}
+
+int Rigidbody::getNLados(){
+	return n_lados;
+}
+
 sf::Vector2f Rigidbody::colision(Rigidbody* another){
 	sf::Vector2f B = this->getPosition() - another->getPosition();
 	float dist = sqrt(B.x*B.x + B.y*B.y);
 	int radius_this = this->raio_colisao;
 	int radius_A = another->getRaio();
+
 	if(dist >= radius_A + radius_this || another->getRaio() == 0){
 		return sf::Vector2f(0,0);
 	}
