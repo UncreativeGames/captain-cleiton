@@ -3,9 +3,10 @@
 //
 
 #include "../include/MapModule.hpp"
-#include "../include/Obstacle.hpp"
+#include "../include/SquareObstacle.hpp"
 #include "../include/Config.hpp"
 #include "../include/Chao.hpp"
+#include "../include/Wall.hpp"
 #include <string>
 #include <iostream>
 
@@ -28,7 +29,9 @@ void MapModule::changeRoom(TileMap *m) {
     this->monsters->limpar();
     /* ---- Fim do carregamento dos arquivos ---- */
     // Obstáculo dinâmico
-    Obstacle * obstacle;
+    SquareObstacle * obstacle;
+    // Parede dinâmica;
+    Wall * parede;
     // Chão dinâmico
     Chao * chao;
     // Offset do mapa
@@ -46,8 +49,7 @@ void MapModule::changeRoom(TileMap *m) {
             if(m->getTile(i,j)==PEDRA)
             {
                 randomIndex = rand() % 2;
-                obstacle = new Obstacle(tx_rock,sf::IntRect(0, 32*randomIndex, 32, 32));
-                obstacle->setRaio(16);
+                obstacle = new SquareObstacle(tx_rock,sf::IntRect(0, 32*randomIndex, 32, 32),32);
                 obstacle->setOrigin(16,16);
                 obstacle->setPosition(i*32+offset,j*32+offset);
                 obstacles->add(obstacle);
@@ -114,11 +116,10 @@ void MapModule::changeRoom(TileMap *m) {
                     sprite_cut_x = 32;
                     sprite_cut_y = 64;
                 }
-                obstacle = new Obstacle(tx_wall, sf::IntRect(sprite_cut_x,sprite_cut_y, 32, 32));
-                obstacle->setRaio(16);
-                obstacle->setOrigin(16,16);
-                obstacle->setPosition(i*32+offset,j*32+offset);
-                wall_and_floor->add(obstacle);
+                parede = new Wall(tx_wall, sf::IntRect(sprite_cut_x,sprite_cut_y, 32, 32), 32);
+                parede->setOrigin(16,16);
+                parede->setPosition(i*32+offset,j*32+offset);
+                wall_and_floor->add(parede);
             }
         }
     }
@@ -180,7 +181,7 @@ void MapModule::changeDirection(char dir) {
         case PORTA_R:
             if(this->floor->getMap_Right())
             {
-                player->setPosition((DEFAULT_SIZE_X*32/2),32);
+                player->setPosition((DEFAULT_SIZE_X*32/2),64);
             }
             break;
         case PORTA_L:
