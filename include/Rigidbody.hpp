@@ -11,13 +11,13 @@ public:
 	Rigidbody(int raio);
 	void setRaio(int raio);
 	int getRaio();
-	sf::Vector2f colision(Rigidbody* another);
-
-	// Função deve ser chamada por quem colidiu com este corpo passando a si mesmo como parametro
-	virtual void onColision(Rigidbody* objeto_que_sofrera_esta_colisao); 
+	virtual sf::Vector2f colision(Rigidbody* another);
+	void setNLados(int numero);
+	int getNLados();
 
 private:
 	int raio_colisao;
+	int n_lados;
 };
 
 #endif
