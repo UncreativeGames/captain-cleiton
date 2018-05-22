@@ -10,24 +10,28 @@
 class Gui {
 
 private:
-    int stamina;
-    int life;
-    int mana;
-    sf::Sprite spr_hud_status_container;
-    sf::Sprite spr_hud_stamina;
-    sf::Sprite spr_hud_life;
-    sf::Sprite spr_hud_mana;
-    sf::Sprite spr_hud_item;
-    sf::Texture tx_base_life_hud;
+    int max_stamina;
+    int max_life;
+    int max_mana;
+    int actual_stamina;
+    int actual_life;
+    int actual_mana;
+    unsigned char transparency;
+    sf::Texture tx_base_hud;
+    sf::RenderTexture rt_gui;
+    sf::RenderWindow* window;
+    sf::Sprite spr_gui;
+    void createGui();
+
 public:
     Gui(int stamina, int life, int mana, sf::RenderWindow *window);
-
-private:
-    sf::RenderWindow* window;
-public:
-    Gui(int stamina, int life, int mana, const sf::Texture &item);
-    void Draw();
+    void draw();
     void loadFiles();
+    void set_actual_mana(int mana);
+    void set_actual_stamina(int stamina);
+    void set_actual_life(int life);
+    void set_transparency(unsigned char transp);
+
 };
 
 

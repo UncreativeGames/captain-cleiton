@@ -97,7 +97,7 @@ int main()
     MapModule mapModule(&walls_and_floor,&obstacles,dut,&monsters);
     DrawingModule designer(&walls_and_floor,&obstacles,&monsters,dut,&projeteis,&window);
     ColisionModule colisor(&walls_and_floor,&obstacles,&monsters,dut,&projeteis);
-    Gui gui(0,0,0,&window);
+    Gui gui(10,20,5,&window);
     /* ----------- Fim declaração de Módulos ------------*/
 
     Clock frameClock;
@@ -213,6 +213,7 @@ int main()
         {
             cursor.setColor(Color::Red);
         }
+        gui.draw();
         /* ----------- Checagem de portas FIM -----------*/
         window.display();
     }
