@@ -41,35 +41,35 @@ int main()
 
     Animation walkingAnimationLeft;
     walkingAnimationLeft.setSpriteSheet(personagem);
-    walkingAnimationLeft.addFrame(IntRect(6 * 32, 0, 32, 32));
-    walkingAnimationLeft.addFrame(IntRect(7 * 32, 0, 32, 32));
-    walkingAnimationLeft.addFrame(IntRect(8 * 32, 0, 32, 32));
-    walkingAnimationLeft.addFrame(IntRect(9 * 32 , 0, 32, 32));
-	walkingAnimationLeft.addFrame(IntRect(10 * 32, 0, 32, 32));
-    walkingAnimationLeft.addFrame(IntRect(11 * 32, 0, 32, 32));
-    walkingAnimationLeft.addFrame(IntRect(12 * 32, 0, 32, 32));
-    walkingAnimationLeft.addFrame(IntRect(0 * 32 , 0, 32, 32));
-    walkingAnimationLeft.addFrame(IntRect(1 * 32, 0, 32, 32));
-    walkingAnimationLeft.addFrame(IntRect(2 * 32, 0, 32, 32));
-    walkingAnimationLeft.addFrame(IntRect(3 * 32, 0, 32, 32));
-    walkingAnimationLeft.addFrame(IntRect(4 * 32 , 0, 32, 32));
-	walkingAnimationLeft.addFrame(IntRect(5 * 32, 0, 32, 32));
+    walkingAnimationLeft.addFrame(IntRect(6 * 32, 32, 32, 32));
+    walkingAnimationLeft.addFrame(IntRect(7 * 32, 32, 32, 32));
+    walkingAnimationLeft.addFrame(IntRect(8 * 32, 32, 32, 32));
+    walkingAnimationLeft.addFrame(IntRect(9 * 32 , 32, 32, 32));
+	walkingAnimationLeft.addFrame(IntRect(10 * 32, 32, 32, 32));
+    walkingAnimationLeft.addFrame(IntRect(11 * 32, 32, 32, 32));
+    walkingAnimationLeft.addFrame(IntRect(12 * 32, 32, 32, 32));
+    walkingAnimationLeft.addFrame(IntRect(0 * 32 , 32, 32, 32));
+    walkingAnimationLeft.addFrame(IntRect(1 * 32, 32, 32, 32));
+    walkingAnimationLeft.addFrame(IntRect(2 * 32, 32, 32, 32));
+    walkingAnimationLeft.addFrame(IntRect(3 * 32, 32, 32, 32));
+    walkingAnimationLeft.addFrame(IntRect(4 * 32 , 32, 32, 32));
+	walkingAnimationLeft.addFrame(IntRect(5 * 32, 32, 32, 32));
 
     Animation walkingAnimationRight;
     walkingAnimationRight.setSpriteSheet(personagem);
-    walkingAnimationRight.addFrame(IntRect(6 * 32, 32, 32, 32));
-    walkingAnimationRight.addFrame(IntRect(7 * 32, 32, 32, 32));
-    walkingAnimationRight.addFrame(IntRect(8 * 32, 32, 32, 32));
-    walkingAnimationRight.addFrame(IntRect(9 * 32 , 32, 32, 32));
-	walkingAnimationRight.addFrame(IntRect(10 * 32, 32, 32, 32));
-    walkingAnimationRight.addFrame(IntRect(11 * 32, 32, 32, 32));
-    walkingAnimationRight.addFrame(IntRect(12 * 32, 32, 32, 32));
-    walkingAnimationRight.addFrame(IntRect(0 * 32 , 32, 32, 32));
-    walkingAnimationRight.addFrame(IntRect(1 * 32, 32, 32, 32));
-    walkingAnimationRight.addFrame(IntRect(2 * 32, 32, 32, 32));
-    walkingAnimationRight.addFrame(IntRect(3 * 32, 32, 32, 32));
-    walkingAnimationRight.addFrame(IntRect(4 * 32 , 32, 32, 32));
-	walkingAnimationRight.addFrame(IntRect(5 * 32, 32, 32, 32));
+    walkingAnimationRight.addFrame(IntRect(6 * 32, 0, 32, 32));
+    walkingAnimationRight.addFrame(IntRect(7 * 32, 0, 32, 32));
+    walkingAnimationRight.addFrame(IntRect(8 * 32, 0, 32, 32));
+    walkingAnimationRight.addFrame(IntRect(9 * 32 , 0, 32, 32));
+	walkingAnimationRight.addFrame(IntRect(10 * 32, 0, 32, 32));
+    walkingAnimationRight.addFrame(IntRect(11 * 32, 0, 32, 32));
+    walkingAnimationRight.addFrame(IntRect(12 * 32, 0, 32, 32));
+    walkingAnimationRight.addFrame(IntRect(0 * 32 , 0, 32, 32));
+    walkingAnimationRight.addFrame(IntRect(1 * 32, 0, 32, 32));
+    walkingAnimationRight.addFrame(IntRect(2 * 32, 0, 32, 32));
+    walkingAnimationRight.addFrame(IntRect(3 * 32, 0, 32, 32));
+    walkingAnimationRight.addFrame(IntRect(4 * 32 , 0, 32, 32));
+	walkingAnimationRight.addFrame(IntRect(5 * 32, 0, 32, 32));
 
     Animation walkingAnimationJumpRight;
     walkingAnimationJumpRight.setSpriteSheet(personagem);
@@ -135,9 +135,9 @@ int main()
     dashingAnimationRight.addFrame(IntRect(4 * 32 , 128, 32, 32));
 	dashingAnimationRight.addFrame(IntRect(5 * 32, 128, 32, 32));
 
-    Animation* currentAnimation = &walkingAnimationDown;
+    Animation* currentAnimation = &walkingAnimationLeft;
     // set up AnimatedSprite
-    AnimatedSprite* dut = new AnimatedSprite(seconds(0.2), true, false);
+    AnimatedSprite* dut = new AnimatedSprite(seconds(0.05), true, false);
     dut->setOrigin(16,24);
     dut->setPosition(Vector2f(DEFAULT_SIZE_X,DEFAULT_SIZE_Y));
     dut->setRaio(15);
@@ -202,26 +202,45 @@ int main()
                 window.close();
         }
         Time frameTime = frameClock.restart();
+		if(Keyboard::isKeyPressed(Keyboard::LShift))
+			Time shiftPrssd = frameTime;
+
         Vector2f movement(0.f, 0.f);
         if (Keyboard::isKeyPressed(Keyboard::W))
         {
-            currentAnimation = &walkingAnimationUp;
+           //currentAnimation = &walkingAnimationUp;
             movement.y -= speed;
         }
         if (Keyboard::isKeyPressed(Keyboard::S))
         {
-            currentAnimation = &walkingAnimationDown;
+            //currentAnimation = &walkingAnimationDown;
             movement.y += speed;
         }
         if(Keyboard::isKeyPressed(Keyboard::A))
         {
-            currentAnimation = &walkingAnimationLeft;
-            movement.x -= speed;
+            if(Keyboard::isKeyPressed(Keyboard::LShift))
+			{
+				currentAnimation = &dashingAnimationLeft;
+				movement.x -= 4*speed;
+			}
+			else
+			{
+				currentAnimation = &walkingAnimationLeft;
+            	movement.x -= speed;
+			}
         }
         if (Keyboard::isKeyPressed(Keyboard::D))
         {
-            currentAnimation = &walkingAnimationRight;
-            movement.x += speed;
+			if(Keyboard::isKeyPressed(Keyboard::LShift))
+			{
+            	currentAnimation = &dashingAnimationRight;
+            	movement.x += 4*speed;
+			}
+			else
+			{
+				currentAnimation = &walkingAnimationRight;
+				movement.x += speed;
+			}
         }
         float norma = sqrt(movement.x*movement.x + movement.y*movement.y);
         movement = (movement/(norma ? norma : 1)) * speed;
