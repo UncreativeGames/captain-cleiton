@@ -17,16 +17,15 @@ using namespace sf;
 void MapModule::changeRoom(TileMap *m) {
     if(m==nullptr)
         return;
+    // Limpa tudo se for trocar de mapa
+    this->obstacles->limpar();
+    this->wall_and_floor->limpar();
+    this->monsters->limpar();
     srand(time(NULL));
     // Variacoes de chão
     int tx_floor_choice[12] = {0,1,2,3,4,5,6,7,8,9,10,11};
     int randomIndex = rand() % 12;
-    // Limpa tudo
-    //wall_and_floor->limpar();
-    //player_and_monsters->limpar();
-    this->obstacles->limpar();
-    this->wall_and_floor->limpar();
-    this->monsters->limpar();
+
     /* ---- Fim do carregamento dos arquivos ---- */
     // Obstáculo dinâmico
     SquareObstacle * obstacle;
@@ -170,32 +169,56 @@ void MapModule::changeDirection(char dir) {
             if(this->floor->getMap_Up())
             {
                 player->setPosition((DEFAULT_SIZE_X*32)-64,(DEFAULT_SIZE_Y*32)/2);
+                changeRoom(this->floor->getMap_atual());
             }
             break;
         case PORTA_D:
             if(this->floor->getMap_Down())
             {
                 player->setPosition(64,(DEFAULT_SIZE_Y*32)/2);
+                changeRoom(this->floor->getMap_atual());
             }
             break;
         case PORTA_R:
             if(this->floor->getMap_Right())
             {
                 player->setPosition((DEFAULT_SIZE_X*32/2),64);
+                changeRoom(this->floor->getMap_atual());
             }
             break;
         case PORTA_L:
             if(this->floor->getMap_Left())
             {
                 player->setPosition((DEFAULT_SIZE_X*32/2),(DEFAULT_SIZE_Y*32)-64);
+                changeRoom(this->floor->getMap_atual());
             }
             break;
         default:
             this->floor->getMap_atual();
 
     }
-    changeRoom(this->floor->getMap_atual());
+
 }
 
+void MapModule::setDoorText(char dir) {
 
+    switch (dir)
+    {
+        case PORTA_U:
+            if(floor->hasMap(PORTA_U))
 
+            break;
+        case PORTA_D:
+
+            break;
+        case PORTA_R:
+
+            break;
+        case PORTA_L:
+
+            break;
+        default:
+            break;
+
+    }
+}

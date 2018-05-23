@@ -14,6 +14,7 @@
 #include "../../include/Chao.hpp"
 #include "../../include/ColisionModule.hpp"
 #include "../../include/MapModule.hpp"
+#include "../../include/Gui.hpp"
 #include <iostream>
 #include <cmath>
 
@@ -83,13 +84,11 @@ int main()
     Font font;
     if (!font.loadFromFile("../../resources/fipps.otf"))
     {
-
         cout << "Font indisponível";
     }
     Text text;
     text.setFont(font);
     Color color(255, 0, 0);
-
     text.setOutlineThickness(2.0f);
     text.setCharacterSize(12);
     text.setString("Press E");
@@ -98,6 +97,7 @@ int main()
     MapModule mapModule(&walls_and_floor,&obstacles,dut,&monsters);
     DrawingModule designer(&walls_and_floor,&obstacles,&monsters,dut,&projeteis,&window);
     ColisionModule colisor(&walls_and_floor,&obstacles,&monsters,dut,&projeteis);
+    Gui gui(10,20,5,&window);
     /* ----------- Fim declaração de Módulos ------------*/
 
     Clock frameClock;
@@ -111,6 +111,7 @@ int main()
     cursor.setColor(Color::Red);
     window.setMouseCursorVisible(false);
     /* ----------- Fim declaração de Cursor ------------*/
+
     /* ----------- Checagem de portas inicio -----------*/
 
     IntRect upper_door_trigger ((DEFAULT_SIZE_X*32/2),32,32,32);
@@ -119,7 +120,6 @@ int main()
     IntRect right_door_trigger ((DEFAULT_SIZE_X*32)-64,(DEFAULT_SIZE_Y*32)/2,32,32);
 
     IntRect Player (0, 0, 32, 32);
-
     /* ----------- Checagem de portas fim -----------*/
     while (window.isOpen())
     {
@@ -171,7 +171,7 @@ int main()
         {
             dut->stop();
         }
-        cursor.setPosition(Mouse::getPosition(window).x,Mouse::getPosition(window).y);
+        cursor.setPosition(Mouse::getPosition(window).x - 16,Mouse::getPosition(window).y - 16);
         // update AnimatedSprite
         dut->update(frameTime);
         designer.update();
@@ -179,7 +179,6 @@ int main()
         /* ----------- Checagem de portas inicio -----------*/
         if(Player.intersects(upper_door_trigger) || Player.intersects(down_door_trigger) || Player.intersects(right_door_trigger) || Player.intersects(left_door_trigger) )
         {
-
             text.setPosition(dut->getPosition().x-32,dut->getPosition().y-48);
             color = Color(static_cast<Uint8>(dut->getPosition().x), static_cast<Uint8>(dut->getPosition().y),
                           static_cast<Uint8>(dut->getPosition().x * dut->getPosition().y));
@@ -214,6 +213,7 @@ int main()
         {
             cursor.setColor(Color::Red);
         }
+        gui.draw();
         /* ----------- Checagem de portas FIM -----------*/
         window.display();
     }

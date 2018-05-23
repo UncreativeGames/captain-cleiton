@@ -2,6 +2,8 @@
 # Created by https://www.gitignore.io/api/c,c++,clion,sublimetext
 media/
 resources/
+gui/
+exemplo
 .idea/
 ### C ###
 # Prerequisites
