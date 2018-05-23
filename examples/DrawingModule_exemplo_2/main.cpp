@@ -20,7 +20,7 @@
 #define speed 150.f
 //dash_coold têm de ser maior do que dash_tempo
 #define DASH_TEMPO sf::seconds(2.0)
-#define DASH_COOLD sf::seconds(4.0)
+#define DASH_COOLD sf::seconds(6.0)
 using namespace std;
 
 int main()
@@ -35,6 +35,7 @@ int main()
 	Vector2i screenDimensions(DEFAULT_SIZE_X*32,DEFAULT_SIZE_Y*32);
 	RenderWindow window(VideoMode(screenDimensions.x, screenDimensions.y), "Captain Cleiton.");
 	window.setFramerateLimit(60);
+	Clock shift;
 
 	Texture personagem;
 	if(!personagem.loadFromFile("../../media/player.png")){
@@ -194,7 +195,6 @@ int main()
 
 	/* ----------- Checagem de portas fim -----------*/
 
-	Clock shift = sf::seconds(4.0);
 	bool sent = 0;
 
 	while (window.isOpen())
@@ -217,7 +217,7 @@ int main()
 		}
 		
 		//Parar de dar dash
-		if(shift.getElapsedTime() > DASH_TEMPO)
+		if(shift.getElapsedTime() > DASH_TEMPO || !Keyboard::isKeyPressed(Keyboard::LShift))
 		{
 			sent = 0;
 		}
@@ -238,29 +238,27 @@ int main()
 			if(sent)
 			{
 				currentAnimation = &dashingAnimationLeft;
-				movement.x -= 100*speed;
 			}
 			else
 			{
 				currentAnimation = &walkingAnimationLeft;
-				movement.x -= speed;
 			}
+			movement.x -= speed;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::D))
 		{
 			if(sent)
 			{
 				currentAnimation = &dashingAnimationRight;
-				movement.x += 100*speed;
 			}
 			else
 			{
 				currentAnimation = &walkingAnimationRight;
-				movement.x += speed;
 			}
+			movement.x += speed;
 		}
 		float norma = sqrt(movement.x*movement.x + movement.y*movement.y);
-		movement = (movement/(norma ? norma : 1)) * speed;
+		movement = (movement/(norma ? norma : 1)) * (sent ? 1.5f : 1) * speed;
 
 		dut->play(*currentAnimation);
 		movement = movement * frameTime.asSeconds();
