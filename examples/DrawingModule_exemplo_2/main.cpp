@@ -194,7 +194,7 @@ int main()
 
 	/* ----------- Checagem de portas fim -----------*/
 
-	Clock shift = sf::seconds(4.0);
+	Clock shift;
 	bool sent = 0;
 
 	while (window.isOpen())
