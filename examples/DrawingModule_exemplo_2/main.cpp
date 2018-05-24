@@ -14,6 +14,7 @@
 #include "../../include/Chao.hpp"
 #include "../../include/ColisionModule.hpp"
 #include "../../include/MapModule.hpp"
+#include "../../include/Gui.hpp"
 #include <iostream>
 #include <cmath>
 
@@ -25,6 +26,7 @@ using namespace std;
 
 int main()
 {
+
 	srand(time(NULL));
 	Lista<Rigidbody> projeteis;
 	Lista<Lista<Rigidbody> >* Lista_para_deletar_retorno_modulo_colisao;

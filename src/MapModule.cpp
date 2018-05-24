@@ -3,9 +3,10 @@
 //
 
 #include "../include/MapModule.hpp"
-#include "../include/Obstacle.hpp"
+#include "../include/SquareObstacle.hpp"
 #include "../include/Config.hpp"
 #include "../include/Chao.hpp"
+#include "../include/Wall.hpp"
 #include <string>
 #include <iostream>
 
@@ -16,19 +17,20 @@ using namespace sf;
 void MapModule::changeRoom(TileMap *m) {
     if(m==nullptr)
         return;
+    // Limpa tudo se for trocar de mapa
+    this->obstacles->limpar();
+    this->wall_and_floor->limpar();
+    this->monsters->limpar();
     srand(time(NULL));
     // Variacoes de chão
     int tx_floor_choice[12] = {0,1,2,3,4,5,6,7,8,9,10,11};
     int randomIndex = rand() % 12;
-    // Limpa tudo
-    //wall_and_floor->limpar();
-    //player_and_monsters->limpar();
-    this->obstacles->limpar();
-    this->wall_and_floor->limpar();
-    this->monsters->limpar();
+
     /* ---- Fim do carregamento dos arquivos ---- */
     // Obstáculo dinâmico
-    Obstacle * obstacle;
+    SquareObstacle * obstacle;
+    // Parede dinâmica;
+    Wall * parede;
     // Chão dinâmico
     Chao * chao;
     // Offset do mapa
@@ -46,8 +48,7 @@ void MapModule::changeRoom(TileMap *m) {
             if(m->getTile(i,j)==PEDRA)
             {
                 randomIndex = rand() % 2;
-                obstacle = new Obstacle(tx_rock,sf::IntRect(0, 32*randomIndex, 32, 32));
-                obstacle->setRaio(16);
+                obstacle = new SquareObstacle(tx_rock,sf::IntRect(0, 32*randomIndex, 32, 32),32);
                 obstacle->setOrigin(16,16);
                 obstacle->setPosition(i*32+offset,j*32+offset);
                 obstacles->add(obstacle);
@@ -114,11 +115,10 @@ void MapModule::changeRoom(TileMap *m) {
                     sprite_cut_x = 32;
                     sprite_cut_y = 64;
                 }
-                obstacle = new Obstacle(tx_wall, sf::IntRect(sprite_cut_x,sprite_cut_y, 32, 32));
-                obstacle->setRaio(16);
-                obstacle->setOrigin(16,16);
-                obstacle->setPosition(i*32+offset,j*32+offset);
-                wall_and_floor->add(obstacle);
+                parede = new Wall(tx_wall, sf::IntRect(sprite_cut_x,sprite_cut_y, 32, 32), 32);
+                parede->setOrigin(16,16);
+                parede->setPosition(i*32+offset,j*32+offset);
+                wall_and_floor->add(parede);
             }
         }
     }
@@ -169,32 +169,56 @@ void MapModule::changeDirection(char dir) {
             if(this->floor->getMap_Up())
             {
                 player->setPosition((DEFAULT_SIZE_X*32)-64,(DEFAULT_SIZE_Y*32)/2);
+                changeRoom(this->floor->getMap_atual());
             }
             break;
         case PORTA_D:
             if(this->floor->getMap_Down())
             {
                 player->setPosition(64,(DEFAULT_SIZE_Y*32)/2);
+                changeRoom(this->floor->getMap_atual());
             }
             break;
         case PORTA_R:
             if(this->floor->getMap_Right())
             {
-                player->setPosition((DEFAULT_SIZE_X*32/2),32);
+                player->setPosition((DEFAULT_SIZE_X*32/2),64);
+                changeRoom(this->floor->getMap_atual());
             }
             break;
         case PORTA_L:
             if(this->floor->getMap_Left())
             {
                 player->setPosition((DEFAULT_SIZE_X*32/2),(DEFAULT_SIZE_Y*32)-64);
+                changeRoom(this->floor->getMap_atual());
             }
             break;
         default:
             this->floor->getMap_atual();
 
     }
-    changeRoom(this->floor->getMap_atual());
+
 }
 
+void MapModule::setDoorText(char dir) {
 
+    switch (dir)
+    {
+        case PORTA_U:
+            if(floor->hasMap(PORTA_U))
 
+            break;
+        case PORTA_D:
+
+            break;
+        case PORTA_R:
+
+            break;
+        case PORTA_L:
+
+            break;
+        default:
+            break;
+
+    }
+}

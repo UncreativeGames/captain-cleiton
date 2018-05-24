@@ -14,14 +14,13 @@ public:
     Floor();
     ~Floor();
     void generateSimpleFloor();
-    void printSimpleFloor();
     char getFloor_index() const;
     TileMap *getMap_atual() const;
     bool getMap_Left();
     bool getMap_Right();
     bool getMap_Up();
     bool getMap_Down();
-
+    bool hasMap(char dir);
 
 private:
     TileMap * map_atual;

@@ -26,6 +26,11 @@ private:
 	Listaestatica<Rigidbody>* monsters;
 	Rigidbody* player;
 	Lista<Rigidbody>* projeteis;
+
+	bool colisaoParede(Rigidbody* quem_colide, float x, float y);
+	bool colisaoObstaculos(Rigidbody* quem_colide, float x, float y);
+	bool colisaoMonstros(Rigidbody* quem_colide, Lista<Lista<Rigidbody> >* oque_colidiu);
+	void colisaoPlayer(Rigidbody* quem_colide, Lista<Lista<Rigidbody> >* oque_colidiu);
 };
 
 #endif
