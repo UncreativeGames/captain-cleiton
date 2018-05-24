@@ -7,6 +7,7 @@
 #include "../include/Config.hpp"
 #include "../include/Chao.hpp"
 #include "../include/Wall.hpp"
+#include "../include/EnemyBat.hpp"
 #include <string>
 #include <iostream>
 
@@ -20,7 +21,6 @@ void MapModule::changeRoom(TileMap *m) {
     // Limpa tudo se for trocar de mapa
     this->obstacles->limpar();
     this->wall_and_floor->limpar();
-    this->monsters->limpar();
     srand(time(NULL));
     // Variacoes de chão
     int tx_floor_choice[12] = {0,1,2,3,4,5,6,7,8,9,10,11};
@@ -120,6 +120,12 @@ void MapModule::changeRoom(TileMap *m) {
                 parede->setOrigin(16,16);
                 parede->setPosition(i*32+offset,j*32+offset);
                 wall_and_floor->add(parede);
+            }
+            if(m->getTile(i,j)==INIMIGO)
+            {
+                cout << "inimigo";
+                EnemyBat * bat = new EnemyBat(64,64,64);
+                monsters->add(bat);
             }
         }
     }

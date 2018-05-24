@@ -15,6 +15,7 @@
 #define TAM_LISTA (TAM_MAP_X * TAM_MAP_Y)
 #define PAREDE 'P'
 #define PEDRA 'F'
+#define INIMIGO 'E'
 #define CHAO 'O'
 #define PORTA_L 'L'
 #define PORTA_R 'R'

@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
+#include <SFML/System/Thread.hpp>
 
 #include "../../include/Animation.hpp"
 #include "../../include/AnimatedSprite.hpp"
@@ -15,8 +16,11 @@
 #include "../../include/ColisionModule.hpp"
 #include "../../include/MapModule.hpp"
 #include "../../include/Gui.hpp"
+#include "../../include/EnemyBat.hpp"
+
 #include <iostream>
 #include <cmath>
+#include <random>
 
 #define speed 150.f
 //dash_coold têm de ser maior do que dash_tempo
