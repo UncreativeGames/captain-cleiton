@@ -4,14 +4,27 @@
 
 #include "../include/EnemiesModule.hpp"
 
-void EnemiesModule::addMonster(Monster monster) {
-    this->addMonster(monster);
-}
-
 void EnemiesModule::callAllAIs()
 {
     for(int i =0;i<this->monsters->length();i++)
     {
-
+        this->monsters->atIndex(i)->AI(enemies);
     }
+}
+
+void EnemiesModule::addMonster(EnemyBat *enemy)
+{
+    this->monsters->add(enemy);
+}
+
+EnemiesModule::EnemiesModule(Clock *enemies) {
+    this->enemies = enemies;
+}
+
+void EnemiesModule::clear() {
+    this->monsters->removerAll();
+}
+
+bool EnemiesModule::isEmpty() {
+    return this->monsters->length()==0;
 }

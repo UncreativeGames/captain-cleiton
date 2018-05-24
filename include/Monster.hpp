@@ -1,51 +1,44 @@
 //
-// Created by olivato on 23/05/18.
+// Created by olivato on 24/05/18.
 //
 
 #ifndef CAPTAIN_CLEITON_MONSTER_HPP
 #define CAPTAIN_CLEITON_MONSTER_HPP
 
+#include <SFML/System/Thread.hpp>
+#include "Obstacle.hpp"
 #include "AnimatedSprite.hpp"
 
-class Monster : public AnimatedSprite{
+using namespace sf;
+class Monster : public AnimatedSprite
+{
 public:
-    Monster(int x, int y,int life);
+	Monster(sf::Time frameTime, bool paused , bool looped);
+	int getLife() const;
+	void setLife(int life);
+	void moveX(int x);
+	void moveY(int y);
+	void setWalkingAnimationDown(const Animation &walkingAnimationDown);
 
-    Monster(int x, int y, int life, const Animation &walkingAnimationUp, const Animation &walkingAnimationDown,
-                const Animation &walkingAnimationLeft, const Animation &walkingAnimationRight);
+	void setWalkingAnimationUp(const Animation &walkingAnimationUp);
 
-    void moveX(int x);
-    void moveY(int y);
-    int getLife() const;
-    void setLife(int life);
+	void setWalkingAnimationLeft(const Animation &walkingAnimationLeft);
 
-    const Animation &getWalkingAnimationUp() const;
+	void setWalkingAnimationRight(const Animation &walkingAnimationRight);
 
-    void setWalkingAnimationUp(const Animation &walkingAnimationUp);
+	void setActual(Animation *actual);
 
-    const Animation &getWalkingAnimationDown() const;
-
-    void setWalkingAnimationDown(const Animation &walkingAnimationDown);
-
-    const Animation &getWalkingAnimationLeft() const;
-
-    void setWalkingAnimationLeft(const Animation &walkingAnimationLeft);
-
-    const Animation &getWalkingAnimationRight() const;
-
-    void setWalkingAnimationRight(const Animation &walkingAnimationRight);
-
-    void AI();
+	Animation *getActual() const;
 private:
-    Animation walkingAnimationUp;
-    Animation walkingAnimationDown;
-    Animation walkingAnimationLeft;
-    Animation walkingAnimationRight;
-    Animation* currentAnimation;
-    int life;
-
+	int life;
+	Animation walkingAnimationDown;
+	Animation walkingAnimationUp;
+	Animation walkingAnimationLeft;
+	Animation walkingAnimationRight;
+	Animation * actual;
 
 };
+
 
 
 #endif //CAPTAIN_CLEITON_MONSTER_HPP

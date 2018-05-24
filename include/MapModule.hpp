@@ -12,6 +12,7 @@
 #include "Listaestatica.hpp"
 #include "Config.hpp"
 #include "AnimatedSprite.hpp"
+#include "EnemiesModule.hpp"
 
 using namespace sf;
 
@@ -20,7 +21,7 @@ public:
     MapModule(Listaestatica<Rigidbody> *wall_and_floor,
               Listaestatica<Rigidbody> *obstacles,
               AnimatedSprite* player,
-              Listaestatica<Rigidbody> *monsters);
+              Listaestatica<Rigidbody> *monsters,EnemiesModule * enemiesModule);
     void changeRoom(TileMap *m);
     void loadFiles();
     void changeDirection(char dir);
@@ -35,6 +36,7 @@ private:
     Texture tx_rock;
     Texture tx_floor;
     Texture tx_wall;
+    EnemiesModule * enemies;
 
 
 };

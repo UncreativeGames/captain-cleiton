@@ -1,6 +1,6 @@
 cc = g++
 cflags = -Wall -lsfml-graphics -lsfml-window -lsfml-system -std=c++0x 
-objects = Rigidbody.o Obstacle.o Animation.o AnimatedSprite.o DrawingModule.o TileMap.o Chao.o ColisionModule.o MapModule.o Floor.o DrawTransform.o main.o Wall.o SquareObstacle.o Gui.o EnemyBat.o Monster.o
+objects = Rigidbody.o Obstacle.o Animation.o AnimatedSprite.o DrawingModule.o TileMap.o Chao.o ColisionModule.o MapModule.o Floor.o DrawTransform.o main.o Wall.o SquareObstacle.o Gui.o EnemyBat.o Monster.o EnemiesModule.o
 
 install: $(objects)
 	$(cc) -o exemplo $(objects) ../../include/Lista.hpp ../../include/Listaestatica.hpp $(cflags)
@@ -14,6 +14,9 @@ EnemyBat.o:
 
 Monster.o:
 	$(cc) -c ../../src/Monster.cpp $(cflags)
+
+EnemiesModule.o:
+	$(cc) -c ../../src/EnemiesModule.cpp $(cflags)
 
 Floor.o:
 	$(cc) -c ../../src/Floor.cpp $(cflags)

@@ -13,21 +13,17 @@
 
 using namespace sf;
 
-class EnemyBat : public Monster{
+class EnemyBat : public Monster {
 public:
-    EnemyBat(int x, int y, int life);
+    EnemyBat(const Time &frameTime, bool paused, bool looped, int x, int y);
     void doDamage(int damage);
-    void AI();
-    ~EnemyBat() override {
-        delete bat;
-    };
-
-private:
-    AnimatedSprite* bat;
+    void AI(Clock * clock);
     void loadFiles();
     void loadAnimations();
-    Texture tx_spritesheet;
 
+private:
+    Texture tx_spritesheet;
+    Clock frameClock;
 };
 
 

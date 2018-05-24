@@ -7,18 +7,21 @@
 
 
 #include "Rigidbody.hpp"
-#include "Listaestatica.hpp"
-#include "Monster.hpp"
+#include "Lista.hpp"
+#include "EnemyBat.hpp"
+#include "ColisionModule.hpp"
 
 class EnemiesModule{
 
 public:
-    EnemiesModule(Listaestatica<Rigidbody> * monsters);
-    void addMonster(Monster monster);
     void callAllAIs();
-
+    void addMonster(EnemyBat * enemy);
+    EnemiesModule(Clock * enemies);
+    bool isEmpty();
+    void clear();
 private:
-    Listaestatica<Rigidbody> *monsters;
+    Lista<EnemyBat> *monsters = new Lista<EnemyBat> ();
+    Clock *enemies;
 };
 
 
