@@ -3,7 +3,7 @@
 //
 
 #include "../include/MapModule.hpp"
-#include "../include/SquareObstacle.hpp"
+#include "../include/Obstacle.hpp"
 #include "../include/Config.hpp"
 #include "../include/Chao.hpp"
 #include "../include/Wall.hpp"
@@ -28,7 +28,7 @@ void MapModule::changeRoom(TileMap *m) {
 
     /* ---- Fim do carregamento dos arquivos ---- */
     // Obstáculo dinâmico
-    SquareObstacle * obstacle;
+    Obstacle * obstacle;
     // Parede dinâmica;
     Wall * parede;
     // Chão dinâmico
@@ -48,7 +48,8 @@ void MapModule::changeRoom(TileMap *m) {
             if(m->getTile(i,j)==PEDRA)
             {
                 randomIndex = rand() % 2;
-                obstacle = new SquareObstacle(tx_rock,sf::IntRect(0, 32*randomIndex, 32, 32),32);
+                obstacle = new Obstacle(tx_rock,sf::IntRect(0, 32*randomIndex, 32, 32));
+                obstacle->setRaio(16);
                 obstacle->setOrigin(16,16);
                 obstacle->setPosition(i*32+offset,j*32+offset);
                 obstacles->add(obstacle);

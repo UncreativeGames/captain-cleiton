@@ -46,30 +46,21 @@ bool ColisionModule::colisaoParede(Rigidbody* quem_colide, float x, float y)
 	return colidiu;
 }
 
-bool ColisionModule::colisaoObstaculos(Rigidbody* quem_colide, float x, float y)
+bool ColisionModule::colisaoObstaculos(Rigidbody* quem_colide)
 {
-	sf::Vector2f sentinela_de_retorno;
-	sf::Vector2f recuo_pos_colision = sf::Vector2f(x/5,y/5);
+	sf::Vector2f armazena_retorno_da_colisao;
 	bool colidiu = false;
 
 	for(int i = 0; i < obstacles->length(); i++)
 	{
-		if(obstacles->atIndex(i)->getRaio() != 0)
-		{
-			while(obstacles->atIndex(i)->colision(quem_colide) != sf::Vector2f(0,0))
+		if((armazena_retorno_da_colisao = quem_colide->colision(obstacles->atIndex(i))) != sf::Vector2f(0,0))
 			{
-				sentinela_de_retorno = obstacles->atIndex(i)->colision(quem_colide);
-				colidiu = true;
-				if(sentinela_de_retorno.y == 1)
-					{
-						quem_colide->move(0,-recuo_pos_colision.y == 0 ? 0.2f : -recuo_pos_colision.y);
-					}
-				if(sentinela_de_retorno.x == 1)
-					{
-						quem_colide->move(-recuo_pos_colision.x == 0 ? 0.2f : -recuo_pos_colision.x,0);
-					}
+				quem_colide->move(armazena_retorno_da_colisao);
+				if(colisaoParede(quem_colide,
+					armazena_retorno_da_colisao.x, 
+					armazena_retorno_da_colisao.y))
+					colidiu = true;
 			}
-		}
 	}
 	return colidiu;
 }
@@ -117,7 +108,7 @@ Lista<Lista<Rigidbody> >* ColisionModule::moveRequest(Rigidbody* object_that_req
 	object_that_requests->move(x,y);
 
 	colisaoParede(object_that_requests, x, y);
-	colisaoObstaculos(object_that_requests, x, y);
+	colisaoObstaculos(object_that_requests);
 	colisaoMonstros(object_that_requests, Lista_com_as_colisoes);
 	colisaoPlayer(object_that_requests, Lista_com_as_colisoes);
 
