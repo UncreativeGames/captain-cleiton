@@ -60,7 +60,7 @@ void DrawingModule::update() {
 			}
 			else
 			{
-				if(monsters->atIndex(j)->getPosition().y < player->getPosition().y || (monsters->atIndex(j)->getPosition().y == player->getPosition().y && monsters->atIndex(j)->getPosition().x <= player->getPosition().x) || player_is_printed)	
+				if(monsters->atIndex(i)->getPosition().y < player->getPosition().y || (monsters->atIndex(i)->getPosition().y == player->getPosition().y && monsters->atIndex(i)->getPosition().x <= player->getPosition().x) || player_is_printed)	
 				{
 					window->draw(*monsters->atIndex(i) /*complexidade atIndex O(1)*/);
 					i++;
@@ -89,7 +89,7 @@ void DrawingModule::update() {
 			}
 			else
 			{
-				if(monsters->atIndex(j)->getPosition().y < player->getPosition().y || (monsters->atIndex(j)->getPosition().y == player->getPosition().y && monsters->atIndex(j)->getPosition().x <= player->getPosition().x) || player_is_printed)	
+				if(monsters->atIndex(i)->getPosition().y < player->getPosition().y || (monsters->atIndex(i)->getPosition().y == player->getPosition().y && monsters->atIndex(i)->getPosition().x <= player->getPosition().x) || player_is_printed)	
 				{
 					window->draw(*monsters->atIndex(i) /*complexidade atIndex O(1)*/);
 					i++;
@@ -107,8 +107,6 @@ void DrawingModule::update() {
 	// Printa os possiveis projeteis que estejam no jogo
 	// Esta é uma lista encadeada pois não temos um numero máximo de projeteis no mapa
 	// O(n²), pois O(n) * O(n)
-	if (!player_is_printed)
-			window->draw(*player);
 	for (i = 0; i < projeteis->length(); i++)
 	{
 		window->draw(*projeteis->atIndex(i) /*complexidade atIndex O(n) pois esta lista é encadeada*/);
