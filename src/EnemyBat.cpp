@@ -7,6 +7,7 @@
 #include "../include/AnimatedSprite.hpp"
 #include "../include/ColisionModule.hpp"
 #include <iostream>
+#include "../include/Config.hpp"
 #include <SFML/System/Clock.hpp>
 #include <random>
 
@@ -17,26 +18,26 @@ using namespace sf;
 void EnemyBat::AI()
 {
     if((int)AIClock.getElapsedTime().asSeconds() % 2) {
-        rodando_e_ganhando = rand() % 4;
+        move = rand() % 4;
         AIClock.restart();
     }
-    switch(rodando_e_ganhando)
+    switch(move)
     {
         case 0:
-            this->setSpeed_x(2);
+            this->setSpeed_x(bat_speed);
             setAnimation(0);
             break;
         case 1:
-            this->setSpeed_x(-2);
+            this->setSpeed_x(-bat_speed);
             setAnimation(1);
             break;
         case 2:
-            this->setSpeed_y(2);
+            this->setSpeed_y(bat_speed);
             setAnimation(3);
             break;
         case 3:
             setAnimation(2);
-            this->setSpeed_y(-2);
+            this->setSpeed_y(-bat_speed);
             break;
 
     }
@@ -99,6 +100,7 @@ void EnemyBat::loadAnimations() {
 EnemyBat::EnemyBat(const Time &frameTime, bool paused, bool looped, int x, int y) : Monster(frameTime, paused, looped)
 {
     float scale = rand() % 2 + 1;
+    bat_speed = 1/scale +1;
     this->setColor(sf::Color(rand() % 256 +1,rand() % 256 +1,rand() % 256 +1));
     this->setScale(1*scale,1*scale);
     this->setPosition(x,y);

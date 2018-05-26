@@ -22,7 +22,7 @@
 #include <cmath>
 #include <random>
 
-#define speed 700.f
+#define speed 150.f
 //dash_coold têm de ser maior do que dash_tempo
 #define DASH_TEMPO sf::seconds(2.0)
 #define DASH_COOLD sf::seconds(6.0)
@@ -69,19 +69,19 @@ int main()
     walkingAnimationRight.addFrame(IntRect(64, 96, 32, 32));
 
     Animation walkingAnimationUp;
-    walkingAnimationRight.setSpriteSheet(personagem);
-    walkingAnimationRight.addFrame(IntRect(0, 64, 32, 32));
-    walkingAnimationRight.addFrame(IntRect(32, 64, 32, 32));
-    walkingAnimationRight.addFrame(IntRect(64, 64, 32, 32));
+    walkingAnimationUp.setSpriteSheet(personagem);
+    walkingAnimationUp.addFrame(IntRect(0, 64, 32, 32));
+    walkingAnimationUp.addFrame(IntRect(32, 64, 32, 32));
+    walkingAnimationUp.addFrame(IntRect(64, 64, 32, 32));
 
     Animation walkingAnimationDown;
-    walkingAnimationRight.setSpriteSheet(personagem);
-    walkingAnimationRight.addFrame(IntRect(0, 32, 32, 32));
-    walkingAnimationRight.addFrame(IntRect(32, 32, 32, 32));
-    walkingAnimationRight.addFrame(IntRect(64, 32, 32, 32));
+    walkingAnimationDown.setSpriteSheet(personagem);
+    walkingAnimationDown.addFrame(IntRect(0, 32, 32, 32));
+    walkingAnimationDown.addFrame(IntRect(32, 32, 32, 32));
+    walkingAnimationDown.addFrame(IntRect(64, 32, 32, 32));
     Animation* currentAnimation = &walkingAnimationLeft;
     // set up Monster
-    AnimatedSprite* dut = new AnimatedSprite(seconds(0.05), true, false);
+    AnimatedSprite* dut = new AnimatedSprite(seconds(0.1), true, false);
     dut->setOrigin(16,24);
     dut->setPosition(Vector2f(DEFAULT_SIZE_X,DEFAULT_SIZE_Y));
     dut->setRaio(15);
@@ -165,12 +165,12 @@ int main()
         Vector2f movement(0.f, 0.f);
         if (Keyboard::isKeyPressed(Keyboard::W))
         {
-            //currentAnimation = &walkingAnimationUp;
+            currentAnimation = &walkingAnimationUp;
             movement.y -= speed;
         }
         if (Keyboard::isKeyPressed(Keyboard::S))
         {
-            //currentAnimation = &walkingAnimationDown;
+            currentAnimation = &walkingAnimationDown;
             movement.y += speed;
         }
         if(Keyboard::isKeyPressed(Keyboard::A))

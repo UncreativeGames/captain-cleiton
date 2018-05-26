@@ -25,7 +25,8 @@ private:
     Texture tx_spritesheet;
     Clock frameClock;
     Clock AIClock;
-    int rodando_e_ganhando =0;
+    int move =0;
+    int bat_speed;
 };
 
 
