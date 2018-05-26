@@ -51,10 +51,6 @@ void EnemyBat::loadFiles()
     {
         cout << "File:" << file << " Not loaded" << endl;
     }
-    else
-    {
-        cout << "File:" << file << " loaded" << endl;
-    }
     loadAnimations();
 }
 
