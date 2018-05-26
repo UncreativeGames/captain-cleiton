@@ -125,6 +125,7 @@ int main()
     cursor.setTexture(cursor_tex);
     cursor.setColor(Color::Red);
     window.setMouseCursorVisible(false);
+
     /* ----------- Fim declaração de Cursor ------------*/
     /* ----------- Checagem de portas inicio -----------*/
 
@@ -132,7 +133,6 @@ int main()
     IntRect down_door_trigger ((DEFAULT_SIZE_X*32/2),(DEFAULT_SIZE_Y*32)-64,32,32);
     IntRect left_door_trigger (64,(DEFAULT_SIZE_Y*32)/2,32,32);
     IntRect right_door_trigger ((DEFAULT_SIZE_X*32)-64,(DEFAULT_SIZE_Y*32)/2,32,32);
-
     IntRect Player (0, 0, 32, 32);
 
     /* ----------- Checagem de portas fim -----------*/
@@ -140,6 +140,7 @@ int main()
     bool sent = 0;
     while (window.isOpen())
     {
+
         Player = IntRect(static_cast<int>(dut->getPosition().x), static_cast<int>(dut->getPosition().y), 32, 32);
         Event event{};
         while (window.pollEvent(event))
