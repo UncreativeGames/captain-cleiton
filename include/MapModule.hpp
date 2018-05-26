@@ -12,6 +12,7 @@
 #include "Config.hpp"
 #include "AnimatedSprite.hpp"
 #include "EnemiesModule.hpp"
+#include "TextModule.hpp"
 
 using namespace sf;
 
@@ -20,17 +21,19 @@ public:
     MapModule(Listaestatica<Rigidbody> *wall_and_floor,
               Listaestatica<Rigidbody> *obstacles,
               AnimatedSprite* player,
-              Listaestatica<Monster> *monsters);
+              Listaestatica<Monster> *monsters,
+              TextModule * textModule);
     void changeRoom(TileMap *m);
     void loadFiles();
     void changeDirection(char dir);
-    void setDoorText(char dir,Text *text,RenderWindow * window);
-
+    void setDoorText(char dir);
+    void checkRoom();
 private:
     Floor * floor;
     Listaestatica<Rigidbody>* wall_and_floor;
     Listaestatica<Rigidbody>* obstacles;
     Listaestatica<Monster>* monsters;
+    TextModule * textModule;
     AnimatedSprite* player;
     Texture tx_rock;
     Texture tx_floor;

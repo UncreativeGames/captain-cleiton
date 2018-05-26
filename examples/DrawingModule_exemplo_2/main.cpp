@@ -2,6 +2,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System/Thread.hpp>
+#include <SFML/Audio.hpp>
 
 #include "../../include/Animation.hpp"
 #include "../../include/Monster.hpp"
@@ -17,6 +18,7 @@
 #include "../../include/MapModule.hpp"
 #include "../../include/Gui.hpp"
 #include "../../include/EnemyBat.hpp"
+#include "../../include/TextModule.hpp"
 
 #include <iostream>
 #include <cmath>
@@ -31,6 +33,10 @@ using namespace std;
 int main()
 {
 
+    sf::Music music;
+    if (!music.openFromFile("../../media/Overworld.ogg"))
+        return -1; // error
+    music.play();
     srand(time(NULL));
     Lista<Rigidbody> projeteis;
     Lista<Lista<Rigidbody> >* Lista_para_deletar_retorno_modulo_colisao;
@@ -49,7 +55,8 @@ int main()
         std::cout << "Deu Ruim" << std::endl;
     }
     Gui gui(0,3,0,&window);
-    gui.set_actual_life(2);
+    gui.set_actual_life(3);
+
     /* ----------- Player INICIO ------------*/
     Animation stop;
     stop.setSpriteSheet(personagem);
@@ -81,39 +88,28 @@ int main()
     walkingAnimationDown.addFrame(IntRect(32, 32, 32, 32));
     walkingAnimationDown.addFrame(IntRect(64, 32, 32, 32));
     Animation* currentAnimation = &walkingAnimationLeft;
-    // set up Monster
     AnimatedSprite* dut = new AnimatedSprite(seconds(0.1), true, false);
+
+
     dut->setOrigin(16,24);
     dut->setPosition(Vector2f(DEFAULT_SIZE_X,DEFAULT_SIZE_Y));
     dut->setRaio(15);
     /* ----------- Player FIM ------------*/
+
     /* ----------- SHADER INICIO ----------*/
     if (!Shader::isAvailable())
     {
         cout << "Shader indisponível";
     }
     /* ----------- SHADER FIM ----------*/
-    /* ----------- FONTS/TEXTO INICIO---------*/
-    Font font;
-    if (!font.loadFromFile("../../resources/fipps.otf"))
-    {
-
-        cout << "Font indisponível";
-    }
-    Text text;
-    text.setFont(font);
-    Color color(255, 0, 0);
-    text.setOutlineThickness(2.0f);
-    text.setCharacterSize(12);
-    text.setString("Press E");
-    /* ----------- FONTS/TEXTO FIM---------*/
     /* ----------- Inicio declaração de Módulos ------------*/
     ColisionModule colisor(&walls_and_floor,&obstacles,&monsters,dut,&projeteis);
     EnemiesModule enemiesModule(&enemies_behaviour,&monsters,&colisor);
-    MapModule mapModule(&walls_and_floor,&obstacles,dut,&monsters);
+    TextModule textModule(&window,dut);
+    MapModule mapModule(&walls_and_floor,&obstacles,dut,&monsters,&textModule);
     DrawingModule designer(&walls_and_floor,&obstacles,&monsters,dut,&projeteis,&window);
-
     /* ----------- Fim declaração de Módulos ------------*/
+
 
     Clock frameClock;
     /* ----------- Inicio declaração de Cursor ------------*/
@@ -125,8 +121,8 @@ int main()
     cursor.setTexture(cursor_tex);
     cursor.setColor(Color::Red);
     window.setMouseCursorVisible(false);
-
     /* ----------- Fim declaração de Cursor ------------*/
+
     /* ----------- Checagem de portas inicio -----------*/
 
     IntRect upper_door_trigger ((DEFAULT_SIZE_X*32/2),32,32,32);
@@ -140,7 +136,7 @@ int main()
     bool sent = 0;
     while (window.isOpen())
     {
-
+        mapModule.checkRoom();
         Player = IntRect(static_cast<int>(dut->getPosition().x), static_cast<int>(dut->getPosition().y), 32, 32);
         Event event{};
         while (window.pollEvent(event))
@@ -231,22 +227,17 @@ int main()
         if(Player.intersects(upper_door_trigger) || Player.intersects(down_door_trigger) || Player.intersects(right_door_trigger) || Player.intersects(left_door_trigger) )
         {
 
-            text.setPosition(dut->getPosition().x-32,dut->getPosition().y-48);
-            color = Color(static_cast<Uint8>(dut->getPosition().x), static_cast<Uint8>(dut->getPosition().y),
-                          static_cast<Uint8>(dut->getPosition().x * dut->getPosition().y));
-            text.setOutlineColor(color);
-
             if(Player.intersects(down_door_trigger))
-                mapModule.setDoorText(PORTA_D,&text,&window);
+                mapModule.setDoorText(PORTA_D);
 
             if(Player.intersects(upper_door_trigger))
-                mapModule.setDoorText(PORTA_U,&text,&window);
+                mapModule.setDoorText(PORTA_U);
 
             if(Player.intersects(right_door_trigger))
-                mapModule.setDoorText(PORTA_R,&text,&window);
+                mapModule.setDoorText(PORTA_R);
 
             if(Player.intersects(left_door_trigger))
-                mapModule.setDoorText(PORTA_L,&text,&window);
+                mapModule.setDoorText(PORTA_L);
 
             if (event.type == Event::KeyReleased)
             {

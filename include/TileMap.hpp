@@ -76,12 +76,10 @@ private:
     TileMap * down;
     TileMap * left;
     TileMap * right;
-    bool cleared;
-    bool treasure;
-    bool boss;
+    bool cleared = false;
+    bool treasure = false;
+    bool boss = false;
     Point index;
-
-
     void setLeftDoor();
     void setRightDoor();
     void setUpperDoor();
