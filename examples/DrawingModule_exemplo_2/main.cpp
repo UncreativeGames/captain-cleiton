@@ -48,7 +48,8 @@ int main()
     if(!personagem.loadFromFile("../../media/Panda.png")){
         std::cout << "Deu Ruim" << std::endl;
     }
-    Gui gui(10,20,5,&window);
+    Gui gui(0,3,0,&window);
+    gui.set_actual_life(2);
     /* ----------- Player INICIO ------------*/
     Animation stop;
     stop.setSpriteSheet(personagem);

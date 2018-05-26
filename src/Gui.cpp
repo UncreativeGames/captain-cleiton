@@ -63,7 +63,6 @@ void Gui::loadFiles()
     {
         cout << "File:" << file << " Not loaded" << endl;
     }
-    createGui();
     set_actual_life(max_life);
     set_actual_mana(max_mana);
     set_actual_stamina(max_stamina);
@@ -79,6 +78,7 @@ Gui::Gui(int stamina, int life, int mana,sf::RenderWindow *window)
 }
 
 void Gui::set_actual_mana(int mana) {
+    createGui();
     if(mana> max_mana)
         mana = max_mana;
     sf::Sprite spr_aux;
@@ -92,6 +92,7 @@ void Gui::set_actual_mana(int mana) {
 }
 
 void Gui::set_actual_stamina(int stamina) {
+    createGui();
     if(stamina>max_stamina)
         stamina = max_stamina;
     sf::Sprite spr_aux;
@@ -105,6 +106,7 @@ void Gui::set_actual_stamina(int stamina) {
 }
 
 void Gui::set_actual_life(int life) {
+    createGui();
     if(life>max_life)
         life = max_life;
     sf::Sprite spr_aux;
