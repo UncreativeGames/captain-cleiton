@@ -24,7 +24,7 @@ public:
     void changeRoom(TileMap *m);
     void loadFiles();
     void changeDirection(char dir);
-    void setDoorText(char dir);
+    void setDoorText(char dir,Text *text,RenderWindow * window);
 
 private:
     Floor * floor;

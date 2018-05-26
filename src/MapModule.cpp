@@ -207,22 +207,25 @@ void MapModule::changeDirection(char dir) {
 
 }
 
-void MapModule::setDoorText(char dir) {
+void MapModule::setDoorText(char dir,Text *text,RenderWindow * window) {
 
     switch (dir)
     {
         case PORTA_U:
-            if(floor->hasMap(PORTA_U))
-
+            if(floor->hasMap(PORTA_L))
+                window->draw(*text);
             break;
         case PORTA_D:
-
+            if(floor->hasMap(PORTA_R))
+                window->draw(*text);
             break;
         case PORTA_R:
-
+            if(floor->hasMap(PORTA_U))
+                window->draw(*text);
             break;
         case PORTA_L:
-
+            if(floor->hasMap(PORTA_D))
+                window->draw(*text);
             break;
         default:
             break;

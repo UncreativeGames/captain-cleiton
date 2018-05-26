@@ -22,7 +22,7 @@
 #include <cmath>
 #include <random>
 
-#define speed 150.f
+#define speed 700.f
 //dash_coold têm de ser maior do que dash_tempo
 #define DASH_TEMPO sf::seconds(2.0)
 #define DASH_COOLD sf::seconds(6.0)
@@ -235,7 +235,19 @@ int main()
             color = Color(static_cast<Uint8>(dut->getPosition().x), static_cast<Uint8>(dut->getPosition().y),
                           static_cast<Uint8>(dut->getPosition().x * dut->getPosition().y));
             text.setOutlineColor(color);
-            window.draw(text);
+
+            if(Player.intersects(down_door_trigger))
+                mapModule.setDoorText(PORTA_D,&text,&window);
+
+            if(Player.intersects(upper_door_trigger))
+                mapModule.setDoorText(PORTA_U,&text,&window);
+
+            if(Player.intersects(right_door_trigger))
+                mapModule.setDoorText(PORTA_R,&text,&window);
+
+            if(Player.intersects(left_door_trigger))
+                mapModule.setDoorText(PORTA_L,&text,&window);
+
             if (event.type == Event::KeyReleased)
             {
                 if (event.key.code == Keyboard::E)
