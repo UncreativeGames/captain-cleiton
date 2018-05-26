@@ -6,8 +6,6 @@
 #define CAPTAIN_CLEITON_ENEMIESMODULE_HPP
 
 
-#include "Rigidbody.hpp"
-#include "Lista.hpp"
 #include "EnemyBat.hpp"
 #include "ColisionModule.hpp"
 
@@ -15,13 +13,13 @@ class EnemiesModule{
 
 public:
     void callAllAIs();
-    void addMonster(EnemyBat * enemy);
-    EnemiesModule(Clock * enemies);
-    bool isEmpty();
-    void clear();
+    EnemiesModule(Clock * enemies, Listaestatica<Monster> * monsters, ColisionModule * move);
+
 private:
-    Lista<EnemyBat> *monsters = new Lista<EnemyBat> ();
-    Clock *enemies;
+    Clock *enemies_behaviour;
+    Listaestatica<Monster> * monsters;
+    ColisionModule * move;
+    Monster * monster;
 };
 
 

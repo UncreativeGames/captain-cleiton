@@ -17,13 +17,15 @@ class EnemyBat : public Monster {
 public:
     EnemyBat(const Time &frameTime, bool paused, bool looped, int x, int y);
     void doDamage(int damage);
-    void AI(Clock * clock);
+    void AI();
     void loadFiles();
     void loadAnimations();
 
 private:
     Texture tx_spritesheet;
     Clock frameClock;
+    Clock AIClock;
+    int rodando_e_ganhando =0;
 };
 
 

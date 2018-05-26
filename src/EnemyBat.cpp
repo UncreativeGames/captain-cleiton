@@ -14,31 +14,37 @@
 using namespace std;
 using namespace sf;
 
-void EnemyBat::AI(Clock * clock)
+void EnemyBat::AI()
 {
-    int rodando_e_ganhando = 0;
-    if((int)clock->getElapsedTime().asSeconds() % 2)
-    {
+    if((int)AIClock.getElapsedTime().asSeconds() % 2) {
         rodando_e_ganhando = rand() % 4;
+        AIClock.restart();
     }
     switch(rodando_e_ganhando)
     {
         case 0:
-            moveX(this->getPosition().x-1);
+            this->setSpeed_x(2);
+            setAnimation(0);
             break;
         case 1:
-            moveX(this->getPosition().x-1);
+            this->setSpeed_x(-2);
+            setAnimation(1);
             break;
         case 2:
-            moveY(this->getPosition().y+1);
+            this->setSpeed_y(2);
+            setAnimation(3);
             break;
         case 3:
-            moveY(this->getPosition().y-1);
+            setAnimation(2);
+            this->setSpeed_y(-2);
             break;
+
     }
     this->play(*getActual());
+    this->update(frameClock.restart());
 }
-void EnemyBat::loadFiles() {
+void EnemyBat::loadFiles()
+{
     string file = "../../media/enemies/enemy_bat.png";
     if(!tx_spritesheet.loadFromFile(file))
     {
@@ -65,32 +71,31 @@ void EnemyBat::loadAnimations() {
     walkingAnimationDown.setSpriteSheet(tx_spritesheet);
     walkingAnimationDown.addFrame(IntRect(32, 0, 32, 32));
     walkingAnimationDown.addFrame(IntRect(64, 0, 32, 32));
-    walkingAnimationDown.addFrame(IntRect(32, 0, 32, 32));
+    walkingAnimationDown.addFrame(IntRect(96, 0, 32, 32));
     this->setWalkingAnimationDown(walkingAnimationDown);
 
     Animation walkingAnimationLeft;
     walkingAnimationLeft.setSpriteSheet(tx_spritesheet);
-    walkingAnimationLeft.addFrame(IntRect(32, 32, 32, 32));
-    walkingAnimationLeft.addFrame(IntRect(64, 32, 32, 32));
-    walkingAnimationLeft.addFrame(IntRect(32, 32, 32, 32));
+    walkingAnimationLeft.addFrame(IntRect(32, 64, 32, 32));
+    walkingAnimationLeft.addFrame(IntRect(64, 64, 32, 32));
+    walkingAnimationLeft.addFrame(IntRect(96, 64, 32, 32));
     this->setWalkingAnimationLeft(walkingAnimationLeft);
 
     Animation walkingAnimationRight;
     walkingAnimationRight.setSpriteSheet(tx_spritesheet);
-    walkingAnimationRight.addFrame(IntRect(32, 64, 32, 32));
-    walkingAnimationRight.addFrame(IntRect(64, 64, 32, 32));
-    walkingAnimationRight.addFrame(IntRect(32, 64, 32, 32));
+    walkingAnimationRight.addFrame(IntRect(32, 32, 32, 32));
+    walkingAnimationRight.addFrame(IntRect(64, 32, 32, 32));
+    walkingAnimationRight.addFrame(IntRect(96, 32, 32, 32));
     this->setWalkingAnimationRight(walkingAnimationRight);
 
     Animation walkingAnimationUp;
     walkingAnimationUp.setSpriteSheet(tx_spritesheet);
     walkingAnimationUp.addFrame(IntRect(32, 96, 32, 32));
     walkingAnimationUp.addFrame(IntRect(64, 96, 32, 32));
-    walkingAnimationUp.addFrame(IntRect(32, 96, 32, 32));
+    walkingAnimationUp.addFrame(IntRect(96, 96, 32, 32));
     this->setWalkingAnimationUp(walkingAnimationUp);
 
 }
-
 EnemyBat::EnemyBat(const Time &frameTime, bool paused, bool looped, int x, int y) : Monster(frameTime, paused, looped)
 {
     float scale = rand() % 2 + 1;

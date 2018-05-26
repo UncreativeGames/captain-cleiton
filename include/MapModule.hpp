@@ -5,7 +5,6 @@
 #ifndef MAPMODULE_HPP
 #define MAPMODULE_HPP
 
-
 #include <SFML/Graphics/Texture.hpp>
 #include "Floor.hpp"
 #include "Rigidbody.hpp"
@@ -21,7 +20,7 @@ public:
     MapModule(Listaestatica<Rigidbody> *wall_and_floor,
               Listaestatica<Rigidbody> *obstacles,
               AnimatedSprite* player,
-              Listaestatica<Rigidbody> *monsters,EnemiesModule * enemiesModule);
+              Listaestatica<Monster> *monsters);
     void changeRoom(TileMap *m);
     void loadFiles();
     void changeDirection(char dir);
@@ -31,15 +30,12 @@ private:
     Floor * floor;
     Listaestatica<Rigidbody>* wall_and_floor;
     Listaestatica<Rigidbody>* obstacles;
-    Listaestatica<Rigidbody>* monsters;
+    Listaestatica<Monster>* monsters;
     AnimatedSprite* player;
     Texture tx_rock;
     Texture tx_floor;
     Texture tx_wall;
-    EnemiesModule * enemies;
-
 
 };
-
 
 #endif // MAPMODULE_HPP

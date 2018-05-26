@@ -4,7 +4,9 @@
 
 #include "../include/Monster.hpp"
 
-Monster::Monster(sf::Time frameTime = sf::seconds(0.2f), bool paused = false, bool looped = true) : AnimatedSprite(frameTime,paused,looped){}
+Monster::Monster(sf::Time frameTime = sf::seconds(0.2f), bool paused = false, bool looped = true) : AnimatedSprite(frameTime,paused,looped){
+    this->actual = &this->walkingAnimationDown;
+}
 
 int Monster::getLife() const {
     return life;
@@ -12,22 +14,6 @@ int Monster::getLife() const {
 
 void Monster::setLife(int life) {
     Monster::life = life;
-}
-
-void Monster::moveX(int x) {
-    if(x>0)
-        actual = &walkingAnimationRight;
-    else
-        actual = &walkingAnimationLeft;
-    this->setPosition(x,this->getPosition().y);
-}
-
-void Monster::moveY(int y) {
-    if(y>0)
-        actual = &walkingAnimationDown;
-    else
-        actual = &walkingAnimationUp;
-    this->setPosition(this->getPosition().x,y);
 }
 
 void Monster::setWalkingAnimationDown(const Animation &walkingAnimationDown) {
@@ -53,4 +39,45 @@ void Monster::setActual(Animation *actual) {
 Animation *Monster::getActual() const {
     return actual;
 }
+
+int Monster::getSpeed_x() const {
+    return speed_x;
+}
+
+void Monster::setSpeed_x(int speed_x) {
+    Monster::speed_x = speed_x;
+}
+
+int Monster::getSpeed_y() const {
+    return speed_y;
+}
+
+void Monster::setSpeed_y(int speed_y) {
+    Monster::speed_y = speed_y;
+}
+
+void Monster::setAnimation(unsigned char anim) {
+    switch (anim)
+    {
+        case 0:
+            this->setActual(&this->walkingAnimationRight);
+            break;
+        case 1:
+            this->setActual(&this->walkingAnimationLeft);
+            break;
+        case 2:
+            this->setActual(&this->walkingAnimationUp);
+            break;
+        case 3:
+            this->setActual(&this->walkingAnimationDown);
+            break;
+        default:
+            this->setActual(&this->walkingAnimationDown);
+            break;
+
+    }
+}
+
+
+
 

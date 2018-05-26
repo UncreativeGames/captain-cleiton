@@ -22,7 +22,7 @@
 #include <cmath>
 #include <random>
 
-#define speed 150.f
+#define speed 700.f
 //dash_coold têm de ser maior do que dash_tempo
 #define DASH_TEMPO sf::seconds(2.0)
 #define DASH_COOLD sf::seconds(6.0)
@@ -36,7 +36,7 @@ int main()
     Lista<Lista<Rigidbody> >* Lista_para_deletar_retorno_modulo_colisao;
     Listaestatica<Rigidbody> walls_and_floor;
     Listaestatica<Rigidbody> obstacles;
-    Listaestatica<Rigidbody> monsters;
+    Listaestatica<Monster> monsters;
     // setup window
     Vector2i screenDimensions(DEFAULT_SIZE_X*32,DEFAULT_SIZE_Y*32);
     RenderWindow window(VideoMode(screenDimensions.x, screenDimensions.y), "Captain Cleiton.");
@@ -68,69 +68,17 @@ int main()
     walkingAnimationRight.addFrame(IntRect(32, 96, 32, 32));
     walkingAnimationRight.addFrame(IntRect(64, 96, 32, 32));
 
-    Animation walkingAnimationJumpRight;
-    walkingAnimationJumpRight.setSpriteSheet(personagem);
-    walkingAnimationJumpRight.addFrame(IntRect(6 * 32, 64, 32, 32));
-    walkingAnimationJumpRight.addFrame(IntRect(7 * 32, 64, 32, 32));
-    walkingAnimationJumpRight.addFrame(IntRect(8 * 32, 64, 32, 32));
-    walkingAnimationJumpRight.addFrame(IntRect(9 * 32 , 64, 32, 32));
-    walkingAnimationJumpRight.addFrame(IntRect(10 * 32, 64, 32, 32));
-    walkingAnimationJumpRight.addFrame(IntRect(11 * 32, 64, 32, 32));
-    walkingAnimationJumpRight.addFrame(IntRect(12 * 32, 64, 32, 32));
-    walkingAnimationJumpRight.addFrame(IntRect(0 * 32 , 64, 32, 32));
-    walkingAnimationJumpRight.addFrame(IntRect(1 * 32, 64, 32, 32));
-    walkingAnimationJumpRight.addFrame(IntRect(2 * 32, 64, 32, 32));
-    walkingAnimationJumpRight.addFrame(IntRect(3 * 32, 64, 32, 32));
-    walkingAnimationJumpRight.addFrame(IntRect(4 * 32 , 64, 32, 32));
-    walkingAnimationJumpRight.addFrame(IntRect(5 * 32, 64, 32, 32));
+    Animation walkingAnimationUp;
+    walkingAnimationRight.setSpriteSheet(personagem);
+    walkingAnimationRight.addFrame(IntRect(0, 64, 32, 32));
+    walkingAnimationRight.addFrame(IntRect(32, 64, 32, 32));
+    walkingAnimationRight.addFrame(IntRect(64, 64, 32, 32));
 
-    Animation walkingAnimationJumpLeft;
-    walkingAnimationJumpLeft.setSpriteSheet(personagem);
-    walkingAnimationJumpLeft.addFrame(IntRect(6 * 32, 96, 32, 32));
-    walkingAnimationJumpLeft.addFrame(IntRect(7 * 32, 96, 32, 32));
-    walkingAnimationJumpLeft.addFrame(IntRect(8 * 32, 96, 32, 32));
-    walkingAnimationJumpLeft.addFrame(IntRect(9 * 32 , 96, 32, 32));
-    walkingAnimationJumpLeft.addFrame(IntRect(10 * 32, 96, 32, 32));
-    walkingAnimationJumpLeft.addFrame(IntRect(11 * 32, 96, 32, 32));
-    walkingAnimationJumpLeft.addFrame(IntRect(12 * 32, 96, 32, 32));
-    walkingAnimationJumpLeft.addFrame(IntRect(0 * 32 , 96, 32, 32));
-    walkingAnimationJumpLeft.addFrame(IntRect(1 * 32, 96, 32, 32));
-    walkingAnimationJumpLeft.addFrame(IntRect(2 * 32, 96, 32, 32));
-    walkingAnimationJumpLeft.addFrame(IntRect(3 * 32, 96, 32, 32));
-    walkingAnimationJumpLeft.addFrame(IntRect(4 * 32 , 96, 32, 32));
-    walkingAnimationJumpLeft.addFrame(IntRect(5 * 32, 96, 32, 32));
-
-    Animation dashingAnimationLeft;
-    dashingAnimationLeft.setSpriteSheet(personagem);
-    dashingAnimationLeft.addFrame(IntRect(6 * 32, 160, 32, 32));
-    dashingAnimationLeft.addFrame(IntRect(7 * 32, 160, 32, 32));
-    dashingAnimationLeft.addFrame(IntRect(8 * 32, 160, 32, 32));
-    dashingAnimationLeft.addFrame(IntRect(9 * 32 , 160, 32, 32));
-    dashingAnimationLeft.addFrame(IntRect(10 * 32, 160, 32, 32));
-    dashingAnimationLeft.addFrame(IntRect(11 * 32, 160, 32, 32));
-    dashingAnimationLeft.addFrame(IntRect(12 * 32, 160, 32, 32));
-    dashingAnimationLeft.addFrame(IntRect(0 * 32 , 160, 32, 32));
-    dashingAnimationLeft.addFrame(IntRect(1 * 32, 160, 32, 32));
-    dashingAnimationLeft.addFrame(IntRect(2 * 32, 160, 32, 32));
-    dashingAnimationLeft.addFrame(IntRect(3 * 32, 160, 32, 32));
-    dashingAnimationLeft.addFrame(IntRect(4 * 32 , 160, 32, 32));
-    dashingAnimationLeft.addFrame(IntRect(5 * 32, 160, 32, 32));
-
-    Animation dashingAnimationRight;
-    dashingAnimationRight.setSpriteSheet(personagem);
-    dashingAnimationRight.addFrame(IntRect(6 * 32, 128, 32, 32));
-    dashingAnimationRight.addFrame(IntRect(7 * 32, 128, 32, 32));
-    dashingAnimationRight.addFrame(IntRect(8 * 32, 128, 32, 32));
-    dashingAnimationRight.addFrame(IntRect(9 * 32 , 128, 32, 32));
-    dashingAnimationRight.addFrame(IntRect(10 * 32, 128, 32, 32));
-    dashingAnimationRight.addFrame(IntRect(11 * 32, 128, 32, 32));
-    dashingAnimationRight.addFrame(IntRect(12 * 32, 128, 32, 32));
-    dashingAnimationRight.addFrame(IntRect(0 * 32 , 128, 32, 32));
-    dashingAnimationRight.addFrame(IntRect(1 * 32, 128, 32, 32));
-    dashingAnimationRight.addFrame(IntRect(2 * 32, 128, 32, 32));
-    dashingAnimationRight.addFrame(IntRect(3 * 32, 128, 32, 32));
-    dashingAnimationRight.addFrame(IntRect(4 * 32 , 128, 32, 32));
-    dashingAnimationRight.addFrame(IntRect(5 * 32, 128, 32, 32));
+    Animation walkingAnimationDown;
+    walkingAnimationRight.setSpriteSheet(personagem);
+    walkingAnimationRight.addFrame(IntRect(0, 32, 32, 32));
+    walkingAnimationRight.addFrame(IntRect(32, 32, 32, 32));
+    walkingAnimationRight.addFrame(IntRect(64, 32, 32, 32));
     Animation* currentAnimation = &walkingAnimationLeft;
     // set up Monster
     AnimatedSprite* dut = new AnimatedSprite(seconds(0.05), true, false);
@@ -160,8 +108,8 @@ int main()
     /* ----------- FONTS/TEXTO FIM---------*/
     /* ----------- Inicio declaração de Módulos ------------*/
     ColisionModule colisor(&walls_and_floor,&obstacles,&monsters,dut,&projeteis);
-    EnemiesModule enemiesModule(&enemies_behaviour);
-    MapModule mapModule(&walls_and_floor,&obstacles,dut,&monsters,&enemiesModule);
+    EnemiesModule enemiesModule(&enemies_behaviour,&monsters,&colisor);
+    MapModule mapModule(&walls_and_floor,&obstacles,dut,&monsters);
     DrawingModule designer(&walls_and_floor,&obstacles,&monsters,dut,&projeteis,&window);
 
     /* ----------- Fim declaração de Módulos ------------*/
@@ -230,7 +178,7 @@ int main()
             dut->setScale({ -1, 1 });
             if(sent)
             {
-                currentAnimation = &dashingAnimationLeft;
+                //currentAnimation = &dashingAnimationLeft;
             }
             else
             {
@@ -245,11 +193,11 @@ int main()
 
             if(sent)
             {
-                currentAnimation = &dashingAnimationRight;
+                //currentAnimation = &dashingAnimationRight;
             }
             else
             {
-                currentAnimation = &walkingAnimationRight;
+                currentAnimation = &walkingAnimationLeft;
             }
             movement.x += speed;
         }
@@ -257,8 +205,7 @@ int main()
         movement = (movement/(norma ? norma : 1)) * (sent ? 1.5f : 1) * speed;
 
         dut->play(*currentAnimation);
-        if(!enemiesModule.isEmpty())
-            enemiesModule.callAllAIs();
+        enemiesModule.callAllAIs();
         movement = movement * frameTime.asSeconds();
 
         Lista_para_deletar_retorno_modulo_colisao = colisor.moveRequest(dut,movement.x,movement.y);
