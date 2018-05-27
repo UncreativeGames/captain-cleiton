@@ -4,7 +4,9 @@ media/
 resources/
 gui/
 exemplo
+SFML-2.5.0/
 .idea/
+
 ### C ###
 # Prerequisites
 *.d
