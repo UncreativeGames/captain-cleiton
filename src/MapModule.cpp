@@ -7,6 +7,8 @@
 #include "../include/Config.hpp"
 #include "../include/Chao.hpp"
 #include "../include/Wall.hpp"
+#include "../include/EnemyBat.hpp"
+#include "../include/EnemiesModule.hpp"
 #include <string>
 #include <iostream>
 
@@ -20,12 +22,10 @@ void MapModule::changeRoom(TileMap *m) {
     // Limpa tudo se for trocar de mapa
     this->obstacles->limpar();
     this->wall_and_floor->limpar();
-    this->monsters->limpar();
     this->projetil->removerAll();
-    srand(time(NULL));
     // Variacoes de chão
     int tx_floor_choice[12] = {0,1,2,3,4,5,6,7,8,9,10,11};
-    int randomIndex = rand() % 12;
+    int randomIndex;
 
     /* ---- Fim do carregamento dos arquivos ---- */
     // Obstáculo dinâmico
@@ -35,6 +35,7 @@ void MapModule::changeRoom(TileMap *m) {
     // Chão dinâmico
     Chao * chao;
     // Offset do mapa
+    EnemyBat * enemy;
     const char offset = 16;
     char sprite_cut_x = 0;
     char sprite_cut_y = 0;
@@ -99,28 +100,33 @@ void MapModule::changeRoom(TileMap *m) {
                 if(m->getTile(i,j)==PORTA_R)
                 {
                     sprite_cut_x = 0;
-                    sprite_cut_y = 64;
+                    sprite_cut_y = 96;
                 }
                 if(m->getTile(i,j)==PORTA_D)
                 {
                     sprite_cut_x = 64;
-                    sprite_cut_y = 64;
+                    sprite_cut_y = 96;
 
                 }
                 if(m->getTile(i,j)==PORTA_L)
                 {
                     sprite_cut_x = 96;
-                    sprite_cut_y = 64;
+                    sprite_cut_y = 96;
                 }
                 if(m->getTile(i,j)==PORTA_U)
                 {
                     sprite_cut_x = 32;
-                    sprite_cut_y = 64;
+                    sprite_cut_y = 96;
                 }
                 parede = new Wall(tx_wall, sf::IntRect(sprite_cut_x,sprite_cut_y, 32, 32), 32);
                 parede->setOrigin(16,16);
                 parede->setPosition(i*32+offset,j*32+offset);
                 wall_and_floor->add(parede);
+            }
+            if(m->getTile(i,j)==INIMIGO)
+            {
+                enemy = new EnemyBat(seconds(0.1), true, false,i*32+offset,j*32+offset);
+                monsters->add(enemy);
             }
         }
     }
@@ -132,7 +138,7 @@ void MapModule::loadFiles() {
     /* ---- Início do carregamento dos arquivos ---- */
     // Pega o nome do arquivo a ser usado
     // 'a' ambiente
-    string base_path_name = "../../media/a";
+    string base_path_name = "media/a";
     // floor index = numero do ambient
     // Exemplo: 'a1'
     base_path_name+=to_string(this->floor->getFloor_index());
@@ -151,8 +157,12 @@ void MapModule::loadFiles() {
     }
 }
 
-MapModule::MapModule(Listaestatica<Rigidbody> *wall_and_floor, Listaestatica<Rigidbody> *obstacles,
-                     AnimatedSprite *player, Listaestatica<Rigidbody> *monsters, Lista<Projetil> *projetil) {
+MapModule::MapModule(Listaestatica<Rigidbody> *wall_and_floor,
+                     Listaestatica<Rigidbody> *obstacles,
+                     AnimatedSprite *player,
+                     Listaestatica<Monster> *monsters,
+                     TextModule * textModule,
+                     Lista<Projetil> *projetil) {
     auto * f = new Floor();
     f->generateSimpleFloor();
     this->floor = f;
@@ -160,68 +170,100 @@ MapModule::MapModule(Listaestatica<Rigidbody> *wall_and_floor, Listaestatica<Rig
     this->obstacles = obstacles;
     this->player = player;
     this->monsters = monsters;
+    this->textModule = textModule;
     this->projetil = projetil;
     loadFiles();
     changeRoom(floor->getMap_atual());
 }
 
 void MapModule::changeDirection(char dir) {
-    switch (dir)
+    if(this->floor->getMap_atual()->isCleared())
     {
-        case PORTA_U:
-            if(this->floor->getMap_Up())
-            {
-                player->setPosition((DEFAULT_SIZE_X*32)-64,(DEFAULT_SIZE_Y*32)/2);
-                changeRoom(this->floor->getMap_atual());
-            }
-            break;
-        case PORTA_D:
-            if(this->floor->getMap_Down())
-            {
-                player->setPosition(64,(DEFAULT_SIZE_Y*32)/2);
-                changeRoom(this->floor->getMap_atual());
-            }
-            break;
-        case PORTA_R:
-            if(this->floor->getMap_Right())
-            {
-                player->setPosition((DEFAULT_SIZE_X*32/2),64);
-                changeRoom(this->floor->getMap_atual());
-            }
-            break;
-        case PORTA_L:
-            if(this->floor->getMap_Left())
-            {
-                player->setPosition((DEFAULT_SIZE_X*32/2),(DEFAULT_SIZE_Y*32)-64);
-                changeRoom(this->floor->getMap_atual());
-            }
-            break;
-        default:
-            this->floor->getMap_atual();
+        switch (dir)
+        {
+            case PORTA_U:
+                if(this->floor->getMap_Up())
+                {
+                    player->setPosition((DEFAULT_SIZE_X*32)-64,(DEFAULT_SIZE_Y*32)/2);
+                    changeRoom(this->floor->getMap_atual());
+                }
+                break;
+            case PORTA_D:
+                if(this->floor->getMap_Down())
+                {
+                    player->setPosition(64,(DEFAULT_SIZE_Y*32)/2);
+                    changeRoom(this->floor->getMap_atual());
+                }
+                break;
+            case PORTA_R:
+                if(this->floor->getMap_Right())
+                {
+                    player->setPosition((DEFAULT_SIZE_X*32/2),64);
+                    changeRoom(this->floor->getMap_atual());
+                }
+                break;
+            case PORTA_L:
+                if(this->floor->getMap_Left())
+                {
+                    player->setPosition((DEFAULT_SIZE_X*32/2),(DEFAULT_SIZE_Y*32)-64);
+                    changeRoom(this->floor->getMap_atual());
+                }
+                break;
+            default:
+                this->floor->getMap_atual();
 
+        }
     }
 
 }
 
 void MapModule::setDoorText(char dir) {
-
-    switch (dir)
+    if(this->floor->getMap_atual()->isCleared())
     {
-        case PORTA_U:
-            if(floor->hasMap(PORTA_U))
+        switch (dir) {
+            case PORTA_U:
+                if (floor->hasMap(PORTA_L))
+                    this->textModule->showText("Press E");
+                break;
+            case PORTA_D:
+                if (floor->hasMap(PORTA_R))
+                    this->textModule->showText("Press E");
+                break;
+            case PORTA_R:
+                if (floor->hasMap(PORTA_U))
+                    this->textModule->showText("Press E");
+                break;
+            case PORTA_L:
+                if (floor->hasMap(PORTA_D))
+                    this->textModule->showText("Press E");
+                break;
+            default:
+                break;
 
-            break;
-        case PORTA_D:
+        }
+    }
+}
 
-            break;
-        case PORTA_R:
+void MapModule::checkRoom() {
+    if(this->monsters->length()==0)
+    {
+        this->floor->getMap_atual()->setCleared(true);
+        /*Sprite aux(tx_wall,IntRect(0,0,32,32));
+        if(floor->getMap_atual()->getTile(DEFAULT_SIZE_X/2,0) == PORTA_L)
+        {
 
-            break;
-        case PORTA_L:
+        }
+        if(floor->getMap_atual()->getTile(DEFAULT_SIZE_X/2,DEFAULT_SIZE_Y-1) == PORTA_R)
+        {
 
-            break;
-        default:
-            break;
+        }
+        if(floor->getMap_atual()->getTile(0,DEFAULT_SIZE_Y/2) == PORTA_U)
+        {
 
+        }
+        if(floor->getMap_atual()->getTile(DEFAULT_SIZE_X-1/2,DEFAULT_SIZE_Y/2) == PORTA_D)
+        {
+
+        }*/
     }
 }

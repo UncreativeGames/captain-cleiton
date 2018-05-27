@@ -15,6 +15,7 @@
 #define TAM_LISTA (TAM_MAP_X * TAM_MAP_Y)
 #define PAREDE 'P'
 #define PEDRA 'F'
+#define INIMIGO 'E'
 #define CHAO 'O'
 #define PORTA_L 'L'
 #define PORTA_R 'R'
@@ -30,4 +31,5 @@
 #define GUN_TEXTURE "weapon1.png"
 #define GUN_RECT sf::IntRect(0,0,32,32)
 
+#define BAT_SPEED 1
 #endif //CAPTAIN_CLEITON_CONFIG_H

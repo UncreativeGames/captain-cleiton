@@ -1,7 +1,7 @@
 #include "../include/DrawingModule.hpp"
 
 DrawingModule::DrawingModule(Listaestatica<Rigidbody>* wall_and_floor, Listaestatica<Rigidbody>* obstacles, 
-							Listaestatica<Rigidbody>* monsters, Player* player, Lista<Projetil>* projeteis, 
+							Listaestatica<Monster>* monsters, Player* player, Lista<Projetil>* projeteis, 
 							sf::RenderWindow* window)
 {
 	this->wall_and_floor = wall_and_floor;
@@ -25,8 +25,8 @@ void DrawingModule::update() {
 	// abaixo de tudo e nao tem sobreposição
 	
 	// Ordena os elementos de obstacles
-	// O(n log n)
-	monsters->ordena();	
+	// O(log n)
+
 	obstacles->ordena();
 
 	// Printa os elementos de wall_and_floor

@@ -120,8 +120,13 @@ void TileMap::generateRadialHunter() {
                 this->map[this->size_x - i - 1][j] = PEDRA;
                 this->map[this->size_x - i - 1][this->size_y - j] = PEDRA;
             }
+            if (distr_percentage(eng) >= 95 ) {
+                this->map[i][j] = INIMIGO;
+                this->map[this->size_x - i - 1][this->size_y - j] = INIMIGO;
+            }
         }
     }
+
 }
 //Funções que serão usadas futuramente
 //no objeto 'mapa' na construção do andar

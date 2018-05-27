@@ -5,7 +5,6 @@
 #ifndef MAPMODULE_HPP
 #define MAPMODULE_HPP
 
-
 #include <SFML/Graphics/Texture.hpp>
 #include "Floor.hpp"
 #include "Rigidbody.hpp"
@@ -13,35 +12,38 @@
 #include "Lista.hpp"
 #include "Config.hpp"
 #include "AnimatedSprite.hpp"
+#include "EnemiesModule.hpp"
+#include "TextModule.hpp"
 #include "Projetil.hpp"
 
 using namespace sf;
 
-class MapModule {
+class MapModule
+{
 public:
     MapModule(Listaestatica<Rigidbody> *wall_and_floor,
               Listaestatica<Rigidbody> *obstacles,
-              AnimatedSprite* player,
-              Listaestatica<Rigidbody> *monsters,
+              AnimatedSprite *player,
+              Listaestatica<Monster> *monsters,
+              TextModule * textModule,
               Lista<Projetil> *projetil);
     void changeRoom(TileMap *m);
     void loadFiles();
     void changeDirection(char dir);
     void setDoorText(char dir);
-
+    void checkRoom();
 private:
     Floor * floor;
     Listaestatica<Rigidbody>* wall_and_floor;
     Listaestatica<Rigidbody>* obstacles;
-    Listaestatica<Rigidbody>* monsters;
+    Listaestatica<Monster>* monsters;
     Lista<Projetil>* projetil;
+    TextModule * textModule;
     AnimatedSprite* player;
     Texture tx_rock;
     Texture tx_floor;
     Texture tx_wall;
 
-
 };
-
 
 #endif // MAPMODULE_HPP

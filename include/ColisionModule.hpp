@@ -7,12 +7,13 @@
 #include "Listaestatica.hpp"
 #include "Lista.hpp"
 #include "Rigidbody.hpp"
+#include "Monster.hpp"
 #include "Projetil.hpp"
 
 class ColisionModule
 {
 public:
-	ColisionModule(Listaestatica<Rigidbody>* wall_and_floor, Listaestatica<Rigidbody>* obstacles, Listaestatica<Rigidbody>* monsters, Rigidbody* player, Lista<Projetil>* projeteis);
+	ColisionModule(Listaestatica<Rigidbody>* wall_and_floor, Listaestatica<Rigidbody>* obstacles, Listaestatica<Monster>* monsters, Rigidbody* player, Lista<Projetil>* projeteis);
 	~ColisionModule() = default;
 
 	// Retorna uma lista de listas de objetos que colidiram com object_that_requests na seguinte ordem:
@@ -24,7 +25,7 @@ public:
 private:
 	Listaestatica<Rigidbody>* wall_and_floor;
 	Listaestatica<Rigidbody>* obstacles;
-	Listaestatica<Rigidbody>* monsters;
+	Listaestatica<Monster>* monsters;
 	Rigidbody* player;
 	Lista<Projetil>* projeteis;
 

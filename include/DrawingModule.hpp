@@ -7,6 +7,7 @@
 #include "Listaestatica.hpp"
 #include "Lista.hpp"
 #include "Rigidbody.hpp"
+#include "Monster.hpp"
 #include "Projetil.hpp"
 #include "Player.hpp"
 
@@ -17,7 +18,7 @@ public:
 	// Construtor que seta os ponteiros desta classe
 	DrawingModule(Listaestatica<Rigidbody>* wall_and_floor,
 				  Listaestatica<Rigidbody>* obstacles,
-				  Listaestatica<Rigidbody>* monsters,
+				  Listaestatica<Monster>* monsters,
 				  Player* player,
 				  Lista<Projetil>* projeteis,
 				  sf::RenderWindow* window);
@@ -29,7 +30,7 @@ public:
 private:
 	Listaestatica<Rigidbody>* wall_and_floor;
 	Listaestatica<Rigidbody>* obstacles;
-	Listaestatica<Rigidbody>* monsters;
+	Listaestatica<Monster>* monsters;
 	Player* player;
 	Lista<Projetil>* projeteis;
 	sf::RenderWindow* window;

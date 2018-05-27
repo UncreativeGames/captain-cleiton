@@ -8,7 +8,7 @@
 #include "../include/Rigidbody.hpp"
 
 ColisionModule::ColisionModule(Listaestatica<Rigidbody>* wall_and_floor, Listaestatica<Rigidbody>* obstacles,
-								Listaestatica<Rigidbody>* monsters, Rigidbody* player,
+								Listaestatica<Monster>* monsters, Rigidbody* player,
 								Lista<Projetil>* projeteis)
 {
 	this->wall_and_floor = wall_and_floor;
