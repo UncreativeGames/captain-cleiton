@@ -18,7 +18,8 @@
 
 using namespace sf;
 
-class MapModule {
+class MapModule
+{
 public:
     MapModule(Listaestatica<Rigidbody> *wall_and_floor,
               Listaestatica<Rigidbody> *obstacles,

@@ -19,12 +19,16 @@
 #include "include/Gui.hpp"
 #include "include/EnemyBat.hpp"
 #include "include/TextModule.hpp"
-
+#include "include/Projetil.hpp"
+#include "include/Player.hpp"
+#include "include/PlayerController.hpp"
+#include "include/Gun.hpp"
+#include "include/ProjetilModule.hpp"
 #include <iostream>
 #include <cmath>
 #include <random>
 
-#define speed 700.f
+#define speed 150.f
 //dash_coold têm de ser maior do que dash_tempo
 #define DASH_TEMPO sf::seconds(2.0)
 #define DASH_COOLD sf::seconds(6.0)
@@ -38,7 +42,7 @@ int main()
         return -1; // error
     music.play();
     srand(time(NULL));
-    Lista<Rigidbody> projeteis;
+    Lista<Projetil> projeteis;
     Lista<Lista<Rigidbody> >* Lista_para_deletar_retorno_modulo_colisao;
     Listaestatica<Rigidbody> walls_and_floor;
     Listaestatica<Rigidbody> obstacles;
@@ -88,12 +92,34 @@ int main()
     walkingAnimationDown.addFrame(IntRect(32, 32, 32, 32));
     walkingAnimationDown.addFrame(IntRect(64, 32, 32, 32));
     Animation* currentAnimation = &walkingAnimationLeft;
-    AnimatedSprite* dut = new AnimatedSprite(seconds(0.1), true, false);
-
-
+    Player* dut = new Player(seconds(0.05), true, false);
     dut->setOrigin(16,24);
     dut->setPosition(Vector2f(DEFAULT_SIZE_X,DEFAULT_SIZE_Y));
     dut->setRaio(15);
+    dut->setVidaMax(10);
+    dut->setVida(10);
+    dut->setManaMax(10);
+    dut->setMana(10);
+    dut->setEstaminaMax(10);
+    dut->setEstamina(10);
+    Texture textura_arma;
+    if(!textura_arma.loadFromFile("../../media/weapon1.png")){
+        std::cout << "Deu Ruim" << std::endl;
+    }
+
+    Texture textura_projetil;
+    if(!textura_projetil.loadFromFile("../../media/beams.png")){
+        std::cout << "Deu Ruim" << std::endl;
+    }
+    Gun* arma = new Gun(seconds(0.1f),textura_arma, &projeteis, 2, textura_projetil, GUN_RECT,0,0);
+    arma->setOrigin(8,16);
+    arma->setPosition(dut->getPosition());
+
+    dut->setWeapon(arma);
+    dut->setWalkUp(currentAnimation);
+    dut->setWalkDown(currentAnimation);
+    dut->setWalkLeft(currentAnimation);
+    dut->setWalkRight(currentAnimation);
     /* ----------- Player FIM ------------*/
 
     /* ----------- SHADER INICIO ----------*/
@@ -106,8 +132,10 @@ int main()
     ColisionModule colisor(&walls_and_floor,&obstacles,&monsters,dut,&projeteis);
     EnemiesModule enemiesModule(&enemies_behaviour,&monsters,&colisor);
     TextModule textModule(&window,dut);
-    MapModule mapModule(&walls_and_floor,&obstacles,dut,&monsters,&textModule);
+    MapModule mapModule(&walls_and_floor,&obstacles,dut,&monsters,&textModule,&projeteis);
     DrawingModule designer(&walls_and_floor,&obstacles,&monsters,dut,&projeteis,&window);
+    ProjetilModule tiros(&colisor,&projeteis,dut);
+    PlayerController controle(dut,&window,&colisor);
     /* ----------- Fim declaração de Módulos ------------*/
 
 
@@ -132,8 +160,6 @@ int main()
     IntRect Player (0, 0, 32, 32);
 
     /* ----------- Checagem de portas fim -----------*/
-
-    bool sent = 0;
     while (window.isOpen())
     {
         mapModule.checkRoom();
@@ -147,83 +173,12 @@ int main()
                 window.close();
         }
         Time frameTime = frameClock.restart();
-
-        if(Keyboard::isKeyPressed(Keyboard::LShift) && sent == 0 && shift.getElapsedTime() >= DASH_COOLD)
-        {
-            sent = 1;
-            shift.restart();
-        }
-
-        //Parar de dar dash
-        if(shift.getElapsedTime() > DASH_TEMPO || !Keyboard::isKeyPressed(Keyboard::LShift))
-        {
-            sent = 0;
-        }
-
-        Vector2f movement(0.f, 0.f);
-        if (Keyboard::isKeyPressed(Keyboard::W))
-        {
-            currentAnimation = &walkingAnimationUp;
-            movement.y -= speed;
-        }
-        if (Keyboard::isKeyPressed(Keyboard::S))
-        {
-            currentAnimation = &walkingAnimationDown;
-            movement.y += speed;
-        }
-        if(Keyboard::isKeyPressed(Keyboard::A))
-        {
-            dut->setScale({ -1, 1 });
-            if(sent)
-            {
-                //currentAnimation = &dashingAnimationLeft;
-            }
-            else
-            {
-                currentAnimation = &walkingAnimationLeft;
-            }
-            movement.x -= speed;
-        } else{
-            dut->setScale({ 1, 1 });
-        }
-        if (Keyboard::isKeyPressed(Keyboard::D))
-        {
-
-            if(sent)
-            {
-                //currentAnimation = &dashingAnimationRight;
-            }
-            else
-            {
-                currentAnimation = &walkingAnimationLeft;
-            }
-            movement.x += speed;
-        }
-        float norma = sqrt(movement.x*movement.x + movement.y*movement.y);
-        movement = (movement/(norma ? norma : 1)) * (sent ? 1.5f : 1) * speed;
-
-        dut->play(*currentAnimation);
-        enemiesModule.callAllAIs();
-        movement = movement * frameTime.asSeconds();
-
-        Lista_para_deletar_retorno_modulo_colisao = colisor.moveRequest(dut,movement.x,movement.y);
-
-        // deleta todas as listas dentro desta lista sem deletar os itens delas
-        Lista_para_deletar_retorno_modulo_colisao->removerAll();
-        delete(Lista_para_deletar_retorno_modulo_colisao);
-
-        // if no key was pressed stop the animation
-        if (movement.x == 0 && movement.y == 0)
-        {
-            currentAnimation = &stop;
-            dut->stop();
-        }
         cursor.setPosition(Mouse::getPosition(window).x,Mouse::getPosition(window).y);
-        // update Monster
-        dut->update(frameTime);
+        controle.update(frameTime);
         designer.update();
+        tiros.update(frameTime);
         window.draw(cursor);
-        /* ----------- Checagem de portas inicio -----------*/
+        enemiesModule.callAllAIs();
         if(Player.intersects(upper_door_trigger) || Player.intersects(down_door_trigger) || Player.intersects(right_door_trigger) || Player.intersects(left_door_trigger) )
         {
 
