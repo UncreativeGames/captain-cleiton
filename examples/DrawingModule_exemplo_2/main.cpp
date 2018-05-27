@@ -15,6 +15,7 @@
 #include "../../include/ColisionModule.hpp"
 #include "../../include/MapModule.hpp"
 #include "../../include/Gui.hpp"
+#include "../../include/Projetil.hpp"
 #include <iostream>
 #include <cmath>
 
@@ -28,7 +29,7 @@ int main()
 {
 
 	srand(time(NULL));
-	Lista<Rigidbody> projeteis;
+	Lista<Projetil> projeteis;
 	Lista<Lista<Rigidbody> >* Lista_para_deletar_retorno_modulo_colisao;
 	Listaestatica<Rigidbody> walls_and_floor;
 	Listaestatica<Rigidbody> obstacles;
@@ -170,7 +171,7 @@ int main()
 	text.setString("Press E");
 	/* ----------- FONTS/TEXTO FIM---------*/
 	/* ----------- Inicio declaração de Módulos ------------*/
-	MapModule mapModule(&walls_and_floor,&obstacles,dut,&monsters);
+	MapModule mapModule(&walls_and_floor,&obstacles,dut,&monsters,&projeteis);
 	DrawingModule designer(&walls_and_floor,&obstacles,&monsters,dut,&projeteis,&window);
 	ColisionModule colisor(&walls_and_floor,&obstacles,&monsters,dut,&projeteis);
 	/* ----------- Fim declaração de Módulos ------------*/

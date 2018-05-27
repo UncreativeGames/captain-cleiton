@@ -1,6 +1,6 @@
 cc = g++
 cflags = -Wall -lsfml-graphics -lsfml-window -lsfml-system -std=c++0x 
-objects = Rigidbody.o Obstacle.o Animation.o AnimatedSprite.o DrawingModule.o TileMap.o Chao.o ColisionModule.o MapModule.o Floor.o DrawTransform.o main.o Wall.o SquareObstacle.o Gui.o
+objects = Rigidbody.o Obstacle.o Animation.o AnimatedSprite.o DrawingModule.o TileMap.o Chao.o ColisionModule.o MapModule.o Floor.o DrawTransform.o main.o Wall.o SquareObstacle.o Gui.o Projetil.o Gun.o ProjetilModule.o Player.o PlayerController.o
 
 install: $(objects)
 	$(cc) -o exemplo $(objects) ../../include/Lista.hpp ../../include/Listaestatica.hpp $(cflags)
@@ -50,6 +50,21 @@ Wall.o:
 
 SquareObstacle.o:
 	$(cc) -c ../../src/SquareObstacle.cpp $(cflags)
+
+Projetil.o:
+	$(cc) -c ../../src/Projetil.cpp $(cflags)
+
+Gun.o:
+	$(cc) -c ../../src/Gun.cpp $(cflags)
+
+ProjetilModule.o:
+	$(cc) -c ../../src/ProjetilModule.cpp $(cflags)
+
+Player.o:
+	$(cc) -c ../../src/Player.cpp $(cflags)
+
+PlayerController.o:
+	$(cc) -c ../../src/PlayerController.cpp $(cflags)
 
 remove:
 	rm *.o
