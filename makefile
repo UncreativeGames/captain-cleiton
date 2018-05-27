@@ -1,10 +1,10 @@
 cc = g++
-cflags = -Wall -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -std=c++0x
+cflags = -I SFML-2.5.0/include -L SFML-2.5.0/lib -Wall -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -std=c++0x
 objects = Rigidbody.o Obstacle.o Animation.o AnimatedSprite.o DrawingModule.o TileMap.o Chao.o ColisionModule.o MapModule.o Floor.o DrawTransform.o main.o Wall.o SquareObstacle.o Gui.o EnemyBat.o Monster.o EnemiesModule.o TextModule.o
 
 install: $(objects)
 	$(cc) -o captain-cleiton $(objects) include/Lista.hpp include/Listaestatica.hpp $(cflags)
-	./captain-cleiton
+	.export LD_LIBRARY_PATH=SFML-2.5.0/lib && ./captain-cleiton
 
 main.o: main.cpp
 	$(cc) -c main.cpp $(cflags)
