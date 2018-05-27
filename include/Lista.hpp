@@ -3,15 +3,13 @@
 
 #include <cstdlib>
 #include "Config.hpp"
+#include <SFML/System/Vector2.hpp>
+
 template <class T>
 struct node
 {
 	T* item;
 	struct node<T>* prox;
-	~node()
-	{
-		delete(item);
-	}
 };
 
 
@@ -19,7 +17,7 @@ template <class T>
 class Lista {
 public:
 	Lista();
-	~Lista() = default;
+	~Lista();
 
 	// Adiciona no começo da lista
 	void add(T* element);
@@ -34,9 +32,14 @@ public:
 	// Retorna o elemento no indice pesquisado
 	T* atIndex(int index);
 
+	int buscar(sf::Vector2f posicao);
+
 private:
 	struct node<T>* first;
 	int quantidade_elementos;
+	int remover_sem_apagar_item(int index);
+	int removerAll_sem_apagar_item(void);
+
 };
 
 
@@ -46,12 +49,61 @@ Lista<T>::Lista(){
 	quantidade_elementos = 0;
 }
 
-// Não sera mais utilizado
-// Caso deseja deletar os elementos, use removerAll antes de deletar a lista
-/*template<class T>
+
+template<class T>
 Lista<T>::~Lista(){
-	removerAll();
-}*/
+	removerAll_sem_apagar_item();
+}
+
+template<class T>
+int Lista<T>::remover_sem_apagar_item(int index)
+{
+// pointer_index aponta para indice 0
+	struct node<T>*	pointer_index = first;
+	struct node<T>* pointer_index_anterior;
+
+	if(index < quantidade_elementos && quantidade_elementos > 0){
+		
+		// Caso especial de remoção do primeiro elemento
+		if(index == 0){
+			first = first->prox;
+			delete(pointer_index);
+			
+			// Atualiza quantidade de elementos
+			quantidade_elementos--;
+			
+			return SUCCESS;
+		}
+
+		// Caso generico
+		for(int i = 0; i < index; i++){
+			pointer_index_anterior = pointer_index;			// pointer_index_anterior aponta para o elemento na posição index-1
+			pointer_index =	pointer_index->prox;			// pointer_index aponta para o elemento na posição index
+		}
+		pointer_index_anterior->prox = pointer_index->prox;	// index-1 aponta para index+1 (não tem problema caso index+1 seja nulo)
+		delete(pointer_index);	// Remove index
+
+		// Atualiza quantidade de elementos
+		quantidade_elementos--;
+
+		return SUCCESS;
+	}
+	return ERROR;
+}
+
+template<class T>
+int Lista<T>::removerAll_sem_apagar_item(void)
+{
+// Enquanto tem elementos na lista
+	while (this->length()) {
+
+		// Se houver erro na remoção, sendo que tem elementos, ocorreu algum erro
+		if(remover_sem_apagar_item(0) == ERROR)
+			return ERROR;
+	}
+	return SUCCESS;
+}
+
 
 // Adiciona no começo da lista
 template<class T>
@@ -82,6 +134,7 @@ int Lista<T>::remover(int index){
 		// Caso especial de remoção do primeiro elemento
 		if(index == 0){
 			first = first->prox;
+			delete(pointer_index->item);
 			delete(pointer_index);
 			
 			// Atualiza quantidade de elementos
@@ -96,7 +149,8 @@ int Lista<T>::remover(int index){
 			pointer_index =	pointer_index->prox;			// pointer_index aponta para o elemento na posição index
 		}
 		pointer_index_anterior->prox = pointer_index->prox;	// index-1 aponta para index+1 (não tem problema caso index+1 seja nulo)
-		delete(pointer_index);	// Remove index
+		delete(pointer_index->item);	// Remove index
+		delete(pointer_index);
 
 		// Atualiza quantidade de elementos
 		quantidade_elementos--;
@@ -138,6 +192,17 @@ T* Lista<T>::atIndex(int index){
 	}
 
 	return	pointer_index->item;
+}
+
+template<class T>
+int Lista<T>::buscar(sf::Vector2f posicao)
+{
+	for (int i = 0; i < length(); i++)
+	{
+		if(atIndex(i)->getPosition() == posicao)
+			return i;
+	}
+	return ERROR;
 }
 
 #endif
