@@ -4,21 +4,21 @@
 #include <SFML/System/Thread.hpp>
 #include <SFML/Audio.hpp>
 
-#include "../../include/Animation.hpp"
-#include "../../include/Monster.hpp"
-#include "../../include/Obstacle.hpp"
-#include "../../include/Rigidbody.hpp"
-#include "../../include/Floor.hpp"
-#include "../../include/Listaestatica.hpp"
-#include "../../include/Lista.hpp"
-#include "../../include/DrawingModule.hpp"
-#include "../../include/TileMap.hpp"
-#include "../../include/Chao.hpp"
-#include "../../include/ColisionModule.hpp"
-#include "../../include/MapModule.hpp"
-#include "../../include/Gui.hpp"
-#include "../../include/EnemyBat.hpp"
-#include "../../include/TextModule.hpp"
+#include "include/Animation.hpp"
+#include "include/Monster.hpp"
+#include "include/Obstacle.hpp"
+#include "include/Rigidbody.hpp"
+#include "include/Floor.hpp"
+#include "include/Listaestatica.hpp"
+#include "include/Lista.hpp"
+#include "include/DrawingModule.hpp"
+#include "include/TileMap.hpp"
+#include "include/Chao.hpp"
+#include "include/ColisionModule.hpp"
+#include "include/MapModule.hpp"
+#include "include/Gui.hpp"
+#include "include/EnemyBat.hpp"
+#include "include/TextModule.hpp"
 
 #include <iostream>
 #include <cmath>
@@ -34,7 +34,7 @@ int main()
 {
 
     sf::Music music;
-    if (!music.openFromFile("../../media/Overworld.ogg"))
+    if (!music.openFromFile("media/Overworld.ogg"))
         return -1; // error
     music.play();
     srand(time(NULL));
@@ -51,7 +51,7 @@ int main()
     Clock enemies_behaviour;
 
     Texture personagem;
-    if(!personagem.loadFromFile("../../media/Panda.png")){
+    if(!personagem.loadFromFile("media/Panda.png")){
         std::cout << "Deu Ruim" << std::endl;
     }
     Gui gui(0,3,0,&window);
@@ -114,7 +114,7 @@ int main()
     Clock frameClock;
     /* ----------- Inicio declaração de Cursor ------------*/
     Texture cursor_tex;
-    if(!cursor_tex.loadFromFile("../../resources/cursor.png")){
+    if(!cursor_tex.loadFromFile("resources/cursor.png")){
         std::cout << "Deu Ruim" << std::endl;
     }
     Sprite cursor;
