@@ -23,5 +23,13 @@
 #define PORTA_D 'D'
 #define MAP_CENTER 'C'
 #define DEBUG_SPEED (100*1000)
+
+#define PROJETIL_TEXTURE "beams.png"
+#define PROJETIL_RECT sf::IntRect(32,108,32,32)
+#define PROJETIL_SPEED 300
+
+#define GUN_TEXTURE "weapon1.png"
+#define GUN_RECT sf::IntRect(0,0,32,32)
+
 #define BAT_SPEED 1
 #endif //CAPTAIN_CLEITON_CONFIG_H

@@ -8,6 +8,8 @@
 #include "Lista.hpp"
 #include "Rigidbody.hpp"
 #include "Monster.hpp"
+#include "Projetil.hpp"
+#include "Player.hpp"
 
 
 class DrawingModule
@@ -17,8 +19,8 @@ public:
 	DrawingModule(Listaestatica<Rigidbody>* wall_and_floor,
 				  Listaestatica<Rigidbody>* obstacles,
 				  Listaestatica<Monster>* monsters,
-				  Rigidbody* player,
-				  Lista<Rigidbody>* projeteis,
+				  Player* player,
+				  Lista<Projetil>* projeteis,
 				  sf::RenderWindow* window);
 	// Destrutor padrão
 	~DrawingModule() = default;
@@ -29,8 +31,8 @@ private:
 	Listaestatica<Rigidbody>* wall_and_floor;
 	Listaestatica<Rigidbody>* obstacles;
 	Listaestatica<Monster>* monsters;
-	Rigidbody* player;
-	Lista<Rigidbody>* projeteis;
+	Player* player;
+	Lista<Projetil>* projeteis;
 	sf::RenderWindow* window;
 };
 

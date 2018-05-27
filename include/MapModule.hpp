@@ -9,10 +9,12 @@
 #include "Floor.hpp"
 #include "Rigidbody.hpp"
 #include "Listaestatica.hpp"
+#include "Lista.hpp"
 #include "Config.hpp"
 #include "AnimatedSprite.hpp"
 #include "EnemiesModule.hpp"
 #include "TextModule.hpp"
+#include "Projetil.hpp"
 
 using namespace sf;
 
@@ -21,8 +23,9 @@ public:
     MapModule(Listaestatica<Rigidbody> *wall_and_floor,
               Listaestatica<Rigidbody> *obstacles,
               AnimatedSprite* player,
+              Listaestatica<Rigidbody> *monsters,
+              Lista<Projetil> *projetil);
               Listaestatica<Monster> *monsters,
-              TextModule * textModule);
     void changeRoom(TileMap *m);
     void loadFiles();
     void changeDirection(char dir);
@@ -33,6 +36,7 @@ private:
     Listaestatica<Rigidbody>* wall_and_floor;
     Listaestatica<Rigidbody>* obstacles;
     Listaestatica<Monster>* monsters;
+    Lista<Projetil>* projetil;
     TextModule * textModule;
     AnimatedSprite* player;
     Texture tx_rock;
