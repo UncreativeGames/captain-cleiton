@@ -9,7 +9,7 @@
 
 ColisionModule::ColisionModule(Listaestatica<Rigidbody>* wall_and_floor, Listaestatica<Rigidbody>* obstacles,
 								Listaestatica<Rigidbody>* monsters, Rigidbody* player,
-								Lista<Rigidbody>* projeteis)
+								Lista<Projetil>* projeteis)
 {
 	this->wall_and_floor = wall_and_floor;
 	this->obstacles = obstacles;
@@ -18,20 +18,24 @@ ColisionModule::ColisionModule(Listaestatica<Rigidbody>* wall_and_floor, Listaes
 	this->projeteis = projeteis;
 }
 
-bool ColisionModule::colisaoParede(Rigidbody* quem_colide, float x, float y)
+bool ColisionModule::colisaoParede(Rigidbody* quem_colide, float x, float y,
+	Lista<Lista<Rigidbody> >* oque_colidiu)
 {
 	sf::Vector2f sentinela_de_retorno;
 	sf::Vector2f recuo_pos_colision = sf::Vector2f(x/5,y/5);
 	bool colidiu = false;
+	bool colidiu_por_parede = false;
 
 	for(int i = 0; i < wall_and_floor->length(); i++)
 	{
+		colidiu_por_parede = false;
 		if(wall_and_floor->atIndex(i)->getRaio() != 0)
 		{
 			while(wall_and_floor->atIndex(i)->colision(quem_colide) != sf::Vector2f(0,0))
 			{
 				sentinela_de_retorno = wall_and_floor->atIndex(i)->colision(quem_colide);
 				colidiu = true;
+				colidiu_por_parede = true;
 				if(sentinela_de_retorno.y == 1)
 					{
 						quem_colide->move(0,-recuo_pos_colision.y == 0 ? 0.2f : -recuo_pos_colision.y);
@@ -41,12 +45,15 @@ bool ColisionModule::colisaoParede(Rigidbody* quem_colide, float x, float y)
 						quem_colide->move(-recuo_pos_colision.x == 0 ? 0.2f : -recuo_pos_colision.x,0);
 					}
 			}
+			if(colidiu_por_parede)
+				oque_colidiu->atIndex(2)->add(wall_and_floor->atIndex(i));
 		}
 	}
 	return colidiu;
 }
 
-bool ColisionModule::colisaoObstaculos(Rigidbody* quem_colide)
+bool ColisionModule::colisaoObstaculos(Rigidbody* quem_colide,
+	Lista<Lista<Rigidbody> >* oque_colidiu)
 {
 	sf::Vector2f armazena_retorno_da_colisao;
 	bool colidiu = false;
@@ -58,8 +65,9 @@ bool ColisionModule::colisaoObstaculos(Rigidbody* quem_colide)
 				quem_colide->move(armazena_retorno_da_colisao);
 				if(colisaoParede(quem_colide,
 					armazena_retorno_da_colisao.x, 
-					armazena_retorno_da_colisao.y))
+					armazena_retorno_da_colisao.y, oque_colidiu))
 					colidiu = true;
+				oque_colidiu->atIndex(1)->add(obstacles->atIndex(i));
 			}
 	}
 	return colidiu;
@@ -78,7 +86,7 @@ bool ColisionModule::colisaoMonstros(Rigidbody* quem_colide,
 				quem_colide->move(armazena_retorno_da_colisao);
 				if(colisaoParede(quem_colide,
 					armazena_retorno_da_colisao.x, 
-					armazena_retorno_da_colisao.y))
+					armazena_retorno_da_colisao.y, oque_colidiu))
 					retorno = true;
 				oque_colidiu->atIndex(0)->add(monsters->atIndex(i));
 			}
@@ -104,11 +112,12 @@ Lista<Lista<Rigidbody> >* ColisionModule::moveRequest(Rigidbody* object_that_req
 	Lista_com_as_colisoes = new Lista<Lista<Rigidbody> >();
 	Lista_com_as_colisoes->add(new Lista<Rigidbody>()); // Lista para Monstros/Player
 	Lista_com_as_colisoes->add(new Lista<Rigidbody>()); // Lista para Projeteis
+	Lista_com_as_colisoes->add(new Lista<Rigidbody>()); // Lista para paredes
 
 	object_that_requests->move(x,y);
 
-	colisaoParede(object_that_requests, x, y);
-	colisaoObstaculos(object_that_requests);
+	colisaoParede(object_that_requests, x, y, Lista_com_as_colisoes);
+	colisaoObstaculos(object_that_requests, Lista_com_as_colisoes);
 	colisaoMonstros(object_that_requests, Lista_com_as_colisoes);
 	colisaoPlayer(object_that_requests, Lista_com_as_colisoes);
 
