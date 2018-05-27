@@ -1,7 +1,7 @@
 #include "../include/DrawingModule.hpp"
 
 DrawingModule::DrawingModule(Listaestatica<Rigidbody>* wall_and_floor, Listaestatica<Rigidbody>* obstacles, 
-							Listaestatica<Rigidbody>* monsters, Rigidbody* player, Lista<Rigidbody>* projeteis, 
+							Listaestatica<Rigidbody>* monsters, Player* player, Lista<Projetil>* projeteis, 
 							sf::RenderWindow* window)
 {
 	this->wall_and_floor = wall_and_floor;
@@ -15,7 +15,7 @@ DrawingModule::DrawingModule(Listaestatica<Rigidbody>* wall_and_floor, Listaesta
 	obstacles->ordena();
 }
 
-// Complexidade total O(log n + n + n + n²) = O(log n + 2n + n²)  = O(n²)
+// Complexidade total O(n log n + n + n + n²) = O(n log n + 2n + n²)  = O(n²)
 // Sem considerar as funções de window pois a complexidade é desconhecida
 void DrawingModule::update() {
 	int i, j;
@@ -25,7 +25,7 @@ void DrawingModule::update() {
 	// abaixo de tudo e nao tem sobreposição
 	
 	// Ordena os elementos de obstacles
-	// O(log n)
+	// O(n log n)
 	monsters->ordena();	
 	obstacles->ordena();
 
@@ -55,6 +55,7 @@ void DrawingModule::update() {
 				else
 				{
 					window->draw(*player);
+					window->draw(*player->getWeapon());
 					player_is_printed = true;	
 				}
 			}
@@ -68,6 +69,7 @@ void DrawingModule::update() {
 				else
 				{
 					window->draw(*player);
+					window->draw(*player->getWeapon());
 					player_is_printed = true;
 				}
 			}
@@ -84,6 +86,7 @@ void DrawingModule::update() {
 				else
 				{
 					window->draw(*player);
+					window->draw(*player->getWeapon());
 					player_is_printed = true;
 				}
 			}
@@ -97,13 +100,17 @@ void DrawingModule::update() {
 				else
 				{
 					window->draw(*player);
+					window->draw(*player->getWeapon());
 					player_is_printed = true;
 				}
 			}
 		}
 	}
 	if (!player_is_printed)
+	{
 		window->draw(*player);
+		window->draw(*player->getWeapon());
+	}
 	// Printa os possiveis projeteis que estejam no jogo
 	// Esta é uma lista encadeada pois não temos um numero máximo de projeteis no mapa
 	// O(n²), pois O(n) * O(n)

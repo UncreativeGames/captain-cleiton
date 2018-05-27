@@ -14,6 +14,8 @@ public:
 	virtual sf::Vector2f colision(Rigidbody* another);
 	void setNLados(int numero);
 	int getNLados();
+	virtual void onColision(Rigidbody* another);
+	virtual void onDamageTaken(int dano_recebido);
 
 private:
 	int raio_colisao;

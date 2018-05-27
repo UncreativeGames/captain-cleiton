@@ -44,3 +44,13 @@ sf::Vector2f Rigidbody::colision(Rigidbody* another){
 		return (B/dist)*(radius_this - dist + radius_A);
 	}
 }
+
+void Rigidbody::onColision(Rigidbody* another)
+{
+
+}
+
+void Rigidbody::onDamageTaken(int dano_recebido)
+{
+
+}
