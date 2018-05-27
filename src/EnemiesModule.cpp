@@ -10,8 +10,11 @@ void EnemiesModule::callAllAIs()
     {
         monster = this->monsters->atIndex(i);
         monster->AI();
-
         move->moveRequest(monster,monster->getSpeed_x(),monster->getSpeed_y());
+        if(monster->getLife()<=0)
+        {
+            monsters->remover(0);
+        }
     }
 }
 
