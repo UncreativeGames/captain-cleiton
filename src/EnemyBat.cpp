@@ -39,6 +39,8 @@ void EnemyBat::AI()
             setAnimation(2);
             this->setSpeed_y(-bat_speed);
             break;
+        default:
+            break;
 
     }
     this->play(*getActual());
@@ -46,7 +48,7 @@ void EnemyBat::AI()
 }
 void EnemyBat::loadFiles()
 {
-    string file = "../../media/enemies/enemy_bat.png";
+    string file = "media/enemies/enemy_bat.png";
     if(!tx_spritesheet.loadFromFile(file))
     {
         cout << "File:" << file << " Not loaded" << endl;
@@ -54,16 +56,7 @@ void EnemyBat::loadFiles()
     loadAnimations();
 }
 
-void EnemyBat::doDamage(int damage) {
-    this->setLife(this->getLife()-damage);
-    if(this->getLife()<=0)
-        delete(this);
-}
-
-
 void EnemyBat::loadAnimations() {
-    this->setRaio(16);
-    this->setOrigin(16,24);
     Animation walkingAnimationDown;
     walkingAnimationDown.setSpriteSheet(tx_spritesheet);
     walkingAnimationDown.addFrame(IntRect(32, 0, 32, 32));
@@ -95,6 +88,8 @@ void EnemyBat::loadAnimations() {
 }
 EnemyBat::EnemyBat(const Time &frameTime, bool paused, bool looped, int x, int y) : Monster(frameTime, paused, looped)
 {
+    this->setRaio(15);
+    this->setOrigin(16,24);
     float scale = rand() % 2 + 1;
     bat_speed = 1/scale +1;
     this->setColor(sf::Color(rand() % 256 +1,rand() % 256 +1,rand() % 256 +1));

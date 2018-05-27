@@ -58,7 +58,7 @@ void Gui::createGui()
 
 void Gui::loadFiles()
 {
-    string file = "../../gui/ui_big_pieces.png";
+    string file = "gui/ui_big_pieces.png";
     if(!tx_base_hud.loadFromFile(file))
     {
         cout << "File:" << file << " Not loaded" << endl;

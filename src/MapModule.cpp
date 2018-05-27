@@ -137,7 +137,7 @@ void MapModule::loadFiles() {
     /* ---- Início do carregamento dos arquivos ---- */
     // Pega o nome do arquivo a ser usado
     // 'a' ambiente
-    string base_path_name = "../../media/a";
+    string base_path_name = "media/a";
     // floor index = numero do ambient
     // Exemplo: 'a1'
     base_path_name+=to_string(this->floor->getFloor_index());

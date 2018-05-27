@@ -21,7 +21,7 @@ TextModule::TextModule(RenderWindow *window,AnimatedSprite * player) {
 }
 
 void TextModule::loadFiles() {
-    if (!this->font.loadFromFile("../../resources/fipps.otf"))
+    if (!this->font.loadFromFile("resources/fipps.otf"))
     {
         cout << "Font indisponível";
     }
