@@ -23,7 +23,6 @@ void MapModule::changeRoom(TileMap *m) {
     this->obstacles->limpar();
     this->wall_and_floor->limpar();
     this->projetil->removerAll();
-    srand(time(NULL));
     // Variacoes de chão
     int tx_floor_choice[12] = {0,1,2,3,4,5,6,7,8,9,10,11};
     int randomIndex;
@@ -158,8 +157,12 @@ void MapModule::loadFiles() {
     }
 }
 
-MapModule::MapModule(Listaestatica<Rigidbody> *wall_and_floor, Listaestatica<Rigidbody> *obstacles,
-                     AnimatedSprite *player, Listaestatica<Monster> *monsters,TextModule * textModule, Lista<Projetil> *projetil) {
+MapModule::MapModule(Listaestatica<Rigidbody> *wall_and_floor,
+                     Listaestatica<Rigidbody> *obstacles,
+                     AnimatedSprite *player,
+                     Listaestatica<Monster> *monsters,
+                     TextModule * textModule,
+                     Lista<Projetil> *projetil) {
     auto * f = new Floor();
     f->generateSimpleFloor();
     this->floor = f;

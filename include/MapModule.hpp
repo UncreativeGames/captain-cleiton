@@ -22,10 +22,10 @@ class MapModule {
 public:
     MapModule(Listaestatica<Rigidbody> *wall_and_floor,
               Listaestatica<Rigidbody> *obstacles,
-              AnimatedSprite* player,
-              Listaestatica<Rigidbody> *monsters,
-              Lista<Projetil> *projetil);
+              AnimatedSprite *player,
               Listaestatica<Monster> *monsters,
+              TextModule * textModule,
+              Lista<Projetil> *projetil);
     void changeRoom(TileMap *m);
     void loadFiles();
     void changeDirection(char dir);
