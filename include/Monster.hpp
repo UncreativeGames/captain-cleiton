@@ -55,6 +55,9 @@ private:
     int speed_y = 0;
     Clock * behaviour;
 
+    void onColision(Rigidbody *another);
+
+	void onDamageTaken(int dano_recebido);
 };
 
 #endif //CAPTAIN_CLEITON_MONSTER_HPP

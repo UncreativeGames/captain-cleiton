@@ -78,6 +78,14 @@ void Monster::setAnimation(unsigned char anim) {
     }
 }
 
+void Monster::onColision(Rigidbody* another)
+{
+    //???
+}
 
+void Monster::onDamageTaken(int dano_recebido)
+{
+    this->setLife(this->getLife()-dano_recebido);
+}
 
 
