@@ -26,7 +26,7 @@
 
 #define PROJETIL_TEXTURE "beams.png"
 #define PROJETIL_RECT sf::IntRect(32,108,32,32)
-#define PROJETIL_SPEED 300
+#define PROJETIL_SPEED 500
 
 #define GUN_TEXTURE "weapon1.png"
 #define GUN_RECT sf::IntRect(0,0,32,32)

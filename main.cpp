@@ -58,8 +58,6 @@ int main()
     if(!personagem.loadFromFile("media/Panda.png")){
         std::cout << "Deu Ruim" << std::endl;
     }
-    Gui gui(0,3,0,&window);
-    gui.set_actual_life(3);
 
     /* ----------- Player INICIO ------------*/
     Animation stop;
@@ -92,34 +90,37 @@ int main()
     walkingAnimationDown.addFrame(IntRect(32, 32, 32, 32));
     walkingAnimationDown.addFrame(IntRect(64, 32, 32, 32));
     Animation* currentAnimation = &walkingAnimationLeft;
-    Player* dut = new Player(seconds(0.05), true, false);
+    Player* dut = new Player(seconds(0.2), true, false);
     dut->setOrigin(16,24);
     dut->setPosition(Vector2f(DEFAULT_SIZE_X,DEFAULT_SIZE_Y));
     dut->setRaio(15);
-    dut->setVidaMax(10);
-    dut->setVida(10);
-    dut->setManaMax(10);
-    dut->setMana(10);
-    dut->setEstaminaMax(10);
-    dut->setEstamina(10);
+    dut->setVidaMax(3);
+    dut->setVida(3);
+    dut->setManaMax(0);
+    dut->setMana(0);
+    dut->setEstaminaMax(0);
+    dut->setEstamina(0);
     Texture textura_arma;
-    if(!textura_arma.loadFromFile("../../media/weapon1.png")){
+    if(!textura_arma.loadFromFile("media/weapon1.png")){
         std::cout << "Deu Ruim" << std::endl;
     }
 
     Texture textura_projetil;
-    if(!textura_projetil.loadFromFile("../../media/beams.png")){
+    if(!textura_projetil.loadFromFile("media/beams.png")){
         std::cout << "Deu Ruim" << std::endl;
     }
-    Gun* arma = new Gun(seconds(0.1f),textura_arma, &projeteis, 2, textura_projetil, GUN_RECT,0,0);
+    Gun* arma = new Gun(seconds(0.2f),textura_arma, &projeteis, 2, textura_projetil, GUN_RECT,0,0);
     arma->setOrigin(8,16);
     arma->setPosition(dut->getPosition());
 
     dut->setWeapon(arma);
-    dut->setWalkUp(currentAnimation);
-    dut->setWalkDown(currentAnimation);
-    dut->setWalkLeft(currentAnimation);
-    dut->setWalkRight(currentAnimation);
+    dut->setWalkUp(&walkingAnimationUp);
+    dut->setWalkDown(&walkingAnimationDown);
+    dut->setWalkLeft(&walkingAnimationLeft);
+    dut->setWalkRight(&walkingAnimationRight);
+
+    Gui gui(0,3,0,&window);
+    gui.set_actual_life(dut->getVida());
     /* ----------- Player FIM ------------*/
 
     /* ----------- SHADER INICIO ----------*/
@@ -135,7 +136,7 @@ int main()
     MapModule mapModule(&walls_and_floor,&obstacles,dut,&monsters,&textModule,&projeteis);
     DrawingModule designer(&walls_and_floor,&obstacles,&monsters,dut,&projeteis,&window);
     ProjetilModule tiros(&colisor,&projeteis,dut);
-    PlayerController controle(dut,&window,&colisor);
+    PlayerController controle(dut,&window,&colisor,&gui);
     /* ----------- Fim declaração de Módulos ------------*/
 
 
@@ -160,7 +161,7 @@ int main()
     IntRect Player (0, 0, 32, 32);
 
     /* ----------- Checagem de portas fim -----------*/
-    while (window.isOpen())
+    while (window.isOpen() )
     {
         mapModule.checkRoom();
         Player = IntRect(static_cast<int>(dut->getPosition().x), static_cast<int>(dut->getPosition().y), 32, 32);

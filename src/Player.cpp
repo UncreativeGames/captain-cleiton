@@ -77,7 +77,7 @@ void Player::setWeapon(Gun* weapon)
 
 void Player::onDamageTaken(int damage)
 {
-	vida -= damage;
+	vida = vida - damage;
 	if(vida <= 0)
 		alive = false;
 }
