@@ -80,7 +80,7 @@ void Monster::setAnimation(unsigned char anim) {
 
 void Monster::onColision(Rigidbody* another)
 {
-    //???
+    another->onDamageTaken(1);
 }
 
 void Monster::onDamageTaken(int dano_recebido)

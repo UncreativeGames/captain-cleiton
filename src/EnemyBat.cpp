@@ -88,12 +88,12 @@ void EnemyBat::loadAnimations() {
 }
 EnemyBat::EnemyBat(const Time &frameTime, bool paused, bool looped, int x, int y) : Monster(frameTime, paused, looped)
 {
-    this->setRaio(15);
-    this->setOrigin(16,24);
+    this->setOrigin(16,16);
     float scale = rand() % 2 + 1;
     bat_speed = 1/scale +1;
     this->setColor(sf::Color(rand() % 256 +1,rand() % 256 +1,rand() % 256 +1));
     this->setScale(1*scale,1*scale);
+    this->setRaio(15*scale);
     this->setPosition(x,y);
     loadFiles();
 }

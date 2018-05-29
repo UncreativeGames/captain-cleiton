@@ -126,7 +126,7 @@ void MapModule::changeRoom(TileMap *m) {
             if(m->getTile(i,j)==INIMIGO)
             {
                 enemy = new EnemyBat(seconds(0.1), true, false,i*32+offset,j*32+offset);
-                enemy->setLife(10);dds
+                enemy->setLife(10);
                 monsters->add(enemy);
             }
         }

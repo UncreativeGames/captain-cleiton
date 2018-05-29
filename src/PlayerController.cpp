@@ -4,13 +4,14 @@
 #define RAD_to_DEG 180.0/3.141592
 
 PlayerController::PlayerController(Player* player, sf::RenderWindow* window, 
-	ColisionModule* colisoes) : player(player), window(window), colisoes(colisoes)
+	ColisionModule* colisoes, Gui* gui) : player(player), window(window), colisoes(colisoes), gui(gui)
 {
-
+	current_time = sf::seconds(0.0f);
 }
 
 void PlayerController::update(sf::Time deltatime)
 {
+	bool ja_hitou = false;
 	Animation* currentAnimation = player->getWalkDown();
 	sf::Vector2f movement(0,0);
 	player->getWeapon()->update(deltatime);
@@ -51,6 +52,21 @@ void PlayerController::update(sf::Time deltatime)
 	movement = (movement/(norma ? norma : 1)) * speed;
 	movement = movement * deltatime.asSeconds();
 	retorno_request = colisoes->moveRequest(player, movement.x, movement.y);
+
+	this->current_time += deltatime;
+	
+	for(int i = 0; i < retorno_request->atIndex(0)->length(); i++)
+	{
+		if(this->current_time > sf::seconds(2.0f) && !ja_hitou)
+		{
+			this->current_time = sf::seconds(0.0f);
+			ja_hitou = true;
+			retorno_request->atIndex(0)->atIndex(i)->onColision(player);
+			gui->set_actual_life(player->getVida());
+		}
+	}
+
+
 
 	player->play(*currentAnimation);
 	if (movement.x == 0 && movement.y == 0)
