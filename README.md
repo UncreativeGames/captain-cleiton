@@ -6,6 +6,8 @@ A procedurally generated dungeon crawler game, a roguelike if you prefer.
   - Igor Magollo — Main Developer (igraphmagollo@gmail.com)
   - Vitor Sugaya - Designer (vitorsugaya5@gmail.com)
 
+`You cannot play the game without the sprites. We are thinking how we can share them with you guys! Just wait`
+
 ## Install
 #### Linux
 ```
